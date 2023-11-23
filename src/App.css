@@ -3,40 +3,109 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  box-sizing: border-box;
+  --secondary-color: #00e093;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  color: #313131;
+  padding: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  background-color: transparent !important;
+  border: none !important;
+  margin: 0;
+  padding: 0 !important;
+  text-align: inherit;
+  outline: none !important;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+  color: #313131;
+  transition: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.music-player {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 6px 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-right: 0px;
+  margin-bottom: 5px;
 }
 
-.card {
-  padding: 2em;
+.music-player > * {
+  flex-grow: 1;
 }
 
-.read-the-docs {
-  color: #888;
+.user-profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 8%;
+  background: url(./assets/profile-pic-template.png) no-repeat center center;
+  background-size: cover;
+}
+
+#song-progress {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  background: #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+
+#song-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#song-progress::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.attribute-container {
+  border-left: 0.5px solid rgb(221, 221, 221);
+  padding-left: 11px;
+}
+
+.attribute-title {
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  color: #7d7d7d;
+}
+
+.border-right {
+  border-right: 0.5px solid rgb(221, 221, 221);
+  padding-right: 11px;
+}
+
+.more-button svg {
+  color: var(--secondary-color);
+}
+
+.icon svg {
+  width: 25px;
+  height: auto; /* This will keep the aspect ratio intact */
 }
