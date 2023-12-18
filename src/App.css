@@ -7,11 +7,31 @@
   --secondary-color: #00e093;
 }
 
+.headline {
+  font-size: 1.5rem;
+  text-align: left;
+  color: #7d7d7d;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  margin-top: 0.5em;
+  font-size: 14px;
+  padding-inline-start: 0;
+  color: var(--secondary-color);
+}
+
 body {
-  font-family: "Arial", sans-serif;
+  /* font-family: "Arial", sans-serif; */
   background-color: #f4f4f4;
   color: #313131;
   padding: 20px;
+  font-family: "owners-text", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 button {
@@ -31,18 +51,22 @@ button {
   align-items: center;
 }
 
-.music-player {
+.music-player-container {
   width: 100%;
   max-width: 800px;
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 6px 10px;
+  padding-right: 0px;
+  margin-bottom: 5px;
+  /* border-bottom: 1px solid rgb(231, 231, 231); */
+}
+
+.music-player {
   display: flex;
   gap: 10px;
   align-items: center;
-  padding-right: 0px;
-  margin-bottom: 5px;
 }
 
 .music-player > * {
@@ -57,30 +81,34 @@ button {
   background-size: cover;
 }
 
+.sample-title-progress {
+  text-align: left;
+}
+
 #song-progress {
-  width: 100%;
+  width: 250px;
   -webkit-appearance: none;
   appearance: none;
-  height: 5px;
-  background: #ddd;
-  border-radius: 5px;
+  height: 1.5px;
+  background: #575757;
+  /* border-radius: 5px; */
   outline: none;
 }
 
 #song-progress::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 15px;
-  height: 15px;
-  background: var(--secondary-color);
+  width: 8px;
+  height: 8px;
+  background: #575757;
   border-radius: 50%;
   cursor: pointer;
 }
 
 #song-progress::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: var(--secondary-color);
+  width: 8px;
+  height: 8px;
+  background: #575757;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -88,10 +116,15 @@ button {
 .attribute-container {
   border-left: 0.5px solid rgb(221, 221, 221);
   padding-left: 11px;
+  height: 100%;
+}
+
+.attribute {
+  margin-top: 10px;
 }
 
 .attribute-title {
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   text-transform: uppercase;
   color: #7d7d7d;
 }
@@ -102,10 +135,22 @@ button {
 }
 
 .more-button svg {
-  color: var(--secondary-color);
+  color: rgb(108, 108, 108);
 }
 
 .icon svg {
   width: 25px;
   height: auto; /* This will keep the aspect ratio intact */
 }
+
+.like-button {
+  margin-top: 10px;
+}
+
+/* Sample List Styles */
+
+/* .samples-list {
+  max-height: 550px;
+  width: 100%;
+  overflow: scroll;
+} */

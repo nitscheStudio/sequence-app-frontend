@@ -1,13 +1,14 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
-import SampleMusicPlayer from "./components/SampleMusicPlayer";
+
+import FilterableSampleList from "./components/FilterableSampleList";
 
 function App() {
   return (
     <>
-      <SampleMusicPlayer />
+      {/* <SampleMusicPlayer /> */}
+      <FilterableSampleList />
     </>
   );
 }
