@@ -7,8 +7,9 @@ import { useState, useEffect, useRef } from "react";
 
 type SampleMusicPlayerProps = {
   sample: Sample;
-  isPlaying: boolean;
-  onPlay: () => void;
+  currentAudioPath: string;
+  onPlay: (arg0: string) => void;
+  onPause: () => void;
 };
 
 function shortenScale(scale: string) {
@@ -18,33 +19,35 @@ function shortenScale(scale: string) {
 
 const SampleMusicPlayer = ({
   sample,
-  isPlaying,
+  currentAudioPath,
   onPlay,
+  onPause,
 }: SampleMusicPlayerProps) => {
   const { title, bpm, key, scale, likes_count, file_path, id } = sample;
   // const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  // const audioRef = useRef<HTMLAudioElement>(null);
   // console.log(audioRef);
+  const [displayPlayBtn, setDisplayPlayBtn] = useState(true);
 
   const audioUrl = `http://localhost/storage/${file_path}`;
 
-  function togglePlayPause() {
-    const audio = audioRef.current;
-    if (audio) {
-      if (!isPlaying) {
-        // onPlay();
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    }
+  async function handlePlay() {
+    await onPlay(audioUrl);
+    setDisplayPlayBtn(false);
   }
 
+  function handlePause() {
+    onPause();
+    setDisplayPlayBtn(true);
+  }
+
+  useEffect(() => {
+    setDisplayPlayBtn(true);
+  }, [currentAudioPath]);
   // console.log(audioUrl);
   return (
     <>
       <div className="music-player-container">
-        <audio preload="auto" src={audioUrl} ref={audioRef}></audio>
         <div className="music-player">
           <div className="user-profile-picture"></div>
           <div className="sample-title-progress">
@@ -71,9 +74,15 @@ const SampleMusicPlayer = ({
             <div className="attribute">{bpm}</div>
             <div className="attribute-title">bpm</div>
           </div>
-          <button onClick={togglePlayPause} className="play-button icon">
-            {!isPlaying ? <IoIosPlay /> : <IoIosPause />}
-          </button>
+          {displayPlayBtn ? (
+            <button onClick={handlePlay} className="play-button icon">
+              <IoIosPlay />
+            </button>
+          ) : (
+            <button onClick={handlePause} className="play-button icon">
+              <IoIosPause />
+            </button>
+          )}
           <button className="download-button icon">
             <IoMdDownload />
           </button>

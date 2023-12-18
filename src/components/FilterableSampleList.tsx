@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import SampleMusicPlayer from "./SampleMusicPlayer";
 import type { Sample } from "../types/sample";
 
 const FilterableSampleList = () => {
   const [samples, setSamples] = useState<Sample[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handlePlay = () => {
-    // console.log("hello");
-    setIsPlaying(false);
-  };
+  const [filePath, setFilePath] = useState("");
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     fetch("http://localhost/api/samples?page=1")
@@ -21,13 +17,32 @@ const FilterableSampleList = () => {
       .catch((error) => console.error("Error fetching the data: ", error));
   }, []);
 
+  async function handlePlay(musicFilePath: string) {
+    setFilePath(musicFilePath);
+  }
+
+  function handlePause() {
+    const audio = audioRef.current;
+    audio?.pause();
+    setFilePath("");
+  }
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (filePath != "") {
+      audio?.play();
+    }
+  }, [filePath]);
+
   return (
     <div className="samples-list">
       <h1 className="headline">Samples</h1>
+      <audio preload="auto" src={filePath} ref={audioRef}></audio>
       {samples.map((sample) => (
         <SampleMusicPlayer
+          currentAudioPath={filePath}
           onPlay={handlePlay}
-          isPlaying={isPlaying}
+          onPause={handlePause}
           key={sample.id}
           sample={sample}
         />
