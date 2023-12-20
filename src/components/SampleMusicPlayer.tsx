@@ -31,11 +31,10 @@ const SampleMusicPlayer = ({
   // const audioRef = useRef<HTMLAudioElement>(null);
   // console.log(audioRef);
   // const [displayPlayBtn, setDisplayPlayBtn] = useState(true);
-  const isPlaying = currentFilePath === file_path && playerState === "playing";
+  const audioUrl = `http://localhost/storage/${file_path}`;
+  const isPlaying = currentFilePath === audioUrl && playerState === "playing";
 
   console.log(isPlaying);
-
-  const audioUrl = `http://localhost/storage/${file_path}`;
 
   async function handlePlay() {
     await onPlay(audioUrl);
