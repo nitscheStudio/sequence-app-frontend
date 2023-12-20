@@ -8,9 +8,40 @@ export type Sample = {
   key: string;
   likes_count: number;
   scale: string;
-  tags: string[];
+  tags: [];
   title: string;
   type: string;
   updated_at: string;
   user_id: number;
+};
+
+export type Tag = {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  pivot: {
+    sample_id: number;
+    tag_id: number;
+  };
+};
+
+export type SearchResultsHits = {
+  id: number;
+  title: string;
+  bpm: number;
+  key: string;
+  scale: string;
+  type: string;
+  file_path: string;
+  created_at: string; // or Date if you prefer to work with Date objects
+  genre: string;
+  instrument: string;
+  tags: [
+    {
+      id: number;
+      name: string;
+    }
+  ];
+  likes_count: number;
 };

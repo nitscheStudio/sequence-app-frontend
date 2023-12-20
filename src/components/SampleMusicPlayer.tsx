@@ -1,5 +1,6 @@
 import React from "react";
-import type { Sample } from "../types/sample";
+import type { Sample, Tag } from "../types/sample";
+
 import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
 import { IoHeartCircleOutline } from "react-icons/io5";
 import { MdMoreVert } from "react-icons/md";
@@ -23,7 +24,7 @@ const SampleMusicPlayer = ({
   onPlay,
   onPause,
 }: SampleMusicPlayerProps) => {
-  const { title, bpm, key, scale, likes_count, file_path, id } = sample;
+  const { title, bpm, key, scale, likes_count, file_path, tags } = sample;
   // const [isPlaying, setIsPlaying] = useState(false);
   // const audioRef = useRef<HTMLAudioElement>(null);
   // console.log(audioRef);
@@ -45,6 +46,7 @@ const SampleMusicPlayer = ({
     setDisplayPlayBtn(true);
   }, [currentAudioPath]);
   // console.log(audioUrl);
+
   return (
     <>
       <div className="music-player-container">
@@ -52,15 +54,12 @@ const SampleMusicPlayer = ({
           <div className="user-profile-picture"></div>
           <div className="sample-title-progress">
             <span className="sample-title">{title}</span>
-            {/* <audio src={audioUrl}></audio> */}
-            <div className="progress-bar">
-              <input
-                type="range"
-                id="song-progress"
-                min="0"
-                max="100"
-                value="15"
-              />
+            <div className="tags">
+              <ul className="tags-list">
+                {tags.map((tag: Tag) => (
+                  <li key={tag.id}>{"#" + tag.name}</li>
+                ))}
+              </ul>
             </div>
           </div>
           <div className="attribute-container">
