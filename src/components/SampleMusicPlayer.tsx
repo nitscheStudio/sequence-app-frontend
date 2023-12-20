@@ -8,9 +8,10 @@ import { useState, useEffect, useRef } from "react";
 
 type SampleMusicPlayerProps = {
   sample: Sample;
-  currentAudioPath: string;
+  currentFilePath: string;
   onPlay: (arg0: string) => void;
   onPause: () => void;
+  playerState: string;
 };
 
 function shortenScale(scale: string) {
@@ -20,32 +21,29 @@ function shortenScale(scale: string) {
 
 const SampleMusicPlayer = ({
   sample,
-  currentAudioPath,
+  currentFilePath,
   onPlay,
   onPause,
+  playerState,
 }: SampleMusicPlayerProps) => {
   const { title, bpm, key, scale, likes_count, file_path, tags } = sample;
   // const [isPlaying, setIsPlaying] = useState(false);
   // const audioRef = useRef<HTMLAudioElement>(null);
   // console.log(audioRef);
-  const [displayPlayBtn, setDisplayPlayBtn] = useState(true);
+  // const [displayPlayBtn, setDisplayPlayBtn] = useState(true);
+  const isPlaying = currentFilePath === file_path && playerState === "playing";
+
+  console.log(isPlaying);
 
   const audioUrl = `http://localhost/storage/${file_path}`;
 
   async function handlePlay() {
     await onPlay(audioUrl);
-    setDisplayPlayBtn(false);
   }
 
   function handlePause() {
     onPause();
-    setDisplayPlayBtn(true);
   }
-
-  useEffect(() => {
-    setDisplayPlayBtn(true);
-  }, [currentAudioPath]);
-  // console.log(audioUrl);
 
   return (
     <>
@@ -73,7 +71,7 @@ const SampleMusicPlayer = ({
             <div className="attribute">{bpm}</div>
             <div className="attribute-title">bpm</div>
           </div>
-          {displayPlayBtn ? (
+          {!isPlaying ? (
             <button onClick={handlePlay} className="play-button icon">
               <IoIosPlay />
             </button>
