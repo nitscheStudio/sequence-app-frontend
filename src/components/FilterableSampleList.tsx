@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import SampleMusicPlayer from "./SampleMusicPlayer";
 import type { Sample } from "../types/sample";
-import SearchbarSample from "./SearchbarSample";
+import SearchbarSample from "./Searchbar";
+import MeiliSearch from "meilisearch";
+import { useQuery } from "react-query";
 
 const FilterableSampleList = () => {
   const [samples, setSamples] = useState<Sample[]>([]);
@@ -10,14 +12,25 @@ const FilterableSampleList = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const audio = audioRef.current;
 
+  const client = new MeiliSearch({
+    host: "http://localhost:7700/",
+    apiKey: "",
+  });
+
+  const index = client.index("samples_index");
+
+
+
   useEffect(() => {
-    fetch("http://localhost/api/samples")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("fetched from api:", data.data);
-        setSamples(data.data);
+    index
+      .search("")
+      .then((results) => {
+        setSamples(results.hits as Sample[]);
+        console.log(results.hits);
       })
-      .catch((error) => console.error("Error fetching the data: ", error));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
 
   function handleSearch(hits: Sample[]) {
@@ -28,7 +41,7 @@ const FilterableSampleList = () => {
     }
   }
 
-  async function handlePlay(musicFilePath: string) {
+  function handlePlay(musicFilePath: string) {
     if (!audio) return;
     setFilePath(musicFilePath);
     setPlayerState("playing");
@@ -43,11 +56,11 @@ const FilterableSampleList = () => {
 
   return (
     <>
-      <SearchbarSample onSearch={handleSearch} />
+      {/* <SearchbarSample onSearch={handleSearch} /> */}
       <div className="samples-list">
-        <h1 className="headline">Samples</h1>
+        {/* <h1 className="headline">Samples</h1> */}
         <audio
-          onCanPlay={(e) => audio?.play()}
+          onCanPlay={() => audio?.play()}
           preload="auto"
           ref={audioRef}
         ></audio>

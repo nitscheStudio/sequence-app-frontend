@@ -1,15 +1,14 @@
-import { useState } from "react";
-
+import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
-
 import FilterableSampleList from "./components/FilterableSampleList";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
-      {/* <SampleMusicPlayer /> */}
+    <QueryClientProvider client={queryClient}>
       <FilterableSampleList />
-    </>
+    </QueryClientProvider>
   );
 }
 

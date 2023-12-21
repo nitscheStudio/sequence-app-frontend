@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MeiliSearch, SearchResponse } from "meilisearch";
 import { Sample, SearchResultsHits } from "../types/sample";
 
+
 type SearchBarProps = {
   onSearch: (results: Sample[]) => void;
 };

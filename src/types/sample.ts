@@ -1,4 +1,4 @@
-export type Sample = {
+export type SampleOld = {
   bpm: number;
   created_at: string;
   file_path: string;
@@ -15,15 +15,39 @@ export type Sample = {
   user_id: number;
 };
 
+export type Sample = {
+  id: number;
+  title: string;
+  bpm: number;
+  key: string;
+  scale: string;
+  type: string;
+  file_path: string;
+  user_id: number;
+  created_at: string;
+  genre: string;
+  instrument: string;
+  tags: Array<{
+    id: number;
+    name: string;
+  }>;
+  likes_count: number;
+};
+
+// export type Tag = {
+//   id: number;
+//   name: string;
+//   created_at: string;
+//   updated_at: string;
+//   pivot: {
+//     sample_id: number;
+//     tag_id: number;
+//   };
+// };
+
 export type Tag = {
   id: number;
   name: string;
-  created_at: string;
-  updated_at: string;
-  pivot: {
-    sample_id: number;
-    tag_id: number;
-  };
 };
 
 export type SearchResultsHits = {

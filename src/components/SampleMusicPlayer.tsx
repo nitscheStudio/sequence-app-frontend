@@ -1,10 +1,9 @@
 import React from "react";
 import type { Sample, Tag } from "../types/sample";
-
 import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
 import { IoHeartCircleOutline } from "react-icons/io5";
 import { MdMoreVert } from "react-icons/md";
-import { useState, useEffect, useRef } from "react";
+
 
 type SampleMusicPlayerProps = {
   sample: Sample;
@@ -27,17 +26,13 @@ const SampleMusicPlayer = ({
   playerState,
 }: SampleMusicPlayerProps) => {
   const { title, bpm, key, scale, likes_count, file_path, tags } = sample;
-  // const [isPlaying, setIsPlaying] = useState(false);
-  // const audioRef = useRef<HTMLAudioElement>(null);
-  // console.log(audioRef);
-  // const [displayPlayBtn, setDisplayPlayBtn] = useState(true);
   const audioUrl = `http://localhost/storage/${file_path}`;
   const isPlaying = currentFilePath === audioUrl && playerState === "playing";
 
-  console.log(isPlaying);
+  // console.log(isPlaying);
 
-  async function handlePlay() {
-    await onPlay(audioUrl);
+  function handlePlay() {
+    onPlay(audioUrl);
   }
 
   function handlePause() {
