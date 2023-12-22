@@ -19,8 +19,6 @@ const FilterableSampleList = () => {
 
   const index = client.index("samples_index");
 
-
-
   useEffect(() => {
     index
       .search("")
