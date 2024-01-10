@@ -1,42 +1,38 @@
 import React, { useEffect, useState, useRef } from "react";
 import SampleMusicPlayer from "./SampleMusicPlayer";
 import type { Sample } from "../types/sample";
-import SearchbarSample from "./Searchbar";
+import Searchbar from "./Searchbar";
 import MeiliSearch from "meilisearch";
 import { useQuery } from "react-query";
+import FilterForm from "./FilterForm";
+
+const client = new MeiliSearch({
+  host: "http://localhost:7700/",
+  apiKey: "",
+});
+
+const index = client.index("samples_index");
 
 const FilterableSampleList = () => {
-  const [samples, setSamples] = useState<Sample[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filePath, setFilePath] = useState("");
   const [playerState, setPlayerState] = useState("paused");
   const audioRef = useRef<HTMLAudioElement>(null);
   const audio = audioRef.current;
 
-  const client = new MeiliSearch({
-    host: "http://localhost:7700/",
-    apiKey: "",
-  });
+  const fetchSamples = async () => {
+    const response = await index.search(searchQuery);
+    return response.hits as Sample[];
+  };
 
-  const index = client.index("samples_index");
+  const {
+    data: samples,
+    error,
+    isLoading,
+  } = useQuery(["samples", searchQuery], fetchSamples);
 
-  useEffect(() => {
-    index
-      .search("")
-      .then((results) => {
-        setSamples(results.hits as Sample[]);
-        console.log(results.hits);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
-  function handleSearch(hits: Sample[]) {
-    console.log(hits);
-    if (hits) {
-      setSamples(hits);
-      // setIsSearched(true);
-    }
+  function handleSearchInput(query: string) {
+    setSearchQuery(query);
   }
 
   function handlePlay(musicFilePath: string) {
@@ -54,28 +50,33 @@ const FilterableSampleList = () => {
 
   return (
     <>
-      {/* <SearchbarSample onSearch={handleSearch} /> */}
-      <div className="samples-list">
-        {/* <h1 className="headline">Samples</h1> */}
-        <audio
-          onCanPlay={() => audio?.play()}
-          preload="auto"
-          ref={audioRef}
-        ></audio>
-        {samples.length === 0 ? (
-          <h3>Sorry, no Samples found...</h3>
-        ) : (
-          samples.map((sample) => (
-            <SampleMusicPlayer
-              currentFilePath={filePath}
-              playerState={playerState}
-              onPlay={handlePlay}
-              onPause={handlePause}
-              key={sample.id}
-              sample={sample}
-            />
-          ))
-        )}
+      <div className="filterable-sample-list">
+        <div>
+          <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} />
+          <FilterForm />
+        </div>
+
+        <div className="samples-list">
+          <audio
+            onCanPlay={() => audio?.play()}
+            preload="auto"
+            ref={audioRef}
+          ></audio>
+          {samples?.length === 0 ? (
+            <h3>Sorry, no Samples found...</h3>
+          ) : (
+            samples?.map((sample) => (
+              <SampleMusicPlayer
+                currentFilePath={filePath}
+                playerState={playerState}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                key={sample.id}
+                sample={sample}
+              />
+            ))
+          )}
+        </div>
       </div>
     </>
   );
