@@ -8,13 +8,12 @@ const FilterForm = () => {
   const [type, setType] = useState("loop");
   const [instruments, setInstruments] = useState([]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Here you would handle the form submission, sending the state to MeiliSearch or another service.
+  const handleBpmChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBpm(Number(event.currentTarget.value));
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="filter-form">
       {/* BPM Slider */}
       <div>
         <label>BPM:</label>
@@ -23,7 +22,7 @@ const FilterForm = () => {
           min="0"
           max="240"
           value={bpm}
-          onChange={(e) => setBpm(e.target.value)}
+          onChange={handleBpmChange}
           className="bpm-slider"
         />
         <span>{bpm} bpm</span>
@@ -33,9 +32,10 @@ const FilterForm = () => {
       <div>
         <label>Key:</label>
         {/* Map through your keys here */}
-        <button type="button" onClick={() => setSelectedKey("F#")}>
-          F#
+        <button type="button" onClick={() => setSelectedKey("C")}>
+          C
         </button>
+
         {/* Repeat for other keys */}
       </div>
 

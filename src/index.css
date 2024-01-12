@@ -14,7 +14,7 @@
 }
 
 a {
-  font-weight: 500;
+  /* font-weight: 500; */
   color: #646cff;
   text-decoration: inherit;
 }
@@ -24,9 +24,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  background-color: #f4f4f4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  /* display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 320px; */
   /* min-height: 100vh; */
 }
 

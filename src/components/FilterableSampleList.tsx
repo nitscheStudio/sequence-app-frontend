@@ -50,11 +50,9 @@ const FilterableSampleList = () => {
 
   return (
     <>
+      <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} />
       <div className="filterable-sample-list">
-        <div>
-          <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} />
-          <FilterForm />
-        </div>
+        <FilterForm />
 
         <div className="samples-list">
           <audio

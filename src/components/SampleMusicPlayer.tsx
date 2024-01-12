@@ -4,7 +4,6 @@ import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
 import { IoHeartCircleOutline } from "react-icons/io5";
 import { MdMoreVert } from "react-icons/md";
 
-
 type SampleMusicPlayerProps = {
   sample: Sample;
   currentFilePath: string;
@@ -66,24 +65,30 @@ const SampleMusicPlayer = ({
             <div className="attribute-title">bpm</div>
           </div>
           {!isPlaying ? (
-            <button onClick={handlePlay} className="play-button icon">
+            <button
+              onClick={handlePlay}
+              className="sample-player-button play-button icon"
+            >
               <IoIosPlay />
             </button>
           ) : (
-            <button onClick={handlePause} className="play-button icon">
+            <button
+              onClick={handlePause}
+              className="sample-player-button play-button icon"
+            >
               <IoIosPause />
             </button>
           )}
-          <button className="download-button icon">
+          <button className="sample-player-button download-button icon">
             <IoMdDownload />
           </button>
           <div>
-            <button className="like-button icon">
+            <button className="sample-player-button like-button icon">
               <IoHeartCircleOutline />
             </button>
             <div className="attribute-title">{likes_count}</div>
           </div>
-          <button className="more-button icon">
+          <button className=" sample-player-button more-button icon">
             <MdMoreVert />
           </button>
         </div>
