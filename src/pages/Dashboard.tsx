@@ -1,9 +1,14 @@
-import React from 'react'
+import { AuthContext } from "../context/AuthProvider";
+import { useContext } from "react";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  const { auth } = useContext(AuthContext);
 
-export default Dashboard
+  return (
+    <div>
+      <code>{JSON.stringify(auth)}</code>
+    </div>
+  );
+};
+
+export default Dashboard;

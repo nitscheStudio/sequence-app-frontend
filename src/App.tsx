@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
 
 import {
-  Routes,
   Route,
   createBrowserRouter,
   createRoutesFromElements,
@@ -10,21 +9,37 @@ import {
 } from "react-router-dom";
 
 //Pages
+import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
+import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 
 //Layouts
 import RootLayout from "./layouts/RootLayout";
+import ProtectedLayout from "./layouts/ProtectedLayout";
+
+//Errors
+import RootError from "./errors/RootError";
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
-      <Route index element={<Home />} />
+    <>
+      <Route path="/" element={<RootLayout />} errorElement={<RootError />}>
+        <Route index element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+
+        <Route element={<ProtectedLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Route>
+
       <Route path="/login" element={<Login />} />
-    </Route>
+
+      <Route path="register" element={<Register />} />
+    </>
   )
 );
 
