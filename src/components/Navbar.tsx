@@ -17,7 +17,7 @@ const Navbar = () => {
       await http.post("/logout");
       // Reset the auth state
       setAuth(defaultAuth);
-      navigate("/login");
+      navigate("/login", { state: { logoutSuccessful: true } });
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -67,10 +67,10 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/liked"
+                to="/upload"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Liked
+                Upload
               </NavLink>
             </li>
           </ul>

@@ -22,6 +22,7 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 
 //Errors
 import RootError from "./errors/RootError";
+import UploadSample from "./pages/UploadSample";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/browse" element={<Browse />} />
+          <Route path="/upload" element={<UploadSample />} />
         </Route>
       </Route>
 

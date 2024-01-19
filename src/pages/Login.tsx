@@ -2,7 +2,7 @@ import { set, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { Link } from "react-router-dom";
 import sequenceLogo from "../assets/sequence-logo_new.svg";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import http from "../utils/http";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 
 type FormValues = {
-  email: string;
+  login: string;
   password: string;
 };
 
@@ -18,15 +18,21 @@ const Login = () => {
   const { auth, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const { state } = useLocation();
+  const prefilledUsername = state?.username || "";
   const form = useForm<FormValues>();
   const {
+    setValue,
+    watch,
     register,
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
   } = form;
+
   const location = useLocation();
+  const logoutSuccessful = location.state?.logoutSuccessful;
+
   const { accountCreated, username } = location.state || {};
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
@@ -36,11 +42,18 @@ const Login = () => {
   // den Nutzer an die Homepage
   const { from = "/dashboard" } = state || {};
 
+  useEffect(() => {
+    setValue("login", prefilledUsername); // Prefill the username
+  }, [prefilledUsername, setValue]);
+
   // Wird ausgeführt wenn alle Felder korrekt validiert sind
   const onSubmit = async (data: FormValues) => {
     try {
       await http.get("/sanctum/csrf-cookie");
-      const response = await http.post("/login", data);
+      const response = await http.post("/login", {
+        login: data.login,
+        password: data.password,
+      });
       // console.log(response);
       const userData = response.data;
 
@@ -56,7 +69,7 @@ const Login = () => {
       const errors = exception.response.data.errors;
 
       for (let [fieldName, errorList] of Object.entries(errors)) {
-        type Field = "email" | "password" | "root";
+        type Field = "login" | "password" | "root";
         const errors = (errorList as any[]).map((message) => ({ message }));
         console.log(fieldName, errors);
         setError(fieldName as Field, errors[0]);
@@ -85,8 +98,14 @@ const Login = () => {
             alt="Sequence Logo"
           />
           {accountCreated && username && (
-            <div className="welcome-message">
+            <div className="success-message">
               Welcome to Sequence, {username}.
+            </div>
+          )}
+          {/* Display success message if logout was successful */}
+          {logoutSuccessful && (
+            <div className="success-message">
+              Logout successful. Please login again.
             </div>
           )}
           <h1 className="form-headline">Login To Your Account</h1>
@@ -96,22 +115,14 @@ const Login = () => {
               onSubmit={handleSubmit(onSubmit, onError)}
               noValidate
             >
-              <label htmlFor="E-Mail">E-Mail:</label>
+              <label htmlFor="E-Mail">E-Mail or Username:</label>
               <input
-                type="email"
-                // aria-onInvalid={errors.email ? "true" : "false"}
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "Please enter an email adress",
-                  },
-                  pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: "Invalid email format",
-                  },
+                type="text"
+                {...register("login", {
+                  required: "Please enter an email or username",
                 })}
               />
-              <p className="error-message">{errors.email?.message}</p>
+              <p className="error-message">{errors.login?.message}</p>
 
               <label htmlFor="Password">Password:</label>
               <div className="input-container">

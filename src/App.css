@@ -162,7 +162,7 @@ form {
   margin: 0;
 }
 
-.welcome-message {
+.success-message {
   color: var(--secondary-color);
   font-size: 16px;
   margin: 0;
