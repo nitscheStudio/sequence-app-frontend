@@ -12,7 +12,6 @@ const ProtectedLayout = () => {
     try {
       const response = await http.get("user");
       setAuth({ ...response.data });
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     } finally {
@@ -21,8 +20,6 @@ const ProtectedLayout = () => {
   };
 
   useEffect(() => void getInitialAuth(), []);
-
-  console.log("Current auth state:", auth);
 
   if (isLoading) {
     return <div>Loading...</div>;

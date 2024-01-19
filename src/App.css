@@ -405,6 +405,10 @@ nav img {
   color: #7d7d7d;
 }
 
+.liked {
+  color: var(--secondary-color);
+}
+
 ul {
   list-style-type: none;
   display: flex;

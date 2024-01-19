@@ -3,6 +3,8 @@ import type { Sample, Tag } from "../types/sample";
 import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
 import { IoHeartCircleOutline } from "react-icons/io5";
 import { MdMoreVert } from "react-icons/md";
+import http from "../utils/http";
+import { useState } from "react";
 
 type SampleMusicPlayerProps = {
   sample: Sample;
@@ -24,11 +26,21 @@ const SampleMusicPlayer = ({
   onPause,
   playerState,
 }: SampleMusicPlayerProps) => {
-  const { title, bpm, key, scale, likes_count, file_path, tags, id } = sample;
+  const {
+    title,
+    bpm,
+    key,
+    scale,
+    likes_count,
+    file_path,
+    tags,
+    id,
+    isLikedByCurrentUser,
+  } = sample;
   const audioUrl = `http://localhost/storage/${file_path}`;
   const isPlaying = currentFilePath === audioUrl && playerState === "playing";
-
-  // console.log(isPlaying);
+  const [likes, setLikes] = useState(likes_count);
+  const [isLiked, setIsLiked] = useState(isLikedByCurrentUser);
 
   function handlePlay() {
     onPlay(audioUrl);
@@ -38,9 +50,23 @@ const SampleMusicPlayer = ({
     onPause();
   }
 
-  function handleSampleLike() {
-    
-  }
+  const handleSampleLike = async () => {
+    try {
+      await http.get("/sanctum/csrf-cookie");
+      const response = await http.post(`/sample/${id}/like`);
+
+      if (response.data.status === "liked") {
+        // Using an updater function to ensure the latest state is used
+        setLikes((prevLikes) => prevLikes + 1);
+        setIsLiked(true);
+      } else if (response.data.status === "unliked") {
+        setLikes((prevLikes) => (prevLikes > 0 ? prevLikes - 1 : 0));
+        setIsLiked(false);
+      }
+    } catch (error) {
+      console.error("An error occured during liking:", error);
+    }
+  };
 
   return (
     <>
@@ -88,12 +114,14 @@ const SampleMusicPlayer = ({
           </button>
           <div>
             <button
+              className={`sample-player-button like-button icon ${
+                isLiked ? "liked" : ""
+              }`}
               onClick={handleSampleLike}
-              className="sample-player-button like-button icon"
             >
               <IoHeartCircleOutline />
             </button>
-            <div className="attribute-title">{likes_count}</div>
+            <div className="attribute-title">{likes}</div>
           </div>
           <button className=" sample-player-button more-button icon">
             <MdMoreVert />

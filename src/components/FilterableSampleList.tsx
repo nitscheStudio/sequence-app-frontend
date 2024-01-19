@@ -17,8 +17,10 @@ const FilterableSampleList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filePath, setFilePath] = useState("");
   const [playerState, setPlayerState] = useState("paused");
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const audio = audioRef.current;
+
 
   const fetchSamples = async () => {
     const response = await index.search(searchQuery);

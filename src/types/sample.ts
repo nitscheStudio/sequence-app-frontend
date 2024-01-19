@@ -1,5 +1,3 @@
-
-
 export type Sample = {
   id: number;
   title: string;
@@ -17,6 +15,7 @@ export type Sample = {
     name: string;
   }>;
   likes_count: number;
+  isLikedByCurrentUser: boolean;
 };
 
 // export type Tag = {
