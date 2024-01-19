@@ -5,9 +5,11 @@ const Dashboard = () => {
   const { auth } = useContext(AuthContext);
 
   return (
-    <div>
-      <code>{JSON.stringify(auth)}</code>
-    </div>
+    <>
+      <div>
+        <code>{JSON.stringify(auth)}</code>
+      </div>
+    </>
   );
 };
 

@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
+import Browse from "./pages/Browse";
 
 //Layouts
 import RootLayout from "./layouts/RootLayout";
@@ -33,11 +34,11 @@ const router = createBrowserRouter(
 
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/browse" element={<Browse />} />
         </Route>
       </Route>
 
       <Route path="/login" element={<Login />} />
-
       <Route path="register" element={<Register />} />
     </>
   )
@@ -45,14 +46,9 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <RouterProvider router={router} />
-    // <BrowserRouter>
-    //   <Navbar />
-    //   {/* <QueryClientProvider client={queryClient}>
-    //     <FilterableSampleList />
-    //   </QueryClientProvider> */}
-    //   <Login />
-    // </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   );
 }
 
