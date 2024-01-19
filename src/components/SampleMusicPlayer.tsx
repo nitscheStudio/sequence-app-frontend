@@ -24,7 +24,7 @@ const SampleMusicPlayer = ({
   onPause,
   playerState,
 }: SampleMusicPlayerProps) => {
-  const { title, bpm, key, scale, likes_count, file_path, tags } = sample;
+  const { title, bpm, key, scale, likes_count, file_path, tags, id } = sample;
   const audioUrl = `http://localhost/storage/${file_path}`;
   const isPlaying = currentFilePath === audioUrl && playerState === "playing";
 
@@ -36,6 +36,10 @@ const SampleMusicPlayer = ({
 
   function handlePause() {
     onPause();
+  }
+
+  function handleSampleLike() {
+    
   }
 
   return (
@@ -83,7 +87,10 @@ const SampleMusicPlayer = ({
             <IoMdDownload />
           </button>
           <div>
-            <button className="sample-player-button like-button icon">
+            <button
+              onClick={handleSampleLike}
+              className="sample-player-button like-button icon"
+            >
               <IoHeartCircleOutline />
             </button>
             <div className="attribute-title">{likes_count}</div>
