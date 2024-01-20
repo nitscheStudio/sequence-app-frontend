@@ -9,7 +9,7 @@ import { useState } from "react";
 type SampleMusicPlayerProps = {
   sample: Sample;
   currentFilePath: string;
-  onPlay: (arg0: string) => void;
+  onPlay: (arg: string) => void;
   onPause: () => void;
   playerState: string;
 };
@@ -68,6 +68,14 @@ const SampleMusicPlayer = ({
     }
   };
 
+  const handleDownload = async () => {
+    await http.get("/sanctum/csrf-cookie");
+    const response = await http.get(`/sample/download/${id}`, {
+      responseType: "blob", // important for handling binary files
+    });
+    console.log(response);
+  };
+
   return (
     <>
       <div className="music-player-container">
@@ -109,7 +117,10 @@ const SampleMusicPlayer = ({
               <IoIosPause />
             </button>
           )}
-          <button className="sample-player-button download-button icon">
+          <button
+            onClick={handleDownload}
+            className="sample-player-button download-button icon"
+          >
             <IoMdDownload />
           </button>
           <div>
@@ -128,12 +139,12 @@ const SampleMusicPlayer = ({
           </button>
         </div>
         {/* <div className="tags">
-          <ul className="tags-list">
-            <li>#guitar</li>
-            <li>#spanish</li>
-            <li>#melody</li>
-          </ul>
-        </div> */}
+              <ul className="tags-list">
+                <li>#guitar</li>
+                <li>#spanish</li>
+                <li>#melody</li>
+              </ul>
+            </div> */}
       </div>
     </>
   );

@@ -9,6 +9,7 @@ const Dashboard = () => {
       <div>
         <code>{JSON.stringify(auth)}</code>
       </div>
+      <section></section>
     </>
   );
 };

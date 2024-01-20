@@ -5,37 +5,29 @@ import Searchbar from "./Searchbar";
 import MeiliSearch from "meilisearch";
 import { useQuery } from "react-query";
 import FilterForm from "./FilterForm";
+import http from "../utils/http";
 
-const client = new MeiliSearch({
-  host: "http://localhost:7700/",
-  apiKey: "",
-});
+// const client = new MeiliSearch({
+//   host: "http://localhost:7700/",
+//   apiKey: "",
+// });
 
-const index = client.index("samples_index");
+// const index = client.index("samples_index");
 
 const FilterableSampleList = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const [filePath, setFilePath] = useState("");
   const [playerState, setPlayerState] = useState("paused");
+  const [samples, setSamples] = useState<Sample[]>([]);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const audio = audioRef.current;
 
-
   const fetchSamples = async () => {
-    const response = await index.search(searchQuery);
-    return response.hits as Sample[];
+    try {
+      const samples = await http.get("/samples");
+      setSamples(samples.data);
+    } catch (error) {}
   };
-
-  const {
-    data: samples,
-    error,
-    isLoading,
-  } = useQuery(["samples", searchQuery], fetchSamples);
-
-  function handleSearchInput(query: string) {
-    setSearchQuery(query);
-  }
 
   function handlePlay(musicFilePath: string) {
     if (!audio) return;
@@ -50,9 +42,13 @@ const FilterableSampleList = () => {
     setPlayerState("paused");
   }
 
+  useEffect(() => {
+    fetchSamples();
+  }, []);
+
   return (
     <>
-      <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} />
+      {/* <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} /> */}
       <div className="filterable-sample-list">
         <FilterForm />
 
