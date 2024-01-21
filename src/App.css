@@ -3,7 +3,7 @@
   text-align: center;
   box-sizing: border-box;
   --secondary-color: #03b276;
-  --link-hover: #00905e;
+  --link-hover: #00905e;  
   --bg-color: #fafafa;
   /* min-height: 100vh; */
   box-sizing: border-box;
@@ -262,6 +262,10 @@ nav img {
 
 .logout-button:active {
   border: none;
+}
+
+.logout-button:focus {
+  outline: none;
 }
 
 .logout-button:hover {
@@ -689,6 +693,7 @@ footer {
 
 .upper-footer a:hover {
   color: rgb(224, 224, 224);
+  /* text-decoration: underline; */
 }
 
 .upper-footer-column {

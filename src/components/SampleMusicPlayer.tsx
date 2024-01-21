@@ -69,11 +69,59 @@ const SampleMusicPlayer = ({
   };
 
   const handleDownload = async () => {
-    await http.get("/sanctum/csrf-cookie");
-    const response = await http.get(`/sample/download/${id}`, {
-      responseType: "blob", // important for handling binary files
-    });
-    console.log(response);
+    try {
+      await http.get("/sanctum/csrf-cookie");
+      const response = await http.get(`/sample/download/${id}`, {
+        responseType: "arraybuffer",
+      });
+
+      console.log(response);
+
+      if (response.status !== 200) {
+        throw new Error(`Error: Status code ${response.status}`);
+      }
+
+      if (!response.data) {
+        throw new Error("No data in response");
+      }
+
+      // Extract filename from the Content-Disposition header
+      const contentDisposition = response.headers["content-disposition"];
+      // console.log(contentDisposition);
+      let filename = "sample.mp3";
+      if (contentDisposition) {
+        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        let matches = filenameRegex.exec(contentDisposition);
+        if (matches != null && matches[1]) {
+          filename = matches[1].replace(/['"]/g, "");
+        }
+      }
+      // Create a new Blob object using the response data
+      const blob = new Blob([response.data], {
+        type: response.headers["content-type"],
+      });
+
+      // Create a URL for the Blob object
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a link element
+      const link = document.createElement("a");
+
+      // Set the href and download attributes of the link
+      link.href = url;
+      link.download = filename;
+
+      // Append the link to the body
+      document.body.appendChild(link);
+
+      // Simulate a click on the link
+      link.click();
+
+      // Remove the link from the body
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("An error occured during download:", error);
+    }
   };
 
   return (

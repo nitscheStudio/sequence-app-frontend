@@ -5,7 +5,7 @@ import { BsTwitterX } from "react-icons/bs";
 import FooterLogo from "../assets/logo-footer.svg";
 import { Link } from "react-router-dom";
 import profileIcon from "../assets/profile-icon.svg";
-
+    
 const Footer = () => {
   return (
     <footer>

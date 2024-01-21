@@ -8,6 +8,7 @@ type SearchbarProps = {
 const Searchbar = ({ searchQuery, onSearch }: SearchbarProps) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSearch(event.target.value);
+    
   };
 
   // const handleSubmit = (event: Event) => {
