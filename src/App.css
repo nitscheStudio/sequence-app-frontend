@@ -3,7 +3,7 @@
   text-align: center;
   box-sizing: border-box;
   --secondary-color: #03b276;
-  --link-hover: #00905e;  
+  --link-hover: #00905e;
   --bg-color: #fafafa;
   /* min-height: 100vh; */
   box-sizing: border-box;
@@ -396,6 +396,7 @@ nav img {
 
 .filterable-sample-list {
   display: flex;
+  justify-content: center;
 }
 
 .filter-form {

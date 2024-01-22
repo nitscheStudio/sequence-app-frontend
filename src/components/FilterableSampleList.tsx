@@ -4,7 +4,7 @@ import type { Sample } from "../types/sample";
 import Searchbar from "./Searchbar";
 import MeiliSearch from "meilisearch";
 import { useQuery } from "react-query";
-import FilterForm from "./FilterForm";
+// import FilterForm from "./FilterForm";
 import http from "../utils/http";
 
 // const client = new MeiliSearch({
@@ -50,7 +50,7 @@ const FilterableSampleList = () => {
     <>
       {/* <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} /> */}
       <div className="filterable-sample-list">
-        <FilterForm />
+        {/* <FilterForm /> */}
 
         <div className="samples-list">
           <audio

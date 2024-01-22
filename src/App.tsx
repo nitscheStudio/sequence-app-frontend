@@ -24,8 +24,6 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import RootError from "./errors/RootError";
 import UploadSample from "./pages/UploadSample";
 
-const queryClient = new QueryClient();
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -47,11 +45,7 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return (
-    // <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router} />
-    // </QueryClientProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
