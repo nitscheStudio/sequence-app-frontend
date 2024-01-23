@@ -81,14 +81,20 @@ const FilterableSampleList = () => {
         {/* Your sample list goes here */}
         <button
           className="page-controller-button flex-center"
-          onClick={() => setPage((page) => Math.max(page - 1, 1))}
+          onClick={() => {
+            setPage((page) => Math.max(page - 1, 1));
+            window.scrollTo(0, 0);
+          }}
         >
           <MdArrowBackIos />
           <span className="page-controll-button-descr">Prev</span>
         </button>
         <button
           className="page-controller-button flex-center"
-          onClick={() => setPage((page) => page + 1)}
+          onClick={() => {
+            setPage((page) => page + 1);
+            window.scrollTo(0, 0);
+          }}
         >
           <span className="page-controll-button-descr">Next</span>
           <MdArrowForwardIos />

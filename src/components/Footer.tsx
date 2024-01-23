@@ -5,7 +5,7 @@ import { BsTwitterX } from "react-icons/bs";
 import FooterLogo from "../assets/logo-footer.svg";
 import { Link } from "react-router-dom";
 import profileIcon from "../assets/profile-icon.svg";
-    
+
 const Footer = () => {
   return (
     <footer>
@@ -18,7 +18,7 @@ const Footer = () => {
           <div className="flex">
             <Link to={"/login"}>Login</Link>
             <div className="divider">/</div>
-            <Link to={"/login"}>Sign up</Link>
+            <Link to={"/register"}>Register</Link>
           </div>
         </div>
         <div className="upper-footer-column right">

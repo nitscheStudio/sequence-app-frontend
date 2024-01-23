@@ -1,34 +1,46 @@
 import { useState } from "react";
-import predefinedTags from "../predefinedArrays/TagData";
-
-type Tag = {
-  name: string;
-};
+import { Tag } from "../types/sample";
 
 type TagManagerProps = {
-  predefinedTags: Array<{}>;
-  onTagsChange: (tags: Array<{}>) => void;
+  predefinedTags: Tag[];
+  onTagsChange: (tags: Tag[]) => void;
 };
 
-const TagManager = ({ onTagsChange }: TagManagerProps) => {
+const TagManager: React.FC<TagManagerProps> = ({
+  predefinedTags,
+  onTagsChange,
+}) => {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
-  const handleTagSelect = (tag: Tag) => {
-    const newTags = selectedTags.includes(tag)
-      ? selectedTags.filter((t) => t !== tag)
-      : [...selectedTags, tag];
+  const MAX_SELECTION = 3;
 
-    setSelectedTags(newTags);
-    onTagsChange(newTags); // Lift the state up
+  const handleTagSelect = (tag: Tag) => {
+    // If the tag is already selected, remove it
+    if (selectedTags.includes(tag)) {
+      const newTags = selectedTags.filter((t) => t !== tag);
+      setSelectedTags(newTags);
+      onTagsChange(newTags);
+    }
+    // If it's not selected, and the limit hasn't been reached, add the tag
+    else if (selectedTags.length < MAX_SELECTION) {
+      const newTags = [...selectedTags, tag];
+      setSelectedTags(newTags);
+      onTagsChange(newTags);
+    } else {
+      // preliminary solution: show alert
+      alert(`You can select a maximum of ${MAX_SELECTION} tags.`);
+    }
   };
 
   return (
-    <div>
+    <div className="tags-container">
       {predefinedTags.map((tag) => (
         <button
           key={tag.id}
           onClick={() => handleTagSelect(tag)}
-          className={selectedTags.includes(tag) ? "tag-selected" : ""}
+          className={`tag-button ${
+            selectedTags.includes(tag) ? "tag-selected" : ""
+          }`}
         >
           {tag.name}
         </button>

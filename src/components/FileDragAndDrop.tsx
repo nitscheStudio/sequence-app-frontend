@@ -8,6 +8,8 @@ type FileDragAndDropProps = {
 };
 
 const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({ file, setFile }) => {
+  const [fileError, setFileError] = useState<string | null>(null);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "audio/mpeg": [".mp3"], "audio/wav": [".wav"] },
     onDrop: (acceptedFiles) => {
