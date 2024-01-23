@@ -22,7 +22,6 @@ const Login = () => {
   const form = useForm<FormValues>();
   const {
     setValue,
-    watch,
     register,
     control,
     handleSubmit,

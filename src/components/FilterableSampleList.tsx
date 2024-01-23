@@ -4,7 +4,7 @@ import type { Sample } from "../types/sample";
 import Searchbar from "./Searchbar";
 import MeiliSearch from "meilisearch";
 import { useQuery } from "react-query";
-// import FilterForm from "./FilterForm";
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import http from "../utils/http";
 
 // const client = new MeiliSearch({
@@ -18,13 +18,14 @@ const FilterableSampleList = () => {
   const [filePath, setFilePath] = useState("");
   const [playerState, setPlayerState] = useState("paused");
   const [samples, setSamples] = useState<Sample[]>([]);
+  const [page, setPage] = useState(1);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const audio = audioRef.current;
 
   const fetchSamples = async () => {
     try {
-      const samples = await http.get("/samples");
+      const samples = await http.get(`/samples?page=${page}`);
       setSamples(samples.data);
     } catch (error) {}
   };
@@ -44,10 +45,11 @@ const FilterableSampleList = () => {
 
   useEffect(() => {
     fetchSamples();
-  }, []);
+  }, [page]);
 
   return (
     <>
+      <h1>Browse all Samples</h1>
       {/* <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} /> */}
       <div className="filterable-sample-list">
         {/* <FilterForm /> */}
@@ -73,6 +75,24 @@ const FilterableSampleList = () => {
             ))
           )}
         </div>
+      </div>
+
+      <div className="page-controller">
+        {/* Your sample list goes here */}
+        <button
+          className="page-controller-button flex-center"
+          onClick={() => setPage((page) => Math.max(page - 1, 1))}
+        >
+          <MdArrowBackIos />
+          <span className="page-controll-button-descr">Prev</span>
+        </button>
+        <button
+          className="page-controller-button flex-center"
+          onClick={() => setPage((page) => page + 1)}
+        >
+          <span className="page-controll-button-descr">Next</span>
+          <MdArrowForwardIos />
+        </button>
       </div>
     </>
   );

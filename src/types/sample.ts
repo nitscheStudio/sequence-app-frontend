@@ -1,7 +1,7 @@
 export type Sample = {
   id: number;
   title: string;
-  bpm: number;
+  bpm?: number;
   key: string;
   scale: string;
   type: string;
@@ -14,8 +14,8 @@ export type Sample = {
     id: number;
     name: string;
   }>;
-  likes_count: number;
-  isLikedByCurrentUser: boolean;
+  likes_count?: number;
+  isLikedByCurrentUser?: boolean;
 };
 
 // export type Tag = {

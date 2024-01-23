@@ -22,7 +22,7 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 
 //Errors
 import RootError from "./errors/RootError";
-import UploadSample from "./pages/UploadSample";
+import SampleUpload from "./pages/SampleUpload";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +34,7 @@ const router = createBrowserRouter(
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/browse" element={<Browse />} />
-          <Route path="/upload" element={<UploadSample />} />
+          <Route path="/upload" element={<SampleUpload />} />
         </Route>
       </Route>
 

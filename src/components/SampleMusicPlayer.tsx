@@ -56,11 +56,10 @@ const SampleMusicPlayer = ({
       const response = await http.post(`/sample/${id}/like`);
 
       if (response.data.status === "liked") {
-        // Using an updater function to ensure the latest state is used
-        setLikes((prevLikes) => prevLikes + 1);
+        setLikes((prevLikes) => (prevLikes || 0) + 1);
         setIsLiked(true);
       } else if (response.data.status === "unliked") {
-        setLikes((prevLikes) => (prevLikes > 0 ? prevLikes - 1 : 0));
+        setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
         setIsLiked(false);
       }
     } catch (error) {

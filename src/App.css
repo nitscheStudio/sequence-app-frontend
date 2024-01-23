@@ -9,6 +9,11 @@
   box-sizing: border-box;
 }
 
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .landingpage {
   padding-top: 3rem;
 }
@@ -69,7 +74,7 @@
   flex-direction: column;
 }
 
-form {
+.form {
   width: 80%; /* or you can use vw, for example, width: 80vw; */
   max-width: 300px;
   margin: 0 auto;
@@ -119,6 +124,18 @@ form {
   margin-top: 40px;
   display: block;
   width: 100%;
+  transition: 0.15s ease-in-out;
+  border: none;
+}
+
+.submit-btn:active {
+  outline: none;
+  background-color: rgb(78, 78, 78);
+}
+
+.submit-btn:hover {
+  outline: none;
+  border: none;
 }
 
 .toggle-password-visibility {
@@ -426,14 +443,12 @@ ul {
 }
 
 body {
-  /* font-family: "Arial", sans-serif; */
   background-color: #f4f4f4;
   color: #313131;
   padding: 20px;
   font-family: "owners-text", sans-serif;
   font-weight: 300;
   font-style: normal;
-  /* max-height: 100vh; */
 }
 
 .searchbar-wrapper {
@@ -461,7 +476,46 @@ body {
   width: 100%;
   overflow: scroll;
 } */
+.page-controller {
+  margin-top: 20px;
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  align-items: center;
+}
+.page-controller-button {
+  background-color: transparent;
+  color: rgb(121, 121, 121);
+  font-size: 1.8rem;
+  transition: 0.15s ease-in-out;
+  border: none;
+  padding: 8px;
+}
 
+.page-controller-button:active {
+  outline: none;
+}
+
+.page-controller-button:focus {
+  outline: none;
+}
+
+.page-controller-button:hover {
+  outline: none;
+  padding: 8px;
+}
+
+.page-controll-button-descr {
+  font-size: 1rem;
+  color: rgb(121, 121, 121);
+  font-weight: 300;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
 /********* - Homepage - **********/
 
 .homepage-headline {
@@ -755,6 +809,85 @@ footer {
 
 .middle-footer a:hover {
   color: rgb(224, 224, 224);
+}
+
+/********* - Drag & Drop - **********/
+
+.file-drop-zone {
+  border: 1px solid #979797;
+  border-radius: 12px;
+  background-color: #ebebeb;
+  cursor: pointer;
+  min-width: 300px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+}
+
+.file-drop-zone span {
+  color: var(--secondary-color);
+}
+
+.file-drop-zone p {
+  color: #747474;
+  max-width: 320px;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+/********* - Sample Upload Form - **********/
+
+.upload-form input,
+.upload-form select {
+  background-color: #ffffff;
+  border: 1px solid #979797;
+  border-radius: 8px;
+  padding: 12px 12px;
+  color: #1c1c1c;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.upload-form label {
+  color: #313131;
+  font-size: 1.2rem;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+
+.upload-form-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.upload-form-row > :first-child {
+  width: 30%;
+}
+
+.upload-form-row > :nth-child(2) {
+  width: 30%;
+}
+
+.upload-form-row > :nth-child(3) {
+  width: 30%;
+}
+
+.upload-form-row-2 {
+  display: flex;
+  gap: 1rem;
+}
+
+.upload-form-row-2 > :first-child {
+  width: 50%;
+}
+
+.upload-form-row-2 > :nth-child(2) {
+  width: 50%;
 }
 
 /********* - Media Queries - **********/
