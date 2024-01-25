@@ -2,16 +2,20 @@ import React from "react";
 import type { Sample, Tag } from "../types/sample";
 import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
 import { IoHeartCircleOutline } from "react-icons/io5";
-import { MdMoreVert } from "react-icons/md";
 import http from "../utils/http";
 import { useState } from "react";
+import SampleContextMenu from "./SampleContextMenu";
 
 type SampleMusicPlayerProps = {
+  showEditButton: boolean;
   sample: Sample;
   currentFilePath: string;
   onPlay: (arg: string) => void;
   onPause: () => void;
   playerState: string;
+  isContextMenuVisible: boolean;
+  toggleVisibility: (id: number) => void;
+  closeMenu: () => void;
 };
 
 function shortenScale(scale: string) {
@@ -25,6 +29,10 @@ const SampleMusicPlayer = ({
   onPlay,
   onPause,
   playerState,
+  showEditButton,
+  isContextMenuVisible,
+  toggleVisibility,
+  closeMenu,
 }: SampleMusicPlayerProps) => {
   const {
     title,
@@ -181,17 +189,15 @@ const SampleMusicPlayer = ({
             </button>
             <div className="attribute-title">{likes}</div>
           </div>
-          <button className=" sample-player-button more-button icon">
-            <MdMoreVert />
-          </button>
+          {showEditButton && (
+            <SampleContextMenu
+              sampleId={sample.id}
+              isVisible={isContextMenuVisible}
+              toggleVisibility={toggleVisibility}
+              closeMenu={closeMenu}
+            />
+          )}
         </div>
-        {/* <div className="tags">
-              <ul className="tags-list">
-                <li>#guitar</li>
-                <li>#spanish</li>
-                <li>#melody</li>
-              </ul>
-            </div> */}
       </div>
     </>
   );

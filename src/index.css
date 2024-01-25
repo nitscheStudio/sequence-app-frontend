@@ -12,7 +12,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+  }
 
 main {
   padding-top: 7rem;
@@ -57,7 +57,7 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: 0.15s ease-in-out;
 }
 button:hover {
   border-color: #646cff;

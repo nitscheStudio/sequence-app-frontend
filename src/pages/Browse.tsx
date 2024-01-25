@@ -1,11 +1,9 @@
 import FilterableSampleList from "../components/FilterableSampleList";
 
-import React from "react";
-
 const Browse = () => {
   return (
-    <>
-      <FilterableSampleList />
+    <>  
+      <FilterableSampleList showEditButton={false} endpoint="samples" />
     </>
   );
 };

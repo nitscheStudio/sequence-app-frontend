@@ -10,6 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHidden, setNavbarHidden] = useState(false);
+  const [hideScrollTop, setHideScrollTop] = useState(0);
 
   const handleLogout = async () => {
     try {
@@ -25,13 +26,14 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      if (scrollTop > lastScrollTop && scrollTop > 120) {
+      const currentScrollTop = window.scrollY;
+      if (currentScrollTop > lastScrollTop && currentScrollTop > 80) {
         setNavbarHidden(true);
-      } else {
+        setHideScrollTop(currentScrollTop);
+      } else if (hideScrollTop - currentScrollTop > 30) {
         setNavbarHidden(false);
       }
-      setLastScrollTop(scrollTop);
+      setLastScrollTop(currentScrollTop);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -39,10 +41,10 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollTop]);
+  }, [lastScrollTop, hideScrollTop]);
 
   return (
-    <nav className={navbarHidden ? "hide" : ""}>
+    <nav className={`main-navigation ${navbarHidden ? "hide" : ""}`}>
       <NavLink to={auth.id ? "/dashboard" : "/"} className={() => "logo-class"}>
         <img src={sequenceLogo} alt="Sequence Logo" />
       </NavLink>

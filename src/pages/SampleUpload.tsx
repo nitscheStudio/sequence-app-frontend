@@ -6,7 +6,8 @@ import FileDragAndDrop from "../components/FileDragAndDrop";
 import TagManager from "../components/TagManager";
 import predefinedTags from "../predefinedArrays/TagData";
 import stepBackIcon from "../assets/stepBackBtn.svg";
-import { GiAudioCassette } from "react-icons/gi";
+import uploadSucces from "../assets/uploadSuccess.svg";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 type FormValues = {
   title: string;
@@ -103,11 +104,9 @@ const SampleUpload = () => {
       formData.append("tags[]", tag.name);
     });
 
-    console.log(formData);
-
     try {
       await http.get("/sanctum/csrf-cookie");
-      const response = await http.post("/uploadSample", formData, {
+      await http.post("/uploadSample", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -319,7 +318,9 @@ const SampleUpload = () => {
           </p>
           <TagManager
             predefinedTags={predefinedTags}
-            onTagsChange={handleTagsChange}
+            // onTagsChange={handleTagsChange}
+            selectedTags={selectedTags}
+            onTagsChange={setSelectedTags}
           />
           <button className="submit-btn" onClick={onNextStep}>
             Next Step
@@ -347,11 +348,16 @@ const SampleUpload = () => {
               <p className="success-message">
                 Your sample upload was successful!
               </p>
-              <GiAudioCassette style={{ color: "#B5B5B5", fontSize: "3rem" }} />
+              <img src={uploadSucces} alt="upload success image" />
               <div className="redirect-buttons-container">
-                {" "}
-                <Link to={"/dashboard"}>View samples in profile</Link>
-                <Link to={"/uploadD"}>Upload another sample?</Link>
+                <Link className="redirect-button" to={"/dashboard"}>
+                  <FaArrowLeftLong />
+                  View uploaded Samples
+                </Link>
+                <Link className="redirect-button" to={"/upload"}>
+                  Upload another Sample
+                  <FaArrowRightLong />
+                </Link>
               </div>
             </>
           )}

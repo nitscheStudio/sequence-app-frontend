@@ -4,13 +4,15 @@ import { Tag } from "../types/sample";
 type TagManagerProps = {
   predefinedTags: Tag[];
   onTagsChange: (tags: Tag[]) => void;
+  selectedTags: Tag[];
 };
 
 const TagManager: React.FC<TagManagerProps> = ({
   predefinedTags,
+  selectedTags,
   onTagsChange,
 }) => {
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+
 
   const MAX_SELECTION = 3;
 
@@ -18,13 +20,11 @@ const TagManager: React.FC<TagManagerProps> = ({
     // If the tag is already selected, remove it
     if (selectedTags.includes(tag)) {
       const newTags = selectedTags.filter((t) => t !== tag);
-      setSelectedTags(newTags);
       onTagsChange(newTags);
     }
     // If it's not selected, and the limit hasn't been reached, add the tag
     else if (selectedTags.length < MAX_SELECTION) {
       const newTags = [...selectedTags, tag];
-      setSelectedTags(newTags);
       onTagsChange(newTags);
     } else {
       // preliminary solution: show alert

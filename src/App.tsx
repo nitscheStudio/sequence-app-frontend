@@ -32,7 +32,7 @@ const router = createBrowserRouter(
         <Route path="*" element={<NotFound />} />
 
         <Route element={<ProtectedLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/upload" element={<SampleUpload />} />
         </Route>
