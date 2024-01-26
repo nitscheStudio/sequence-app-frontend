@@ -12,6 +12,7 @@ type SampleContextMenuProps = {
   isVisible: boolean;
   toggleVisibility: (id: number) => void;
   closeMenu: () => void;
+  handleSampleDeletion: (deletedSampleId: number) => void;
 };
 
 const SampleContextMenu = ({
@@ -19,23 +20,28 @@ const SampleContextMenu = ({
   isVisible,
   toggleVisibility,
   closeMenu,
+  handleSampleDeletion,
 }: SampleContextMenuProps) => {
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const [message, setMessage] = useState<string | null>(null);
+
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   // Custom Hook for closing the menu when clicking outside of it
   useClickOutside(menuRef, () => {
     if (isVisible) closeMenu();
   });
-
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     console.log("delete clicked");
-    setShowDeleteModal(true);
+
+    setIsModalVisible(true); // Open the modal
   };
 
-  const confirmDelete = async () => {
+  //Modal functions
+
+  const handleConfirm = async () => {
     try {
       console.log(sampleId);
       await http.get("/sanctum/csrf-cookie");
@@ -43,6 +49,7 @@ const SampleContextMenu = ({
       console.log("response:", response);
 
       // If the deletion was successful, set the success message, else set error message
+
       if (response.status === 200) {
         setMessage("Sample successfully deleted");
       } else if (response.status === 403) {
@@ -52,16 +59,22 @@ const SampleContextMenu = ({
       } else if (response.status === 500) {
         setMessage("An error occured during deleting");
       }
-
-      // setShowDeleteModal(false);
-      // closeMenu();
     } catch (error) {
       console.error("An error occured during deleting", error);
     }
+
+    closeMenu();
   };
 
-  const cancelDelete = () => {
-    setShowDeleteModal(false);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    closeMenu();
+  };
+
+  const handleExit = () => {
+    handleSampleDeletion(sampleId);
+    setIsModalVisible(false);
+    closeMenu();
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -86,16 +99,18 @@ const SampleContextMenu = ({
             <MdDelete />
             Delete Sample
           </button>
-          <Modal
-            isVisible={showDeleteModal}
-            title="Delete Sample"
-            content="Are you sure you want to delete this sample?"
-            onConfirm={confirmDelete}
-            onCancel={cancelDelete}
-            message={message}
-          ></Modal>
         </div>
       )}
+      <Modal
+        isVisible={isModalVisible}
+        title="Delete Sample"
+        content="Are you sure you want to delete this sample?"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+        // onExit={handleExit}
+        message={message}
+        onExit={handleExit}
+      />
     </div>
   );
 };

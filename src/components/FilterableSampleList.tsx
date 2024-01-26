@@ -25,10 +25,19 @@ const FilterableSampleList = ({
   const [samples, setSamples] = useState<Sample[]>([]);
   const [page, setPage] = useState(1);
 
+  // Popup for update and delete sample messages
+
   // for ContextMenu
   const [visibleContextMenu, setVisibleContextMenu] = useState<number | null>(
     null
   );
+
+  //Sample deletion passed down to Modal Component
+  const handleSampleDeletion = (deletedSampleId: number) => {
+    setSamples((currentSamples) =>
+      currentSamples.filter((sample) => sample.id !== deletedSampleId)
+    );
+  };
 
   const toggleVisibility = (id: number) => {
     setVisibleContextMenu(visibleContextMenu === id ? null : id);
@@ -97,6 +106,7 @@ const FilterableSampleList = ({
                 isContextMenuVisible={visibleContextMenu === sample.id}
                 toggleVisibility={toggleVisibility}
                 closeMenu={closeMenu}
+                handleSampleDeletion={handleSampleDeletion}
               />
             ))
           )}

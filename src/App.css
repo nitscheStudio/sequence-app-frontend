@@ -1016,6 +1016,7 @@ footer {
   border-radius: 8px;
   border: none;
   gap: 8px;
+  cursor: pointer;
 }
 
 .redirect-button:hover {
@@ -1140,17 +1141,86 @@ footer {
 /********* - Modal - **********/
 
 .modal {
-  position: absolute;
+  box-sizing: border-box;
+  position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
+  /*tranform shouldnt center the modal but it does...*/
+  /*Probably because of the position of the context menu*/
+  width: 330px;
+
+  transform: translate(-100%, -100%);
   background-color: rgb(234, 234, 234);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 12px;
+  padding: 16px 34px;
   border-radius: 10px;
   z-index: 50;
+  color: #1c1c1c;
+  border: none;
 }
+
+.modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-button-row {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.modal-button-row :first-child {
+  background-color: var(--secondary-color);
+}
+
+.modal-button-row :nth-child(2) {
+  background-color: rgb(209, 36, 36);
+}
+
+/********* - User Message Popup - **********/
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.user-message-popup {
+  animation: slideUp 0.5s ease-out forwards;
+  position: fixed;
+  bottom: 0;
+  left: 75%;
+
+  width: 320px;
+  background-color: rgb(247, 247, 247);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 16px 34px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  z-index: 50;
+  color: #1c1c1c;
+  border: none;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+}
+
+.message-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* other styles */
 
 /********* - Media Queries - **********/
 

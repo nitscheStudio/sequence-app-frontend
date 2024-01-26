@@ -113,7 +113,6 @@ const SampleUpload = () => {
       });
       setUploadSuccess(true);
       setFile(null);
-      reset();
     } catch (exception: any) {
       const errors = exception.response.data.errors;
 
@@ -134,6 +133,16 @@ const SampleUpload = () => {
     }
   };
 
+  //Reset all input fields
+  const resetForm = () => {
+    reset(); //
+    setFile(null);
+    setSelectedTags([]);
+    setStep(1);
+    setUploadSuccess(false);
+    setFileSelectionError(null);
+    window.scrollTo(0, 0);
+  };
   //Callback function from TagManager.tsx
   const handleTagsChange = (tags: Tag[]) => {
     setSelectedTags(tags);
@@ -354,10 +363,10 @@ const SampleUpload = () => {
                   <FaArrowLeftLong />
                   View uploaded Samples
                 </Link>
-                <Link className="redirect-button" to={"/upload"}>
+                <div className="redirect-button" onClick={resetForm}>
                   Upload another Sample
                   <FaArrowRightLong />
-                </Link>
+                </div>
               </div>
             </>
           )}

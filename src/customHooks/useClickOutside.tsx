@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes, useEffect } from "react";
+import React, { useEffect } from "react";
 
 type Ref = React.MutableRefObject<HTMLElement | null>;
 type Callback = () => void;

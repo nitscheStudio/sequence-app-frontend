@@ -6,6 +6,8 @@ interface ModalProps {
   content: string;
   onConfirm: () => void;
   onCancel: () => void;
+  onExit: () => void;
+
   message: string | null;
 }
 
@@ -15,27 +17,45 @@ const Modal: React.FC<ModalProps> = ({
   content,
   onConfirm,
   onCancel,
+  onExit,
   message,
 }) => {
-  if (!isVisible) {
-    return null;
-  }
+  const dialogRef = React.useRef<HTMLDialogElement>(null);
+
+  React.useEffect(() => {
+    if (dialogRef.current) {
+      isVisible ? dialogRef.current.showModal() : dialogRef.current.close();
+    }
+  }, [isVisible]);
 
   return (
-    <>
-      {!message ? (
-        <div className="modal">
-          <div className="modal-content">
+    <dialog ref={dialogRef} className="modal">
+      <div className="modal-content">
+        {message ? (
+          <>
+            <div className="message">{message}</div>
+            <div className="modal-button-row">
+              <button className="modal-button" onClick={onExit}>
+                Close
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
             <h2>{title}</h2>
             <p>{content}</p>
-            <button onClick={onConfirm}>Confirm</button>
-            <button onClick={onCancel}>Cancel</button>
-          </div>
-        </div>
-      ) : (
-        <div className="message">{message}</div>
-      )}
-    </>
+            <div className="modal-button-row">
+              <button className="modal-button" onClick={onConfirm}>
+                Confirm
+              </button>
+              <button className="modal-button" onClick={onCancel}>
+                Cancel
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </dialog>
   );
 };
 

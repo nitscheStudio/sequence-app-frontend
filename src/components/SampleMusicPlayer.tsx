@@ -16,6 +16,7 @@ type SampleMusicPlayerProps = {
   isContextMenuVisible: boolean;
   toggleVisibility: (id: number) => void;
   closeMenu: () => void;
+  handleSampleDeletion: (deletedSampleId: number) => void;
 };
 
 function shortenScale(scale: string) {
@@ -33,6 +34,7 @@ const SampleMusicPlayer = ({
   isContextMenuVisible,
   toggleVisibility,
   closeMenu,
+  handleSampleDeletion,
 }: SampleMusicPlayerProps) => {
   const {
     title,
@@ -195,6 +197,7 @@ const SampleMusicPlayer = ({
               isVisible={isContextMenuVisible}
               toggleVisibility={toggleVisibility}
               closeMenu={closeMenu}
+              handleSampleDeletion={handleSampleDeletion}
             />
           )}
         </div>
