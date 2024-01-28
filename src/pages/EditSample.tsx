@@ -3,6 +3,7 @@ import http from "../utils/http";
 import { useEffect, useState } from "react";
 import { Sample } from "../types/sample";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import TagManager from "../components/TagManager";
 
@@ -40,21 +41,24 @@ type Tag = {
 
 const EditSample = () => {
   const form = useForm<FormValues>();
+  const navigate = useNavigate();
+
   //Params: react Router Dom v6 passing dynamic routes
   const { sampleId } = useParams();
 
   const [sampleData, setSampleData] = useState<Sample | null>(null);
+  const [fromData, setFormData] = useState<FormData | null>(null);
 
   const [genres, setGenres] = useState<Genre[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-  // const [tagsAreSet, setTagsareSet] = useState(false);
 
   const {
     register,
     handleSubmit,
     setValue,
     setError,
+    reset,
     formState: { errors, isSubmitting },
   } = form;
 
@@ -68,13 +72,13 @@ const EditSample = () => {
     "tags",
   ];
 
-  // Fetch Sample from db
+  // Fetch Sample info from db
   const getSampleInfo = async () => {
     try {
       await http.get("/sanctum/csrf-cookie");
       const response = await http.get(`/sample/${sampleId}`);
       const sample = response.data;
-      console.log("sample:", sample);
+      // console.log("sample:", sample);
       //Set initial Sample Values
       fields.forEach((field) => {
         setValue(field, sample[field]);
@@ -103,6 +107,56 @@ const EditSample = () => {
     }
   };
 
+  const onSubmit = async (data: FormValues) => {
+    console.log("data:", data);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("bpm", String(data.bpm));
+    formData.append("key", data.key);
+    formData.append("scale", data.scale);
+    formData.append("genre_id", String(data.genre_id));
+    formData.append("instrument_id", String(data.instrument_id));
+
+    // Store the form data
+    setFormData(formData);
+    selectedTags.forEach((tag) => {
+      formData.append("tags[]", tag.name);
+    });
+
+    try {
+      await http.get("/sanctum/csrf-cookie");
+      const response = await http.patch(`/sample/edit/${sampleId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("response:", response);
+    } catch (exception: any) {
+      const errors = exception.response.data.errors;
+
+      for (let [fieldName, errorList] of Object.entries(errors)) {
+        type Field =
+          | "title"
+          | "key"
+          | "scale"
+          | "bpm"
+          | "genre_id"
+          | "instrument_id"
+          | "tags"
+          | "root";
+        const errors = (errorList as any[]).map((message) => ({ message }));
+        console.log(fieldName, errors);
+        setError(fieldName as Field, errors[0]);
+      }
+    }
+  };
+
+  const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+    reset();
+    setSelectedTags([]);
+    navigate("/dashboard");
+  };
+
   const handleTagsChange = (tags: Tag[]) => {
     setSelectedTags(tags);
   };
@@ -128,7 +182,7 @@ const EditSample = () => {
     fetchGenresAndInstruments();
   }, []);
 
-  console.log("selected Tags:", selectedTags);
+  // console.log("selected Tags:", selectedTags);
 
   return (
     <>
@@ -256,6 +310,18 @@ const EditSample = () => {
       </form>
 
       <TagManager selectedTags={selectedTags} onTagsChange={setSelectedTags} />
+      <div className="redirect-buttons-container">
+        <button
+          className="submit-btn"
+          disabled={isSubmitting}
+          onClick={handleSubmit(onSubmit)}
+        >
+          Save
+        </button>
+        <button onClick={onCancel} className="submit-btn cancel-button">
+          Cancel
+        </button>
+      </div>
     </>
   );
 };

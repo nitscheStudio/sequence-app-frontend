@@ -22,21 +22,21 @@ const TagManager: React.FC<TagManagerProps> = ({
       const predefinedTags = response.data;
       setPredefinedTags(predefinedTags);
 
-      console.log("predefined tags:", predefinedTags);
+      // console.log("predefined tags:", predefinedTags);
     } catch (error) {
       console.error("An error occured during fetching tags:", error);
     }
   };
 
-  const handleTagSelect = (tag: TagType) => {
+  const handleTagSelect = (selectedTag: TagType) => {
     // If the tag is already selected, remove it
-    if (selectedTags.includes(tag)) {
-      const newTags = selectedTags.filter((tag) => tag !== tag);
+    if (selectedTags.some((tag) => tag.id === selectedTag.id)) {
+      const newTags = selectedTags.filter((tag) => tag.id !== selectedTag.id);
       onTagsChange(newTags);
     }
     // If it's not selected, and the limit hasn't been reached, add the tag
     else if (selectedTags.length < MAX_SELECTION) {
-      const newTags = [...selectedTags, tag];
+      const newTags = [...selectedTags, selectedTag];
       onTagsChange(newTags);
     } else {
       // preliminary solution: show alert

@@ -5,6 +5,7 @@
   --secondary-color: #03b276;
   --link-hover: #00905e;
   --bg-color: #fafafa;
+  --cancel-color: rgb(209, 36, 36);
   /* min-height: 100vh; */
   box-sizing: border-box;
 }
@@ -1058,6 +1059,7 @@ footer {
   background-color: white;
   color: #313131;
   border: solid 1px var(--secondary-color);
+  position: relative;
 }
 .tag-button:hover {
   background-color: var(--secondary-color);
@@ -1075,6 +1077,24 @@ footer {
 
 .tag-selected {
   background-color: var(--secondary-color);
+}
+
+.tag-selected:hover {
+  background-color: var(--link-hover);
+  border-color: var(--link-hover);
+}
+
+.tag-selected:hover .delete-tag-icon {
+  color: white; /* Replace with the color you want on hover */
+}
+
+.delete-tag-icon {
+  font-size: 1rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  color: var(--secondary-color);
 }
 
 /********* - Dashboard - **********/
@@ -1201,6 +1221,14 @@ footer {
   overflow: scroll; */
 }
 
+.cancel-button {
+  background-color: var(--cancel-color);
+}
+
+.cancel-button:hover {
+  background-color: rgb(147, 21, 21);
+}
+
 /********* - Modal - **********/
 
 .modal {
@@ -1238,7 +1266,7 @@ footer {
 }
 
 .modal-button-row :nth-child(2) {
-  background-color: rgb(209, 36, 36);
+  background-color: var(--cancel-color);
 }
 
 /********* - User Message Popup - **********/

@@ -110,6 +110,8 @@ const SampleUpload = () => {
       formData.append("tags[]", tag.name);
     });
 
+    
+
     try {
       await http.get("/sanctum/csrf-cookie");
       await http.post("/uploadSample", formData, {

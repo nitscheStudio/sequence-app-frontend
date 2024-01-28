@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { TagType } from "../types/sample";
+import { IoMdClose } from "react-icons/io";
 
 type TagProps = {
   tag: TagType;
@@ -19,6 +20,7 @@ const Tag = ({ tag, selectedTags, onSelect }: TagProps) => {
       className={`tag-button ${isSelected ? "tag-selected" : ""}`}
     >
       {tag.name}
+      {isSelected && <IoMdClose className="delete-tag-icon" />}
     </button>
   );
 };
