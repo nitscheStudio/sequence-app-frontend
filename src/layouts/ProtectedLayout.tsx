@@ -1,31 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
-import http from "../utils/http";
 
 const ProtectedLayout = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, isAuthenticated } = useContext(AuthContext);
   const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
 
-  const getInitialAuth = async () => {
-    try {
-      const response = await http.get("user");
-      setAuth({ ...response.data });
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    } finally {
-      setIsLoading(false); // Set loading to false after fetching
-    }
-  };
-
-  useEffect(() => void getInitialAuth(), []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  return auth.id ? (
+  return isAuthenticated() ? (
     <Outlet />
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />

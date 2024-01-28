@@ -91,7 +91,7 @@ const SampleContextMenu = ({
       </button>
       {isVisible && (
         <div className="context-menu">
-          <Link to={"/edit"}>
+          <Link to={`/edit/sample/${sampleId}`}>
             <MdModeEdit />
             Edit Sample
           </Link>

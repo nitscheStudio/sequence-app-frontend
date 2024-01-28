@@ -1,5 +1,5 @@
 import React from "react";
-import type { Sample, Tag } from "../types/sample";
+import type { Sample, TagType } from "../types/sample";
 import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
 import { IoHeartCircleOutline } from "react-icons/io5";
 import http from "../utils/http";
@@ -142,7 +142,7 @@ const SampleMusicPlayer = ({
             <span className="sample-title">{title}</span>
             <div className="tags">
               <ul className="tags-list">
-                {tags.map((tag: Tag) => (
+                {tags.map((tag: TagType) => (
                   <li key={tag.id}>{"#" + tag.name}</li>
                 ))}
               </ul>

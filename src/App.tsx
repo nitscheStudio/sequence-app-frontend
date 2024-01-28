@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import Browse from "./pages/Browse";
+import EditSample from "./pages/EditSample";
 
 //Layouts
 import RootLayout from "./layouts/RootLayout";
@@ -22,7 +23,7 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 
 //Errors
 import RootError from "./errors/RootError";
-import SampleUpload from "./pages/SampleUpload";
+import UploadSample from "./pages/UploadSample";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,10 +35,10 @@ const router = createBrowserRouter(
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/browse" element={<Browse />} />
-          <Route path="/upload" element={<SampleUpload />} />
+          <Route path="/upload" element={<UploadSample />} />
+          <Route path="/edit/sample/:sampleId" element={<EditSample />} />
         </Route>
       </Route>
-
       <Route path="/login" element={<Login />} />
       <Route path="register" element={<Register />} />
     </>

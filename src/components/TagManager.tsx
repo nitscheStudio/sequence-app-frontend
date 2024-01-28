@@ -1,25 +1,37 @@
-import { useState } from "react";
-import { Tag } from "../types/sample";
+import { useEffect, useState } from "react";
+import { TagType } from "../types/sample";
+import Tag from "./Tag";
+import http from "../utils/http";
 
 type TagManagerProps = {
-  predefinedTags: Tag[];
-  onTagsChange: (tags: Tag[]) => void;
-  selectedTags: Tag[];
+  onTagsChange: (tags: TagType[]) => void;
+  selectedTags: TagType[];
 };
 
 const TagManager: React.FC<TagManagerProps> = ({
-  predefinedTags,
   selectedTags,
   onTagsChange,
 }) => {
-
-
+  const [predefinedTags, setPredefinedTags] = useState<TagType[]>([]);
   const MAX_SELECTION = 3;
 
-  const handleTagSelect = (tag: Tag) => {
+  const getTags = async () => {
+    try {
+      await http.get("/sanctum/csrf-cookie");
+      const response = await http.get("/samples/tags");
+      const predefinedTags = response.data;
+      setPredefinedTags(predefinedTags);
+
+      console.log("predefined tags:", predefinedTags);
+    } catch (error) {
+      console.error("An error occured during fetching tags:", error);
+    }
+  };
+
+  const handleTagSelect = (tag: TagType) => {
     // If the tag is already selected, remove it
     if (selectedTags.includes(tag)) {
-      const newTags = selectedTags.filter((t) => t !== tag);
+      const newTags = selectedTags.filter((tag) => tag !== tag);
       onTagsChange(newTags);
     }
     // If it's not selected, and the limit hasn't been reached, add the tag
@@ -32,20 +44,26 @@ const TagManager: React.FC<TagManagerProps> = ({
     }
   };
 
+  useEffect(() => {
+    getTags();
+  }, []);
+
+  // console.log("selected Tags:", selectedTags);
+
   return (
-    <div className="tags-container">
-      {predefinedTags.map((tag) => (
-        <button
-          key={tag.id}
-          onClick={() => handleTagSelect(tag)}
-          className={`tag-button ${
-            selectedTags.includes(tag) ? "tag-selected" : ""
-          }`}
-        >
-          {tag.name}
-        </button>
-      ))}
-    </div>
+    <>
+      <h2>Tags:</h2>
+      <div className="tags-container">
+        {predefinedTags.map((tag) => (
+          <Tag
+            key={tag.id}
+            tag={tag}
+            selectedTags={selectedTags}
+            onSelect={handleTagSelect}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

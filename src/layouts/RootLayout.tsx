@@ -7,18 +7,8 @@ import { useContext, useEffect } from "react";
 import Footer from "../components/Footer";
 
 const RootLayout = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
 
-  const getInitialAuth = async () => {
-    try {
-      const response = await http.get("user");
-      setAuth({ ...response.data });
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  useEffect(() => void getInitialAuth(), []);
   return (
     <>
       <Navbar />

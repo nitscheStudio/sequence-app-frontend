@@ -4,10 +4,11 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import FileDragAndDrop from "../components/FileDragAndDrop";
 import TagManager from "../components/TagManager";
-import predefinedTags from "../predefinedArrays/TagData";
+// import predefinedTags from "../predefinedArrays/TagData";
 import stepBackIcon from "../assets/stepBackBtn.svg";
 import uploadSucces from "../assets/uploadSuccess.svg";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { ImUpload } from "react-icons/im";
 
 type FormValues = {
   title: string;
@@ -64,7 +65,12 @@ const SampleUpload = () => {
   if (uploadSuccess) {
     stepHeader = <h1 className="success-message">Congrats!</h1>;
   } else if (step === 1) {
-    stepHeader = <h1>Upload a Sample</h1>;
+    stepHeader = (
+      <h1 className="sample-form-headline">
+        <ImUpload />
+        Upload a Sample
+      </h1>
+    );
   } else if (step === 2) {
     stepHeader = <h1>Choose Fitting Tags</h1>;
   } else if (step === 3) {
@@ -183,7 +189,7 @@ const SampleUpload = () => {
 
       {step === 1 && (
         <form
-          className="upload-form"
+          className="sample-form"
           onSubmit={handleSubmit(onNextStep, onError)}
         >
           <FileDragAndDrop file={file} setFile={setFile} />
@@ -192,7 +198,7 @@ const SampleUpload = () => {
           )}
 
           {/*############# - Sample-Title - ##############*/}
-          <div className="input-container_upload-form">
+          <div className="input-container-sample-form">
             <label htmlFor="title">Sample-Title:</label>
             <input
               type="text"
@@ -207,7 +213,7 @@ const SampleUpload = () => {
 
           {/*############# - BPM, Key, Scale - ##############*/}
           <div className="upload-form-row">
-            <div className="input-container_upload-form">
+            <div className="input-container-sample-form">
               <label htmlFor="bpm">BPM:</label>
               <input
                 placeholder="40 - 240"
@@ -224,7 +230,7 @@ const SampleUpload = () => {
               <p className="error-message">{errors.bpm?.message}</p>
             </div>
 
-            <div className="input-container_upload-form">
+            <div className="input-container-sample-form">
               <label htmlFor="keySignature">Key:</label>
               <select
                 id="keySignature"
@@ -254,7 +260,7 @@ const SampleUpload = () => {
               <p className="error-message">{errors.key?.message}</p>
             </div>
 
-            <div className="input-container_upload-form">
+            <div className="input-container-sample-form">
               <label htmlFor="scale">Scale:</label>
               <select
                 id="scale"
@@ -273,7 +279,7 @@ const SampleUpload = () => {
           {/*############# - Genre, Instrument - ##############*/}
 
           <div className="upload-form-row-2">
-            <div className="input-container_upload-form">
+            <div className="input-container-sample-form">
               <label htmlFor="genre_id">Genre:</label>
               <select
                 id="genre_id"
@@ -292,7 +298,7 @@ const SampleUpload = () => {
               <p className="error-message">{errors.genre_id?.message}</p>
             </div>
 
-            <div className="input-container_upload-form">
+            <div className="input-container-sample-form">
               <label htmlFor="instrument_id">Instrument:</label>
               <select
                 id="instrument_id"
@@ -313,7 +319,7 @@ const SampleUpload = () => {
           </div>
 
           <button className="next-step-btn" disabled={isSubmitting}>
-            Next Step
+            Next Step <FaArrowRightLong />
           </button>
         </form>
       )}
@@ -326,13 +332,12 @@ const SampleUpload = () => {
             your sample.
           </p>
           <TagManager
-            predefinedTags={predefinedTags}
             // onTagsChange={handleTagsChange}
             selectedTags={selectedTags}
             onTagsChange={setSelectedTags}
           />
-          <button className="submit-btn" onClick={onNextStep}>
-            Next Step
+          <button className="next-step-btn" onClick={onNextStep}>
+            Next Step <FaArrowRightLong />
           </button>
         </>
       )}

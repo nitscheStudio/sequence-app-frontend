@@ -14,10 +14,6 @@ import uploadIcon from "../assets/uploads-icon.svg";
 import LikedSamplesList from "../components/LikedSamplesList";
 import UploadedSamplesList from "../components/UploadedSamplesList";
 
-//Context Imports
-import { StickyContext } from "../context/StickyContext";
-import { useSticky } from "../context/StickyContext"; // Import the custom hook from your context
-
 const Dashboard = () => {
   const { auth } = useContext(AuthContext);
   const { username } = auth;
