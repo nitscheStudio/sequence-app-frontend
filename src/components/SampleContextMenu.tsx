@@ -3,6 +3,7 @@ import { useClickOutside } from "../customHooks/useClickOutside";
 import { MdMoreVert } from "react-icons/md";
 import { MdModeEdit, MdDelete } from "react-icons/md";
 import Modal from "./Modal";
+import { createPortal } from "react-dom";
 
 import { Link } from "react-router-dom";
 import http from "../utils/http";
@@ -32,10 +33,9 @@ const SampleContextMenu = ({
   useClickOutside(menuRef, () => {
     if (isVisible) closeMenu();
   });
+
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log("delete clicked");
-
     setIsModalVisible(true); // Open the modal
   };
 
@@ -46,7 +46,7 @@ const SampleContextMenu = ({
       console.log(sampleId);
       await http.get("/sanctum/csrf-cookie");
       const response = await http.delete(`/sample/delete/${sampleId}`);
-      console.log("response:", response);
+      // console.log("response:", response);
 
       // If the deletion was successful, set the success message, else set error message
 

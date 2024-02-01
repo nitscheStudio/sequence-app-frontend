@@ -110,8 +110,6 @@ const SampleUpload = () => {
       formData.append("tags[]", tag.name);
     });
 
-    
-
     try {
       await http.get("/sanctum/csrf-cookie");
       await http.post("/uploadSample", formData, {
@@ -167,6 +165,8 @@ const SampleUpload = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     // Fetch genres and instruments from backend
     const fetchGenresAndInstruments = async () => {
       const genresResponse = await http.get("/genres");
@@ -238,9 +238,10 @@ const SampleUpload = () => {
                 id="keySignature"
                 {...register("key", {
                   required: { value: true, message: "This field is required" },
+                  validate: (value) => value !== "" || "Please select a key",
                 })}
               >
-                <option value="-">-</option>
+                <option value="">-</option>
                 <option value="C">C</option>
                 <option value="C#">C#</option>
                 <option value="D">D</option>
@@ -268,9 +269,10 @@ const SampleUpload = () => {
                 id="scale"
                 {...register("scale", {
                   required: { value: true, message: "This field is required" },
+                  validate: (value) => value !== "" || "Please select a scale",
                 })}
               >
-                <option value="-">-</option>
+                <option value="">-</option>
                 <option value="major">Major</option>
                 <option value="minor">Minor</option>
               </select>

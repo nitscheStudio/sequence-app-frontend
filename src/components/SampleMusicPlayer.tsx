@@ -61,19 +61,22 @@ const SampleMusicPlayer = ({
   }
 
   const handleSampleLike = async () => {
+    // Optimistically update the UI
+    setLikes((prevLikes) => (prevLikes || 0) + 1);
+    setIsLiked(true);
     try {
       await http.get("/sanctum/csrf-cookie");
       const response = await http.post(`/sample/${id}/like`);
 
-      if (response.data.status === "liked") {
-        setLikes((prevLikes) => (prevLikes || 0) + 1);
-        setIsLiked(true);
-      } else if (response.data.status === "unliked") {
+      if (response.data.status === "unliked") {
         setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
         setIsLiked(false);
       }
     } catch (error) {
-      console.error("An error occured during liking:", error);
+      console.error("An error occurred during liking:", error);
+      // Revert the UI changes in case of error
+      setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
+      setIsLiked(false);
     }
   };
 

@@ -1,6 +1,12 @@
 import { AuthContext } from "../context/AuthProvider";
 import { useContext, useRef } from "react";
-import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useEffect } from "react";
 
 //Image & Icon Imports
@@ -18,18 +24,20 @@ const Dashboard = () => {
   const { auth } = useContext(AuthContext);
   const { username } = auth;
   const navigate = useNavigate();
-  // const { isSticky, setSticky } = useSticky();
+  const location = useLocation();
+
+  const message = location.state?.message;
+  const messageType = location.state?.messageType;
+  // console.log("location state:", location.state);
   const ref = useRef(null);
 
   useEffect(() => {
     navigate("uploaded");
+    window.scrollTo(0, 0);
   }, [navigate]);
 
   return (
     <>
-      {/* <div>
-        <code>{JSON.stringify(auth)}</code>
-      </div> */}
       <section className="profile-card">
         <div className="profile-picture-container">
           <img src={profilePicture} alt="profile picture" />
@@ -55,6 +63,15 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
+      {message && (
+        <p
+          className={
+            messageType === "success" ? "success-message" : "cancel-message"
+          }
+        >
+          {message}
+        </p>
+      )}
       <section className="profile-card-2">
         <nav className="dashboard-sub-navigation">
           <ul className="nav-items-container">

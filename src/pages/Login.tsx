@@ -39,7 +39,7 @@ const Login = () => {
   // dann wollen wir dahin nach Login zurück
   // Wenn er direkt auf Login klickte, schicken wir
   // den Nutzer an die Homepage
-  const { from = "/dashboard" } = state || {};
+  const { from = "/dashboard/uploaded" } = state || {};
 
   useEffect(() => {
     setValue("login", prefilledUsername); // Prefill the username

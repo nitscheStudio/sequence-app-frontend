@@ -4,13 +4,19 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext, defaultAuth } from "../context/AuthProvider";
 import http from "../utils/http";
 import { FiLogOut } from "react-icons/fi";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Navbar = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setAuth, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHidden, setNavbarHidden] = useState(false);
   const [hideScrollTop, setHideScrollTop] = useState(0);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileOpen(!isMobileOpen);
+  };
 
   const handleLogout = async () => {
     try {
@@ -45,12 +51,19 @@ const Navbar = () => {
 
   return (
     <nav className={`main-navigation ${navbarHidden ? "hide" : ""}`}>
-      <NavLink to={auth.id ? "/dashboard" : "/"} className={() => "logo-class"}>
+      {/* <div className="mobile-menu" onClick={toggleMobileMenu}>
+        <RxHamburgerMenu />
+      </div> */}
+      <NavLink
+        to={isAuthenticated() ? "/dashboard" : "/"}
+        className={() => "logo-class"}
+      >
         <img src={sequenceLogo} alt="Sequence Logo" />
       </NavLink>
-      {auth.id ? (
+
+      {isAuthenticated() ? (
         <>
-          <ul className="nav-items-container">
+          <ul className={`nav-items-container ${isMobileOpen ? "show" : ""}`}>
             <li className="nav-item">
               <NavLink
                 to="/dashboard"
@@ -77,7 +90,14 @@ const Navbar = () => {
             </li>
           </ul>
 
-          <button onClick={handleLogout} className="logout-button">
+          <div className="mobile-navigation" onClick={toggleMobileMenu}>
+            <RxHamburgerMenu className="burger-menu-icon" />
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className={`logout-button ${isMobileOpen ? "show" : ""}`}
+          >
             Logout <FiLogOut />
           </button>
         </>

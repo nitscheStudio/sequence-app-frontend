@@ -108,7 +108,6 @@ const EditSample = () => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    console.log("data:", data);
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("bpm", String(data.bpm));
@@ -120,17 +119,18 @@ const EditSample = () => {
     // Store the form data
     setFormData(formData);
     selectedTags.forEach((tag) => {
-      formData.append("tags[]", tag.name);
+      formData.append("tags[]", tag.id.toString());
     });
+
+    // Workaround for Patch Request Laravel Formdata
+    formData.append("_method", "PATCH");
 
     try {
       await http.get("/sanctum/csrf-cookie");
-      const response = await http.patch(`/sample/edit/${sampleId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await http.post(`/sample/edit/${sampleId}`, formData);
+      navigate("/dashboard/uploaded", {
+        state: { message: "Sample edit successful.", messageType: "success" },
       });
-      console.log("response:", response);
     } catch (exception: any) {
       const errors = exception.response.data.errors;
 
@@ -154,7 +154,9 @@ const EditSample = () => {
   const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
     reset();
     setSelectedTags([]);
-    navigate("/dashboard");
+    navigate("/dashboard/uploaded", {
+      state: { message: "Sample edit cancelled.", messageType: "error" },
+    });
   };
 
   const handleTagsChange = (tags: Tag[]) => {
@@ -182,7 +184,9 @@ const EditSample = () => {
     fetchGenresAndInstruments();
   }, []);
 
-  // console.log("selected Tags:", selectedTags);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
