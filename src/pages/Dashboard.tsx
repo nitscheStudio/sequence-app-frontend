@@ -1,5 +1,5 @@
 import { AuthContext } from "../context/AuthProvider";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import {
   NavLink,
   Route,
@@ -15,8 +15,10 @@ import verifiedIcon from "../assets/verified-user-icon.svg";
 import rankingIcon from "../assets/ranking-icon.svg";
 import likesIcon from "../assets/likes-icon.svg";
 import uploadIcon from "../assets/uploads-icon.svg";
+import { LuLibrary } from "react-icons/lu";
+import { TiHeartFullOutline } from "react-icons/ti";
 
-//Compoonent Imports
+//Component Imports
 import LikedSamplesList from "../components/LikedSamplesList";
 import UploadedSamplesList from "../components/UploadedSamplesList";
 
@@ -29,7 +31,6 @@ const Dashboard = () => {
   const message = location.state?.message;
   const messageType = location.state?.messageType;
   // console.log("location state:", location.state);
-  const ref = useRef(null);
 
   useEffect(() => {
     navigate("uploaded");
@@ -74,19 +75,23 @@ const Dashboard = () => {
       )}
       <section className="profile-card-2">
         <nav className="dashboard-sub-navigation">
-          <ul className="nav-items-container">
+          <ul className="sub-nav-items-container">
             <li className="nav-item">
               <NavLink
+                title="Uploaded Samples"
                 to="uploaded"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                My Samples
+                <LuLibrary className="my-sample-library-icon" />
               </NavLink>
+            </li>
+            <li className="nav-item">
               <NavLink
+                title="Liked SampleS"
                 to="liked"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Liked Samples
+                <TiHeartFullOutline className="my-liked-samples-icon" />
               </NavLink>
             </li>
           </ul>

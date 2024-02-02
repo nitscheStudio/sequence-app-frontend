@@ -7,7 +7,11 @@ import TagManager from "../components/TagManager";
 // import predefinedTags from "../predefinedArrays/TagData";
 import stepBackIcon from "../assets/stepBackBtn.svg";
 import uploadSucces from "../assets/uploadSuccess.svg";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import {
+  FaArrowLeftLong,
+  FaArrowRightLong,
+  FaArrowUpLong,
+} from "react-icons/fa6";
 import { ImUpload } from "react-icons/im";
 
 type FormValues = {
@@ -208,6 +212,10 @@ const SampleUpload = () => {
               placeholder="Choose a title that fits your sound best..."
               {...register("title", {
                 required: { value: true, message: "This field is required" },
+                minLength: {
+                  value: 8,
+                  message: "The title must be at least 8 characters long",
+                },
               })}
             />
             <p className="error-message">{errors.title?.message}</p>
@@ -219,8 +227,6 @@ const SampleUpload = () => {
               <label htmlFor="bpm">BPM:</label>
               <input
                 placeholder="40 - 240"
-                min="40"
-                max="240"
                 type="number"
                 id="number"
                 {...register("bpm", {
@@ -350,15 +356,15 @@ const SampleUpload = () => {
           {!uploadSuccess ? (
             <>
               <p>
-                All necessary information has been collected. Please review and
-                submit your sample.
+                All necessary information has been collected. <br /> You can
+                check sample details in the previous steps or upload it now.
               </p>
               <button
                 disabled={isSubmitting}
-                className="submit-btn"
+                className="submit-btn icon-button"
                 onClick={handleSubmit(onSubmit)}
               >
-                Upload Your Sample Now
+                Upload Your Sample Now <ImUpload />
               </button>
             </>
           ) : (

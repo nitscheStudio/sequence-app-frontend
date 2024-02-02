@@ -3,6 +3,7 @@ import SampleMusicPlayer from "./SampleMusicPlayer";
 import type { Sample } from "../types/sample";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import http from "../utils/http";
+// import { useTotalSamples } from "../context/TotalSamplesContext";
 
 // const client = new MeiliSearch({
 //   host: "http://localhost:7700/",

@@ -154,7 +154,14 @@ form {
   background-color: var(--link-hover);
 }
 
+.icon-button {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
 .submit-btn {
+  margin: 0 auto;
   margin-top: 30px;
   width: 100%;
   max-width: 300px;
@@ -201,6 +208,7 @@ form {
   outline: none;
   border: solid 1px rgb(172, 172, 172);
   border-left: none;
+  background-color: rgb(133, 197, 175);
 }
 
 /********* - Messages - **********/
@@ -281,6 +289,9 @@ nav img {
   font-weight: 500;
   transition: 0.15s ease-in-out;
   padding: 0.5rem 1.4rem 0.5rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-item :hover {
@@ -1026,7 +1037,7 @@ footer {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   margin-top: 2rem;
 }
 
@@ -1133,6 +1144,28 @@ footer {
   padding: 1rem 2rem;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.sub-nav-items-container {
+  display: flex;
+  align-items: center;
+
+  padding: 0.3rem 0.4rem 0.3rem 0.4rem;
+  background-color: #e9e9e9;
+
+  border-radius: 30px;
+  font-size: 14px;
+  box-shadow: inset 0px 1px 4px -1px rgba(0, 0, 0, 0.17);
+  margin-top: 0;
+  height: 35px;
+}
+
+.my-liked-samples-icon {
+  font-size: 1.3rem;
+}
+
+.my-sample-library-icon {
+  font-size: 1.2rem;
 }
 
 .profile-picture-container {
@@ -1281,6 +1314,17 @@ dialog {
 }
 
 /* other styles */
+
+/********* - 404 Page - **********/
+
+.error-404-paragraph {
+  margin: 0 auto;
+  max-width: 500px;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 
 /********* - Media Queries - **********/
 

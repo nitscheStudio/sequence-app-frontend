@@ -8,6 +8,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+//Context
+// import { TotalSamplesProvider } from "./context/TotalSamplesContext";
+
 //Pages
 import Register from "./pages/Register";
 import Login from "./pages/Login";
