@@ -22,6 +22,9 @@ import { TiHeartFullOutline } from "react-icons/ti";
 import LikedSamplesList from "../components/LikedSamplesList";
 import UploadedSamplesList from "../components/UploadedSamplesList";
 
+// Packages Imports
+import { Tooltip } from "react-tooltip";
+
 const Dashboard = () => {
   const { auth } = useContext(AuthContext);
   const { username } = auth;
@@ -80,19 +83,25 @@ const Dashboard = () => {
               <NavLink
                 title="Uploaded Samples"
                 to="uploaded"
+                data-tooltip-id="sample-library-tooltip"
+                data-tooltip-content="Uploaded Samples"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <LuLibrary className="my-sample-library-icon" />
               </NavLink>
+              <Tooltip id="sample-library-tooltip" />
             </li>
             <li className="nav-item">
               <NavLink
                 title="Liked SampleS"
                 to="liked"
+                data-tooltip-id="liked-samples-tooltip"
+                data-tooltip-content="Liked Samples"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <TiHeartFullOutline className="my-liked-samples-icon" />
               </NavLink>
+              <Tooltip id="liked-samples-tooltip" />
             </li>
           </ul>
         </nav>

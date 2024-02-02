@@ -305,11 +305,7 @@ nav img {
   padding-top: 0.4rem;
   padding-bottom: 0.4rem;
   pointer-events: none;
-}
-
-.nav-item a.active:hover {
-  pointer-events: none;
-  color: #1c1c1c;
+  cursor: default;
 }
 
 .logout-button {
