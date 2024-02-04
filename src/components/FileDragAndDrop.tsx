@@ -5,17 +5,40 @@ import fileUploadIcon from "../assets/file-upload-icon.svg";
 type FileDragAndDropProps = {
   file: File | null;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  dataTypes: DataType;
+};
+type DataType = "audio" | "image";
+
+const fileTypeMap = {
+  audio: {
+    "audio/mpeg": [".mp3"],
+    "audio/wav": [".wav"],
+  },
+  image: {
+    "image/jpeg": [".jpeg", ".jpg"],
+    "image/png": [".png"],
+  },
+  // Add more categories as needed
 };
 
-const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({ file, setFile }) => {
+const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({
+  file,
+  setFile,
+  dataTypes,
+}) => {
   const [fileError, setFileError] = useState<string | null>(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: { "audio/mpeg": [".mp3"], "audio/wav": [".wav"] },
+    accept: fileTypeMap[dataTypes],
     onDrop: (acceptedFiles) => {
       setFile(acceptedFiles[0]);
     },
   });
+
+  const fileTypes = Object.values(fileTypeMap[dataTypes])
+    .flat()
+    .map((type) => type.replace(".", "")) // remove the dot from the extension
+    .join("/"); // join the extensions with a slash
 
   return (
     <div className="file-drop-zone">
@@ -26,7 +49,7 @@ const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({ file, setFile }) => {
           <p>Drop the files here ...</p>
         ) : (
           <p>
-            Drag n' Drop your file here (.mp3 or .wav) or <span>click</span> to
+            Drag n' Drop your file ({fileTypes}) here or <span>click</span> to
             choose a file from your Computer
           </p>
         )}

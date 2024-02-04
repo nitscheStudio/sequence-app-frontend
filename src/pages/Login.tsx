@@ -32,7 +32,8 @@ const Login = () => {
   const location = useLocation();
   const logoutSuccessful = location.state?.logoutSuccessful;
 
-  const { accountCreated, username } = location.state || {};
+  const { accountCreated, username, profilePictureAdded } =
+    location.state || {};
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
   // Wenn Nutzer von einer Private Route kam
@@ -101,6 +102,7 @@ const Login = () => {
               Welcome to Sequence, {username}.
             </div>
           )}
+
           {/* Display success message if logout was successful */}
           {logoutSuccessful && (
             <div className="success-message">

@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import Browse from "./pages/Browse";
 import EditSample from "./pages/EditSample";
+import UploadProfilePicture from "./pages/UploadProfilePIcture";
 
 //Layouts
 import RootLayout from "./layouts/RootLayout";
@@ -43,7 +44,8 @@ const router = createBrowserRouter(
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />
-      <Route path="register" element={<Register />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/edit/profile-picture" element={<UploadProfilePicture />} />
     </>
   )
 );

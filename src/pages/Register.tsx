@@ -20,6 +20,7 @@ const Register = () => {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const navigate = useNavigate();
   const form = useForm<FormValues>();
+
   const {
     register,
     control,
@@ -37,7 +38,9 @@ const Register = () => {
 
       // console.log(response.data);
       // console.log(username);
-      navigate("/login", { state: { accountCreated: true, username } });
+      navigate("/login", {
+        state: { accountCreated: true, username },
+      });
     } catch (exception: any) {
       const errors = exception.response.data.errors;
 

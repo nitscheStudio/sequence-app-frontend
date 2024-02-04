@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useClickOutside } from "../customHooks/useClickOutside";
 import { MdMoreVert } from "react-icons/md";
 import { MdModeEdit, MdDelete } from "react-icons/md";
 import Modal from "./Modal";
-import { createPortal } from "react-dom";
 
 import { Link } from "react-router-dom";
 import http from "../utils/http";

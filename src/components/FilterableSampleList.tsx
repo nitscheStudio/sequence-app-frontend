@@ -34,6 +34,7 @@ const FilterableSampleList = ({
     null
   );
 
+
   //Sample deletion passed down to Modal Component
   const handleSampleDeletion = (deletedSampleId: number) => {
     setSamples((currentSamples) =>

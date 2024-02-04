@@ -153,6 +153,7 @@ const SampleUpload = () => {
     setFileSelectionError(null);
     window.scrollTo(0, 0);
   };
+  
   //Callback function from TagManager.tsx
   const handleTagsChange = (tags: Tag[]) => {
     setSelectedTags(tags);
@@ -198,7 +199,7 @@ const SampleUpload = () => {
           className="sample-form"
           onSubmit={handleSubmit(onNextStep, onError)}
         >
-          <FileDragAndDrop file={file} setFile={setFile} />
+          <FileDragAndDrop file={file} setFile={setFile} dataTypes={"audio"} />
           {fileSelectionError && (
             <div className="error-message">{fileSelectionError}</div>
           )}

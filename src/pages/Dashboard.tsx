@@ -6,17 +6,20 @@ import {
   Routes,
   useLocation,
   useNavigate,
+  Link,
 } from "react-router-dom";
 import { useEffect } from "react";
 
 //Image & Icon Imports
-import profilePicture from "../assets/profile-pic-template.png";
+import profilePictureDefault from "../assets/profile-picture-default.svg";
 import verifiedIcon from "../assets/verified-user-icon.svg";
 import rankingIcon from "../assets/ranking-icon.svg";
 import likesIcon from "../assets/likes-icon.svg";
 import uploadIcon from "../assets/uploads-icon.svg";
 import { LuLibrary } from "react-icons/lu";
 import { TiHeartFullOutline } from "react-icons/ti";
+
+import { MdModeEdit } from "react-icons/md";
 
 //Component Imports
 import LikedSamplesList from "../components/LikedSamplesList";
@@ -27,7 +30,7 @@ import { Tooltip } from "react-tooltip";
 
 const Dashboard = () => {
   const { auth } = useContext(AuthContext);
-  const { username } = auth;
+  const { username, profile_picture_path } = auth;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,12 +43,27 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   }, [navigate]);
 
+  const profilePictureUrl = `http://localhost/storage/${profile_picture_path}`;
+
   return (
     <>
       <section className="profile-card">
         <div className="profile-picture-container">
-          <img src={profilePicture} alt="profile picture" />
+          {/* <img src={profilePicture} alt="profile picture" /> */}
+          <img
+            src={
+              profile_picture_path ? profilePictureUrl : profilePictureDefault
+            }
+            alt="profile picture"
+          />
+          <Link to={"/edit/profile-picture"} className="edit-profile-picture">
+            <div>
+              <MdModeEdit className="edit-profile-picture-icon" />
+              <span>Edit Profile Picture</span>
+            </div>
+          </Link>
         </div>
+
         <div className="profile-info">
           <h1 className="username">
             {username} <img src={verifiedIcon} alt="verified icon" />
