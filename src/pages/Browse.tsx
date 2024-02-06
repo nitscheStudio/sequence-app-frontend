@@ -5,7 +5,9 @@ const Browse = () => {
   return (
     <>
       <FilterForm />
-      <FilterableSampleList showEditButton={false} endpoint="samples" />
+      <section className="sample-list-container">
+        <FilterableSampleList showEditButton={false} endpoint="samples" />
+      </section>
     </>
   );
 };

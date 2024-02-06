@@ -165,7 +165,10 @@ const Register = () => {
             </p>
             <p className="error-message">{errors.root?.message}</p>
 
-            <button className="submit-btn" disabled={isSubmitting}>
+            <button
+              className="submit-btn margin-auto-center"
+              disabled={isSubmitting}
+            >
               Register
             </button>
             <p>

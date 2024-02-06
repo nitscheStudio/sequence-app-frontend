@@ -37,15 +37,15 @@ const router = createBrowserRouter(
         <Route path="*" element={<NotFound />} />
 
         <Route element={<ProtectedLayout />}>
-          <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/upload" element={<UploadSample />} />
-          <Route path="/edit/sample/:sampleId" element={<EditSample />} />
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/edit/profile-picture" element={<UploadProfilePicture />} />
+      <Route path="/edit/sample/:sampleId" element={<EditSample />} />
     </>
   )
 );

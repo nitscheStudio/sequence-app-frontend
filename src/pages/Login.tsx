@@ -40,7 +40,7 @@ const Login = () => {
   // dann wollen wir dahin nach Login zurück
   // Wenn er direkt auf Login klickte, schicken wir
   // den Nutzer an die Homepage
-  const { from = "/dashboard/uploaded" } = state || {};
+  const { from = "/dashboard" } = state || {};
 
   useEffect(() => {
     setValue("login", prefilledUsername); // Prefill the username
@@ -149,7 +149,10 @@ const Login = () => {
               <p className="error-message">{errors.password?.message}</p>
               <p className="error-message">{errors.root?.message}</p>
 
-              <button className="submit-btn" disabled={isSubmitting}>
+              <button
+                className="submit-btn margin-auto-center"
+                disabled={isSubmitting}
+              >
                 Login
               </button>
               <p>

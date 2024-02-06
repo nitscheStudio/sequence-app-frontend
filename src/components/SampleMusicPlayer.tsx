@@ -1,10 +1,11 @@
-import React from "react";
 import type { Sample, TagType } from "../types/sample";
 import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
 import { IoHeartCircleOutline } from "react-icons/io5";
 import http from "../utils/http";
 import { useState } from "react";
 import SampleContextMenu from "./SampleContextMenu";
+import { Tooltip } from "react-tooltip";
+import profilePictureDefault from "../assets/profile-picture-default.svg";
 
 type SampleMusicPlayerProps = {
   showEditButton: boolean;
@@ -19,9 +20,15 @@ type SampleMusicPlayerProps = {
   handleSampleDeletion: (deletedSampleId: number) => void;
 };
 
-function shortenScale(scale: string) {
-  let shortScale = scale.slice(0, 3);
-  return shortScale;
+function getScaleDisplay(key: string, scale: string) {
+  if (scale.toLowerCase() === "major") {
+    return key;
+  } else if (scale.toLowerCase() === "minor") {
+    return `${key}m`;
+  }
+  // Return just the key if scale is neither 'major' nor 'minor'
+  // Or return an empty string, depending on how you want to handle unexpected values
+  return key;
 }
 
 const SampleMusicPlayer = ({
@@ -46,11 +53,14 @@ const SampleMusicPlayer = ({
     tags,
     id,
     isLikedByCurrentUser,
+    profile_picture_path,
   } = sample;
   const audioUrl = `http://localhost/storage/${file_path}`;
   const isPlaying = currentFilePath === audioUrl && playerState === "playing";
   const [likes, setLikes] = useState(likes_count);
   const [isLiked, setIsLiked] = useState(isLikedByCurrentUser);
+
+  const profilePictureUrl = `http://localhost/storage/${profile_picture_path}`;
 
   function handlePlay() {
     onPlay(audioUrl);
@@ -140,7 +150,14 @@ const SampleMusicPlayer = ({
     <>
       <div className="music-player-container">
         <div className="music-player">
-          <div className="user-profile-picture"></div>
+          <div className="user-profile-picture">
+            <img
+              src={
+                profile_picture_path ? profilePictureUrl : profilePictureDefault
+              }
+              alt="profile picture"
+            />
+          </div>
           <div className="sample-title-progress">
             <span className="sample-title">{title}</span>
             <div className="tags">
@@ -152,10 +169,7 @@ const SampleMusicPlayer = ({
             </div>
           </div>
           <div className="attribute-container">
-            <div className="attribute">
-              {key}
-              {shortenScale(scale)}
-            </div>
+            <div className="attribute">{getScaleDisplay(key, scale)}</div>
             <div className="attribute-title">key</div>
           </div>
           <div className="attribute-container border-right">
@@ -178,13 +192,21 @@ const SampleMusicPlayer = ({
             </button>
           )}
           <button
+            data-tooltip-id="download-tooltip"
+            data-tooltip-content="Download"
+            data-tooltip-delay-show={800}
             onClick={handleDownload}
             className="sample-player-button download-button icon"
           >
             <IoMdDownload />
           </button>
+          <Tooltip id="download-tooltip" />
+
           <div>
             <button
+              data-tooltip-id="like-tooltip"
+              data-tooltip-content="Save to Likes"
+              data-tooltip-delay-show={800}
               className={`sample-player-button like-button icon ${
                 isLiked ? "liked" : ""
               }`}
@@ -193,6 +215,7 @@ const SampleMusicPlayer = ({
               <IoHeartCircleOutline />
             </button>
             <div className="attribute-title">{likes}</div>
+            <Tooltip id="like-tooltip" />
           </div>
           {showEditButton && (
             <SampleContextMenu

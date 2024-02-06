@@ -4,7 +4,7 @@ import fileUploadIcon from "../assets/file-upload-icon.svg";
 
 type FileDragAndDropProps = {
   file: File | null;
-  setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  setFile: (file: File | null) => void;
   dataTypes: DataType;
 };
 type DataType = "audio" | "image";
@@ -17,6 +17,7 @@ const fileTypeMap = {
   image: {
     "image/jpeg": [".jpeg", ".jpg"],
     "image/png": [".png"],
+    // "image/webp": [".webp"],
   },
   // Add more categories as needed
 };
@@ -31,7 +32,9 @@ const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: fileTypeMap[dataTypes],
     onDrop: (acceptedFiles) => {
-      setFile(acceptedFiles[0]);
+      if (acceptedFiles.length > 0) {
+        setFile(acceptedFiles[0]); //call handleChange method from parent component
+      }
     },
   });
 

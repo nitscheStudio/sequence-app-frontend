@@ -3,14 +3,6 @@ import SampleMusicPlayer from "./SampleMusicPlayer";
 import type { Sample } from "../types/sample";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import http from "../utils/http";
-// import { useTotalSamples } from "../context/TotalSamplesContext";
-
-// const client = new MeiliSearch({
-//   host: "http://localhost:7700/",
-//   apiKey: "",
-// });
-
-// const index = client.index("samples_index");
 
 type FilterableSampleListProps = {
   endpoint: string;
@@ -33,7 +25,6 @@ const FilterableSampleList = ({
   const [visibleContextMenu, setVisibleContextMenu] = useState<number | null>(
     null
   );
-
 
   //Sample deletion passed down to Modal Component
   const handleSampleDeletion = (deletedSampleId: number) => {
@@ -58,7 +49,6 @@ const FilterableSampleList = ({
   const fetchSamples = async () => {
     try {
       const response = await http.get(`/${endpoint}?page=${page}`);
-
       setSamples(response.data.samples);
       setTotalSamples(response.data.total);
       setTotalPages(response.data.pages);
@@ -84,11 +74,7 @@ const FilterableSampleList = ({
 
   return (
     <>
-      {/* <h1>Browse all Samples</h1> */}
-      {/* <Searchbar searchQuery={searchQuery} onSearch={handleSearchInput} /> */}
       <div ref={componentRef} className="filterable-sample-list">
-        {/* <FilterForm /> */}
-
         <div className="samples-list">
           <h3>{totalSamples} Samples total</h3>
           <audio

@@ -4,14 +4,8 @@ import sequenceLogo from "../assets/sequence-logo_new.svg";
 import { useForm } from "react-hook-form";
 import http from "../utils/http";
 import { CgProfile } from "react-icons/cg";
-import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
-import {
-  NavLink,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 type FormValues = {
   profile_picture: FileList | null;
@@ -20,18 +14,23 @@ type FormValues = {
 const UploadProfilePicture = () => {
   const [file, setFile] = useState<File | null>(null);
   const form = useForm<FormValues>();
-  const { state } = useLocation();
-
-  const prefilledUsername = state?.username || "";
+  const [fileSelectionError, setFileSelectionError] = useState<string | null>(
+    null
+  );
 
   const {
     handleSubmit: handleFormSubmit,
     setError,
-
+    clearErrors,
     formState: { errors, isSubmitting },
   } = form;
 
   const onSubmit = async () => {
+    if (!file) {
+      setFileSelectionError("Please select a file");
+      return;
+    }
+
     try {
       await http.get("/sanctum/csrf-cookie");
       const formData = new FormData();
@@ -43,13 +42,16 @@ const UploadProfilePicture = () => {
         },
       });
       navigate("/dashboard", {
-        state: { profilePictureEdit: true, message: "Profile picture updated" },
+        state: {
+          profilePictureEdit: true,
+          message: "Profile picture updated",
+          messageType: "success",
+        },
       });
     } catch (exception: any) {
       const errors = exception.response.data.errors;
-
       for (let [fieldName, errorList] of Object.entries(errors)) {
-        type Field = "profilePicture";
+        type Field = "profilePicture" | "root";
         const errors = (errorList as any[]).map((message) => ({ message }));
         console.log(fieldName, errors);
         setError(fieldName as "profile_picture", errors[0]);
@@ -65,6 +67,12 @@ const UploadProfilePicture = () => {
     });
   };
 
+  const handleFileChange = (selectedFile: File | null) => {
+    setFile(selectedFile); // Update the file state with the new file
+    setFileSelectionError(null); // Clear any file selection error message
+    form.clearErrors("profile_picture");
+  };
+
   const onError = (error: any) => {
     console.log("Form Error", error);
   };
@@ -77,25 +85,26 @@ const UploadProfilePicture = () => {
         alt="Sequence Logo"
       />
       <h1 className="h1-icon">
-        {/* Welcome: <span className="">{prefilledUsername}</span> <br /> */}
         <CgProfile /> Upload your Profile Picture
       </h1>
       <p>
         We use your profile picture for sample uploads. <br /> The profile
         picture is visible to all users.
       </p>
-      <form onSubmit={handleFormSubmit(onSubmit)}>
+      <form onSubmit={handleFormSubmit(onSubmit, onError)}>
         <div className="file-upload-wrapper">
-          <FileDragAndDrop file={file} setFile={setFile} dataTypes={"image"} />
+          <FileDragAndDrop
+            file={file}
+            setFile={handleFileChange}
+            dataTypes={"image"}
+          />
         </div>
+        {fileSelectionError && (
+          <div className="error-message">{fileSelectionError}</div>
+        )}
         <p className="error-message">{errors.profile_picture?.message}</p>
 
-        <button
-          onClick={handleFormSubmit(onSubmit)}
-          disabled={isSubmitting}
-          className="submit-btn"
-          type="submit"
-        >
+        <button disabled={isSubmitting} className="submit-btn" type="submit">
           Submit
         </button>
         <div className="margin-top-20">

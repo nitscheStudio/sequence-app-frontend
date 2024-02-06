@@ -16,6 +16,7 @@ export type Sample = {
   }>;
   likes_count?: number;
   isLikedByCurrentUser?: boolean;
+  profile_picture_path?: string;
 };
 
 // export type Tag = {

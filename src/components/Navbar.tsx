@@ -5,6 +5,7 @@ import { AuthContext, defaultAuth } from "../context/AuthProvider";
 import http from "../utils/http";
 import { FiLogOut } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { HiMenuAlt3 } from "react-icons/hi";
 
 const Navbar = () => {
   const { setAuth, isAuthenticated } = useContext(AuthContext);
@@ -51,9 +52,6 @@ const Navbar = () => {
 
   return (
     <nav className={`main-navigation ${navbarHidden ? "hide" : ""}`}>
-      {/* <div className="mobile-menu" onClick={toggleMobileMenu}>
-        <RxHamburgerMenu />
-      </div> */}
       <NavLink
         to={isAuthenticated() ? "/dashboard" : "/"}
         className={() => "logo-class"}
@@ -66,6 +64,7 @@ const Navbar = () => {
           <ul className={`nav-items-container ${isMobileOpen ? "show" : ""}`}>
             <li className="nav-item">
               <NavLink
+                onClick={() => window.scrollTo(0, 0)}
                 to="/dashboard"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
@@ -74,6 +73,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
+                onClick={() => window.scrollTo(0, 0)}
                 to="/browse"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
@@ -82,6 +82,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
+                onClick={() => window.scrollTo(0, 0)}
                 to="/upload"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
@@ -91,7 +92,7 @@ const Navbar = () => {
           </ul>
 
           <div className="mobile-navigation" onClick={toggleMobileMenu}>
-            <RxHamburgerMenu className="burger-menu-icon" />
+            <HiMenuAlt3 className="burger-menu-icon" />
           </div>
 
           <button

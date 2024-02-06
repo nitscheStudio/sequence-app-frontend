@@ -18,8 +18,9 @@ import likesIcon from "../assets/likes-icon.svg";
 import uploadIcon from "../assets/uploads-icon.svg";
 import { LuLibrary } from "react-icons/lu";
 import { TiHeartFullOutline } from "react-icons/ti";
-
 import { MdModeEdit } from "react-icons/md";
+import { MdCheckCircleOutline } from "react-icons/md";
+import { ImCancelCircle } from "react-icons/im";
 
 //Component Imports
 import LikedSamplesList from "../components/LikedSamplesList";
@@ -34,16 +35,53 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const message = location.state?.message;
+  const [activeTab, setActiveTab] = useState(
+    location.pathname.includes("liked") ? "liked" : "uploaded"
+  );
+  const [showNotification, setShowNotification] = useState(false);
+
+  const handleTabChange = (tabName: string) => {
+    setActiveTab(tabName);
+    // Potentially push to history if you want to change the URL
+  };
+
+  let message = location.state?.message;
   const messageType = location.state?.messageType;
 
   const profilePictureUrl = `http://localhost/storage/${profile_picture_path}`;
 
+  useEffect(() => {
+    if (message) {
+      setShowNotification(true);
+      const timer = setTimeout(() => {
+        setShowNotification(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   return (
     <>
+      {showNotification && (
+        <div className={`notification ${showNotification ? "show" : ""}`}>
+          <p
+            className={
+              messageType === "success" ? "success-message" : "cancel-message"
+            }
+          >
+            <span className="icon-text-container-message">
+              {messageType === "success" ? (
+                <MdCheckCircleOutline />
+              ) : (
+                <ImCancelCircle />
+              )}
+              {message}
+            </span>
+          </p>
+        </div>
+      )}
       <section className="profile-card">
         <div className="profile-picture-container">
-          {/* <img src={profilePicture} alt="profile picture" /> */}
           <img
             src={
               profile_picture_path ? profilePictureUrl : profilePictureDefault
@@ -51,7 +89,7 @@ const Dashboard = () => {
             alt="profile picture"
           />
           <Link to={"/edit/profile-picture"} className="edit-profile-picture">
-            <div>
+            <div className="flex-col">
               <MdModeEdit className="edit-profile-picture-icon" />
               <span>Edit Profile Picture</span>
             </div>
@@ -79,51 +117,40 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
-      {message && (
-        <p
-          className={
-            messageType === "success" ? "success-message" : "cancel-message"
-          }
-        >
-          {message}
-        </p>
-      )}
+
       <section className="profile-card-2">
         <nav className="dashboard-sub-navigation">
           <ul className="sub-nav-items-container">
-            <li className="nav-item">
-              <NavLink
-                title="Uploaded Samples"
-                to="uploaded"
-                data-tooltip-id="sample-library-tooltip"
-                data-tooltip-content="Uploaded Samples"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
+            <li
+              data-tooltip-id="sample-library-tooltip"
+              data-tooltip-content="Uploaded Samples"
+              data-tooltip-delay-show={700}
+              className="nav-item"
+              onClick={() => handleTabChange("uploaded")}
+            >
+              <div className={activeTab === "uploaded" ? "active" : ""}>
                 <LuLibrary className="my-sample-library-icon" />
-              </NavLink>
-              <Tooltip id="sample-library-tooltip" />
+              </div>
             </li>
-            <li className="nav-item">
-              <NavLink
-                title="Liked SampleS"
-                to="liked"
-                data-tooltip-id="liked-samples-tooltip"
-                data-tooltip-content="Liked Samples"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
+            <Tooltip id="sample-library-tooltip" />
+            <li
+              data-tooltip-id="liked-samples-tooltip"
+              data-tooltip-content="Liked Samples"
+              data-tooltip-delay-show={700}
+              className="nav-item"
+              onClick={() => handleTabChange("liked")}
+            >
+              <div className={activeTab === "liked" ? "active" : ""}>
                 <TiHeartFullOutline className="my-liked-samples-icon" />
-              </NavLink>
-              <Tooltip id="liked-samples-tooltip" />
+              </div>
             </li>
+            <Tooltip id="liked-samples-tooltip" />
           </ul>
         </nav>
       </section>
       <section className="sample-list-container">
-        <Routes>
-          <Route index element={<UploadedSamplesList />} />
-          <Route path="uploaded" element={<UploadedSamplesList />} />
-          <Route path="liked" element={<LikedSamplesList />} />
-        </Routes>
+        {activeTab === "uploaded" && <UploadedSamplesList />}
+        {activeTab === "liked" && <LikedSamplesList />}
       </section>
     </>
   );

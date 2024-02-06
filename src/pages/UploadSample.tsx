@@ -52,6 +52,7 @@ const SampleUpload = () => {
   const [fileSelectionError, setFileSelectionError] = useState<string | null>(
     null
   );
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
@@ -125,20 +126,25 @@ const SampleUpload = () => {
       setFile(null);
     } catch (exception: any) {
       const errors = exception.response.data.errors;
-
-      for (let [fieldName, errorList] of Object.entries(errors)) {
-        type Field =
-          | "title"
-          | "key"
-          | "scale"
-          | "bpm"
-          | "genre_id"
-          | "instrument_id"
-          | "tags"
-          | "root";
-        const errors = (errorList as any[]).map((message) => ({ message }));
-        console.log(fieldName, errors);
-        setError(fieldName as Field, errors[0]);
+      if (exception.response) {
+        for (let [fieldName, errorList] of Object.entries(errors)) {
+          type Field =
+            | "title"
+            | "key"
+            | "scale"
+            | "bpm"
+            | "genre_id"
+            | "instrument_id"
+            | "tags"
+            | "root";
+          const errors = (errorList as any[]).map((message) => ({ message }));
+          // console.log(fieldName, errors);
+          setError(fieldName as Field, errors[0]);
+        }
+      } else {
+        setErrorMessage(
+          "An unexpected error occurred. Please try again later."
+        );
       }
     }
   };
@@ -153,14 +159,16 @@ const SampleUpload = () => {
     setFileSelectionError(null);
     window.scrollTo(0, 0);
   };
-  
+
   //Callback function from TagManager.tsx
   const handleTagsChange = (tags: Tag[]) => {
     setSelectedTags(tags);
   };
 
-  const onError = () => {
-    console.log("Form error");
+  const handleFileChange = (selectedFile: File | null) => {
+    setFile(selectedFile); // Update the file state with the new file
+    setFileSelectionError(null); // Clear any file selection error message
+    form.clearErrors("sample_file");
   };
 
   const handleStepBack = () => {
@@ -170,8 +178,6 @@ const SampleUpload = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     // Fetch genres and instruments from backend
     const fetchGenresAndInstruments = async () => {
       const genresResponse = await http.get("/genres");
@@ -195,11 +201,12 @@ const SampleUpload = () => {
       {stepHeader}
 
       {step === 1 && (
-        <form
-          className="sample-form"
-          onSubmit={handleSubmit(onNextStep, onError)}
-        >
-          <FileDragAndDrop file={file} setFile={setFile} dataTypes={"audio"} />
+        <form className="sample-form" onSubmit={handleSubmit(onNextStep)}>
+          <FileDragAndDrop
+            file={file}
+            setFile={handleFileChange}
+            dataTypes={"audio"}
+          />
           {fileSelectionError && (
             <div className="error-message">{fileSelectionError}</div>
           )}
@@ -337,7 +344,7 @@ const SampleUpload = () => {
       {step === 2 && (
         <>
           <p>
-            Tags can help other producers to better understand your sound.{" "}
+            Tags can help other producers to better understand your sound.
             <br />
             Choose up to <strong>three Tags</strong> that you think will fit
             your sample.
@@ -354,6 +361,7 @@ const SampleUpload = () => {
       )}
       {step === 3 && (
         <div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           {!uploadSuccess ? (
             <>
               <p>
@@ -362,7 +370,7 @@ const SampleUpload = () => {
               </p>
               <button
                 disabled={isSubmitting}
-                className="submit-btn icon-button"
+                className="submit-btn icon-button margin-auto-center"
                 onClick={handleSubmit(onSubmit)}
               >
                 Upload Your Sample Now <ImUpload />

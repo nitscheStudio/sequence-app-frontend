@@ -6,6 +6,7 @@ import Modal from "./Modal";
 
 import { Link } from "react-router-dom";
 import http from "../utils/http";
+import { Tooltip } from "react-tooltip";
 
 type SampleContextMenuProps = {
   sampleId: number;
@@ -85,12 +86,22 @@ const SampleContextMenu = ({
 
   return (
     <div ref={menuRef} className="context-menu-container">
-      <button onClick={handleClick} className="context-menu-button-activate">
+      <button
+        data-tooltip-id="sample-edit-tooltip"
+        data-tooltip-content="Edit Sample"
+        data-tooltip-delay-show={800}
+        onClick={handleClick}
+        className="context-menu-button-activate"
+      >
         <MdMoreVert />
       </button>
+      <Tooltip id="sample-edit-tooltip" />
       {isVisible && (
         <div className="context-menu">
-          <Link to={`/edit/sample/${sampleId}`}>
+          <Link
+            onClick={() => window.scrollTo(0, 0)}
+            to={`/edit/sample/${sampleId}`}
+          >
             <MdModeEdit />
             Edit Sample
           </Link>
