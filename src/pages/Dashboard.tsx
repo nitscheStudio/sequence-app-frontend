@@ -36,12 +36,6 @@ const Dashboard = () => {
 
   const message = location.state?.message;
   const messageType = location.state?.messageType;
-  // console.log("location state:", location.state);
-
-  useEffect(() => {
-    navigate("uploaded");
-    window.scrollTo(0, 0);
-  }, [navigate]);
 
   const profilePictureUrl = `http://localhost/storage/${profile_picture_path}`;
 
