@@ -4,9 +4,14 @@ import FilterForm from "../components/FilterForm";
 const Browse = () => {
   return (
     <>
-      <FilterForm />
-      <section className="sample-list-container">
-        <FilterableSampleList showEditButton={false} endpoint="samples" />
+      <section className="filter-sample-container">
+        <h1>Filter All Samples</h1>
+        <div>
+          <FilterForm />
+        </div>
+        <section className="sample-list-container">
+          <FilterableSampleList showEditButton={false} endpoint="samples" />
+        </section>
       </section>
     </>
   );

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import http from "../utils/http";
 import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import FileDragAndDrop from "../components/FileDragAndDrop";
 import TagManager from "../components/TagManager";
 // import predefinedTags from "../predefinedArrays/TagData";
@@ -13,6 +13,8 @@ import {
   FaArrowUpLong,
 } from "react-icons/fa6";
 import { ImUpload } from "react-icons/im";
+
+import { DataContext } from "../context/InstrumentGenreContext";
 
 type FormValues = {
   title: string;
@@ -62,9 +64,8 @@ const SampleUpload = () => {
     formState: { errors, isSubmitting },
   } = form;
   const navigate = useNavigate();
-  const [genres, setGenres] = useState<Genre[]>([]);
-  const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const { genres, instruments, error } = useContext(DataContext);
 
   let stepHeader;
   if (uploadSuccess) {
@@ -176,19 +177,6 @@ const SampleUpload = () => {
       setStep(step - 1);
     }
   };
-
-  useEffect(() => {
-    // Fetch genres and instruments from backend
-    const fetchGenresAndInstruments = async () => {
-      const genresResponse = await http.get("/genres");
-      const instrumentsResponse = await http.get("/instruments");
-
-      setGenres(genresResponse.data);
-      setInstruments(instrumentsResponse.data);
-    };
-
-    fetchGenresAndInstruments();
-  }, []);
 
   return (
     <>

@@ -72,21 +72,33 @@ const SampleMusicPlayer = ({
 
   const handleSampleLike = async () => {
     // Optimistically update the UI
-    setLikes((prevLikes) => (prevLikes || 0) + 1);
-    setIsLiked(true);
+    if (!isLiked) {
+      setLikes((prevLikes) => (prevLikes || 0) + 1);
+      setIsLiked(true);
+    } else {
+      // Optimistically update the UI for unliking
+      setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
+      setIsLiked(false);
+    }
+
     try {
       await http.get("/sanctum/csrf-cookie");
       const response = await http.post(`/sample/${id}/like`);
-
-      if (response.data.status === "unliked") {
-        setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
-        setIsLiked(false);
+      if (response.data.status === "unliked" && isLiked) {
+      } else if (response.data.status === "liked" && !isLiked) {
       }
     } catch (error) {
       console.error("An error occurred during liking:", error);
-      // Revert the UI changes in case of error
-      setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
-      setIsLiked(false);
+
+      if (isLiked) {
+        // If the error occurred while trying to like, revert to unliked state
+        setLikes((prevLikes) => (prevLikes || 0) + 1);
+        setIsLiked(false);
+      } else {
+        // If the error occurred while trying to unlike, revert to liked state
+        setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
+        setIsLiked(true);
+      }
     }
   };
 

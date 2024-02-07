@@ -76,7 +76,7 @@ const FilterableSampleList = ({
     <>
       <div ref={componentRef} className="filterable-sample-list">
         <div className="samples-list">
-          <h3>{totalSamples} Samples total</h3>
+          <h3 className="total-samples">{totalSamples} Samples total</h3>
           <audio
             onCanPlay={() => audio?.play()}
             preload="auto"

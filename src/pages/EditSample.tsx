@@ -1,15 +1,12 @@
 import { useForm } from "react-hook-form";
 import http from "../utils/http";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Sample } from "../types/sample";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import TagManager from "../components/TagManager";
-
-type EditSampleProps = {
-  sampleId: number;
-};
+import { DataContext } from "../context/InstrumentGenreContext";
 
 type FormValues = {
   title: string;
@@ -43,14 +40,16 @@ const EditSample = () => {
   const form = useForm<FormValues>();
   const navigate = useNavigate();
 
-  //Params: react Router Dom v6 passing dynamic routes
+  //Params: react Router Dom v6 passing dynamic routes (Url extraction)
   const { sampleId } = useParams();
 
   const [sampleData, setSampleData] = useState<Sample | null>(null);
   const [fromData, setFormData] = useState<FormData | null>(null);
 
-  const [genres, setGenres] = useState<Genre[]>([]);
-  const [instruments, setInstruments] = useState<Instrument[]>([]);
+  // const [genres, setGenres] = useState<Genre[]>([]);
+  // const [instruments, setInstruments] = useState<Instrument[]>([]);
+  const { genres, instruments, error } = useContext(DataContext);
+
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   const {
@@ -171,18 +170,18 @@ const EditSample = () => {
     getSampleInfo();
   }, []);
 
-  useEffect(() => {
-    // Fetch genres and instruments from backend
-    const fetchGenresAndInstruments = async () => {
-      const genresResponse = await http.get("/genres");
-      const instrumentsResponse = await http.get("/instruments");
+  // useEffect(() => {
+  //   // Fetch genres and instruments from backend
+  //   const fetchGenresAndInstruments = async () => {
+  //     const genresResponse = await http.get("/genres");
+  //     const instrumentsResponse = await http.get("/instruments");
 
-      setGenres(genresResponse.data);
-      setInstruments(instrumentsResponse.data);
-    };
+  //     setGenres(genresResponse.data);
+  //     setInstruments(instrumentsResponse.data);
+  //   };
 
-    fetchGenresAndInstruments();
-  }, []);
+  //   fetchGenresAndInstruments();
+  // }, []);
 
   return (
     <>
@@ -322,7 +321,10 @@ const EditSample = () => {
           >
             Save
           </button>
-          <button onClick={onCancel} className="submit-btn cancel-button no-margin-auto">
+          <button
+            onClick={onCancel}
+            className="submit-btn cancel-button no-margin-auto"
+          >
             Cancel
           </button>
         </div>

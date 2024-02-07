@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 
 //Context
-// import { TotalSamplesProvider } from "./context/TotalSamplesContext";
+import { DataProvider } from "./context/InstrumentGenreContext";
+import { useContext } from "react";
 
 //Pages
 import Register from "./pages/Register";
@@ -39,19 +40,25 @@ const router = createBrowserRouter(
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/browse" element={<Browse />} />
+
           <Route path="/upload" element={<UploadSample />} />
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/edit/profile-picture" element={<UploadProfilePicture />} />
+
       <Route path="/edit/sample/:sampleId" element={<EditSample />} />
     </>
   )
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <DataProvider>
+      <RouterProvider router={router} />
+    </DataProvider>
+  );
 }
 
 export default App;
