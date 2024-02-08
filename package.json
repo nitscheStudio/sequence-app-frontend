@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.7",
     "axios": "^1.6.5",
     "babel-plugin-macros": "^3.1.0",
     "meilisearch": "^0.36.0",

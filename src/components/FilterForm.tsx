@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { DataContext } from "../context/InstrumentGenreContext";
+import RangeSlider from "./RangeSlider"; // adjust the path as needed
 
 type FormValues = {
   bpm?: number;
@@ -36,32 +37,68 @@ const FilterForm = () => {
   } = form;
   const { genres, instruments, error } = useContext(DataContext);
 
+
   return (
-    <form className="filter-form">
-      {/* Instruments Selector */}
-      <select id="instrument_id" {...register("instrument_id")}>
-        <option value="">Instrument</option>
+    <>
+      <form className="filter-form">
+        {/* Instruments Selector */}
+        <select id="instrument_id" {...register("instrument_id")}>
+          <option value="">Instrument</option>
 
-        {instruments.map((instrument) => (
-          <option value={instrument.id} key={instrument.id}>
-            {instrument.name}
-          </option>
-        ))}
-      </select>
-      {/* Genres Selector */}
-      <select id="genre_id" {...register("genre_id")}>
-        <option value="">Genre</option>
+          {instruments.map((instrument) => (
+            <option value={instrument.id} key={instrument.id}>
+              {instrument.name}
+            </option>
+          ))}
+        </select>
+        {/* Genres Selector */}
+        <select id="genre_id" {...register("genre_id")}>
+          <option value="">Genre</option>
 
-        {genres.map((genre) => (
-          <option value={genre.id} key={genre.id}>
-            {genre.name}
-          </option>
-        ))}
-      </select>
+          {genres.map((genre) => (
+            <option value={genre.id} key={genre.id}>
+              {genre.name}
+            </option>
+          ))}
+        </select>
+        <div className="input-container-sample-form">
+          <select id="keySignature" {...register("key")}>
+            <option value="">Key</option>
+            <option value="C">C</option>
+            <option value="C#">C#</option>
+            <option value="D">D</option>
+            <option value="D">Db</option>
+            <option value="D#">D#</option>
+            <option value="E">E</option>
+            <option value="D">Eb</option>
+            <option value="F">F</option>
+            <option value="F#">F#</option>
+            <option value="G">G</option>
+            <option value="G">Gb</option>
+            <option value="G#">G#</option>
+            <option value="A">A</option>
+            <option value="G">Ab</option>
+            <option value="A#">A#</option>
+            <option value="B">B</option>
+            <option value="B">Bb</option>
+          </select>
+          <p className="error-message">{errors.key?.message}</p>
+        </div>
 
-      {/* Submit Button */}
-      <input type="submit" value="Search" />
-    </form>
+        <div className="input-container-sample-form">
+          <select id="scale" {...register("scale")}>
+            <option value="">Scale</option>
+            <option value="major">Major</option>
+            <option value="minor">Minor</option>
+          </select>
+          <p className="error-message">{errors.scale?.message}</p>
+        </div>
+
+        {/* Submit Button */}
+        <button disabled={isSubmitting}>Search</button>
+      </form>
+      <RangeSlider />
+    </>
   );
 };
 

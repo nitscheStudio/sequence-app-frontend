@@ -509,8 +509,15 @@ nav img {
     text-align: left;
   } */
 
+/************* Filter Form *************/
+
 .filter-form {
   margin: 0;
+  display: flex;
+}
+
+.range-slider {
+  width: 100px;
 }
 
 .headline {

@@ -21,6 +21,7 @@ import { TiHeartFullOutline } from "react-icons/ti";
 import { MdModeEdit } from "react-icons/md";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
+import { BsCameraFill } from "react-icons/bs";
 
 //Component Imports
 import LikedSamplesList from "../components/LikedSamplesList";
@@ -90,7 +91,7 @@ const Dashboard = () => {
           />
           <Link to={"/edit/profile-picture"} className="edit-profile-picture">
             <div className="flex-col">
-              <MdModeEdit className="edit-profile-picture-icon" />
+              <BsCameraFill className="edit-profile-picture-icon" />
               <span>Edit Profile Picture</span>
             </div>
           </Link>
