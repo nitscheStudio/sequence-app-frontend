@@ -27,7 +27,7 @@ export const DataContext = createContext<DataContextProps>({
   error: null,
 });
 
-export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
+export const DataProvider = ({ children }: DataProviderProps) => {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [error, setError] = useState<string | null>(null);

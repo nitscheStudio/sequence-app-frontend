@@ -46,8 +46,6 @@ const EditSample = () => {
   const [sampleData, setSampleData] = useState<Sample | null>(null);
   const [fromData, setFormData] = useState<FormData | null>(null);
 
-  // const [genres, setGenres] = useState<Genre[]>([]);
-  // const [instruments, setInstruments] = useState<Instrument[]>([]);
   const { genres, instruments, error } = useContext(DataContext);
 
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
