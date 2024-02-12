@@ -166,10 +166,21 @@ const SampleUpload = () => {
     setSelectedTags(tags);
   };
 
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; //20mb
+
   const handleFileChange = (selectedFile: File | null) => {
-    setFile(selectedFile); // Update the file state with the new file
-    setFileSelectionError(null); // Clear any file selection error message
-    form.clearErrors("sample_file");
+    if (selectedFile && selectedFile.size > MAX_FILE_SIZE) {
+      setFileSelectionError(
+        `File size exceeds the maximum allowed size of ${
+          MAX_FILE_SIZE / 1024 / 1024
+        } MB.`
+      );
+      setFile(null); // Clear the file state
+    } else {
+      setFile(selectedFile); // Update the file state with the new file
+      setFileSelectionError(null); // Clear any file selection error message
+      form.clearErrors("sample_file");
+    }
   };
 
   const handleStepBack = () => {

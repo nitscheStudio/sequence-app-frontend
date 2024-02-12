@@ -3,15 +3,21 @@ import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
+type RangeSliderProps = {
+  bpmRange: number[];
+  setBpmRange: React.Dispatch<React.SetStateAction<number[]>>;
+};
+
 function valuetext(value: number) {
   return `${value}BPM`;
 }
 
-export default function RangeSlider() {
-  const [value, setValue] = React.useState<number[]>([40, 240]);
-
+export default function RangeSlider({
+  bpmRange,
+  setBpmRange,
+}: RangeSliderProps) {
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+    setBpmRange(newValue as number[]);
   };
 
   return (
@@ -45,7 +51,7 @@ export default function RangeSlider() {
           },
         }}
         getAriaLabel={() => "BPM Range"}
-        value={value}
+        value={bpmRange}
         onChange={handleChange}
         valueLabelDisplay="off"
         getAriaValueText={valuetext}
@@ -53,9 +59,11 @@ export default function RangeSlider() {
         max={240}
       />
       <Box display="flex" justifyContent="space-between">
-        <Typography>{value[0]} </Typography>
+        <Typography>{bpmRange[0]} </Typography>
 
-        <Typography>{value[0] === value[1] ? "" : value[1]}</Typography>
+        <Typography>
+          {bpmRange[0] === bpmRange[1] ? "" : bpmRange[1]}
+        </Typography>
       </Box>
     </Box>
   );

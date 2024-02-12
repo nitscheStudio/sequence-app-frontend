@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { DataContext } from "../context/InstrumentGenreContext";
 import RangeSlider from "./RangeSlider"; // adjust the path as needed
 
 type FormValues = {
-  bpm?: number;
+  bpmRange?: number[];
   key?: string;
   scale?: string;
   genre_id?: number;
@@ -26,21 +25,36 @@ type Instrument = {
   name: string;
 };
 
-const FilterForm = () => {
+type OnSearchFunction = (data: FormValues) => void;
+
+type FilterFormProps = {
+  onSearch: OnSearchFunction;
+};
+
+const FilterForm: React.FC<FilterFormProps> = ({ onSearch }) => {
   const form = useForm<FormValues>();
   const {
     register,
     handleSubmit,
-    setError,
-    reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = form;
-  const { genres, instruments, error } = useContext(DataContext);
+  const { genres, instruments } = useContext(DataContext);
+  const [bpmRange, setBpmRange] = useState<number[]>([40, 240]);
 
+  // Update the form state with the bpmRange whenever it changes
+  useEffect(() => {
+    setValue("bpmRange", bpmRange); // Use setValue to update the form state
+  }, [bpmRange, setValue]);
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+    onSearch(data);
+  };
 
   return (
     <>
-      <form className="filter-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="filter-form">
         {/* Instruments Selector */}
         <select id="instrument_id" {...register("instrument_id")}>
           <option value="">Instrument</option>
@@ -97,7 +111,7 @@ const FilterForm = () => {
         {/* Submit Button */}
         <button disabled={isSubmitting}>Search</button>
       </form>
-      <RangeSlider />
+      <RangeSlider bpmRange={bpmRange} setBpmRange={setBpmRange} />
     </>
   );
 };
