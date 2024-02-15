@@ -21,10 +21,7 @@ export default function RangeSlider({
   };
 
   return (
-    <Box sx={{ width: 150 }}>
-      <Typography id="range-slider" gutterBottom>
-        BPM:
-      </Typography>
+    <Box sx={{ width: 200 }}>
       <Slider
         sx={{
           color: "#03b276", // change the color of the slider
@@ -58,13 +55,13 @@ export default function RangeSlider({
         min={40}
         max={240}
       />
-      <Box display="flex" justifyContent="space-between">
+      {/* <Box display="flex" justifyContent="space-between">
         <Typography>{bpmRange[0]} </Typography>
 
         <Typography>
           {bpmRange[0] === bpmRange[1] ? "" : bpmRange[1]}
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

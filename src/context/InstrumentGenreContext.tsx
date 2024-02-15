@@ -32,13 +32,31 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Helper function to capitalize the first letter of each word
+  const capitalizeNames = <T extends { name: string }>(items: T[]): T[] => {
+    return items.map((item) => ({
+      ...item,
+      name: item.name
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" "),
+    }));
+  };
+
   const fetchGenresAndInstruments = async () => {
     try {
       const genresResponse = await http.get("/genres");
       const instrumentsResponse = await http.get("/instruments");
 
-      setGenres(genresResponse.data);
-      setInstruments(instrumentsResponse.data);
+      // Capitalize the names before setting them
+      // Apply capitalization while preserving full object structure
+      const capitalizedGenres = capitalizeNames<Genre>(genresResponse.data);
+      const capitalizedInstruments = capitalizeNames<Instrument>(
+        instrumentsResponse.data
+      );
+
+      setGenres(capitalizedGenres);
+      setInstruments(capitalizedInstruments);
       setError(null);
     } catch (error) {
       console.error("An error occurred while fetching the data.", error);

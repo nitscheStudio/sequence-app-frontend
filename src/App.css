@@ -3,7 +3,7 @@
   text-align: center;
   --secondary-color: #03b276;
   --link-hover: #00905e;
-  --bg-color: #fafafa;
+  --bg-color: #bcbcbc;
   --cancel-color: rgb(223, 118, 13);
   box-sizing: border-box;
 }
@@ -29,8 +29,10 @@ h2 {
 }
 
 h3 {
-  color: rgb(121, 121, 121);
+  color: rgb(157, 157, 157);
   font-size: 1.2rem;
+  font-weight: 700;
+  text-align: left;
 }
 
 .text-accent {
@@ -508,23 +510,6 @@ nav img {
 /* .total-samples {
     text-align: left;
   } */
-
-/************* Filter Form *************/
-
-.filter-form {
-  margin: 0;
-  display: flex;
-}
-
-.range-slider {
-  width: 100px;
-}
-
-.headline {
-  font-size: 1.5rem;
-  text-align: left;
-  color: #7d7d7d;
-}
 
 .liked {
   color: var(--secondary-color);
@@ -1325,12 +1310,96 @@ footer {
   background-color: rgb(147, 21, 21);
 }
 /************* - Browse - **************/
+
+.browse-main-container {
+  justify-content: center;
+  display: flex;
+  gap: 1rem;
+}
 .filter-sample-container {
+  gap: 2rem;
+  padding: 2rem;
+  border: 1px solid rgb(165, 165, 165);
+  max-width: 800px;
+
+  border-radius: 1rem;
+  padding-top: 0rem;
+}
+
+/************* Filter Form *************/
+
+.filter-form {
+  margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+  /* padding: 2rem; */
 }
+
+.bpm-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bpm-range-indicator {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgb(104, 104, 104);
+}
+
+.range-slider-container {
+  padding: 1rem 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.filter-input-title {
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: rgb(164, 164, 164);
+}
+
+.range-slider {
+  width: 100px;
+}
+
+.input-container-filter-form {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.input-container-filter-form select {
+  background-color: #ffffff;
+  color: #1c1c1c;
+  padding: 0.5rem 1rem;
+  border: none;
+  font-size: 1rem;
+}
+
+.input-container-filter-form select:focus {
+  outline: none;
+}
+
+.filter-set {
+  border: 1.5px solid var(--secondary-color);
+  box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+}
+
+.headline {
+  font-size: 1.5rem;
+  text-align: left;
+  color: #7d7d7d;
+}
+
 /************* - Modal - **************/
 
 dialog {
@@ -1474,6 +1543,10 @@ dialog {
 
   .user-stats {
     gap: 1rem;
+  }
+
+  .browse-main-container {
+    flex-direction: column;
   }
 }
 

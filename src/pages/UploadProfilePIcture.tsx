@@ -6,13 +6,14 @@ import http from "../utils/http";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useFileUpload } from "../context/FileUploadContext";
 
 type FormValues = {
   profile_picture: FileList | null;
 };
 
 const UploadProfilePicture = () => {
-  const [file, setFile] = useState<File | null>(null);
+  const { file, updateFile } = useFileUpload();
   const form = useForm<FormValues>();
   const [fileSelectionError, setFileSelectionError] = useState<string | null>(
     null
@@ -68,7 +69,7 @@ const UploadProfilePicture = () => {
   };
 
   const handleFileChange = (selectedFile: File | null) => {
-    setFile(selectedFile); // Update the file state with the new file
+    updateFile(selectedFile); // Update the file state with the new file
     setFileSelectionError(null); // Clear any file selection error message
     form.clearErrors("profile_picture");
   };

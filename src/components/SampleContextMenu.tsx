@@ -89,7 +89,7 @@ const SampleContextMenu = ({
       <button
         data-tooltip-id="sample-edit-tooltip"
         data-tooltip-content="Edit Sample"
-        data-tooltip-delay-show={800}
+        data-tooltip-delay-show={500}
         onClick={handleClick}
         className="context-menu-button-activate"
       >

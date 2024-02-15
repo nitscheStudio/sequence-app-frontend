@@ -10,7 +10,7 @@ import {
 
 //Context
 import { DataProvider } from "./context/InstrumentGenreContext";
-import { useContext } from "react";
+import { FileUploadProvider } from "./context/FileUploadContext";
 
 //Pages
 import Register from "./pages/Register";
@@ -41,12 +41,26 @@ const router = createBrowserRouter(
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/browse" element={<Browse />} />
 
-          <Route path="/upload" element={<UploadSample />} />
+          <Route
+            path="/upload"
+            element={
+              <FileUploadProvider>
+                <UploadSample />
+              </FileUploadProvider>
+            }
+          />
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/edit/profile-picture" element={<UploadProfilePicture />} />
+      <Route
+        path="/edit/profile-picture"
+        element={
+          <FileUploadProvider>
+            <UploadProfilePicture />
+          </FileUploadProvider>
+        }
+      />
 
       <Route path="/edit/sample/:sampleId" element={<EditSample />} />
     </>

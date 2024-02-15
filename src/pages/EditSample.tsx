@@ -168,19 +168,6 @@ const EditSample = () => {
     getSampleInfo();
   }, []);
 
-  // useEffect(() => {
-  //   // Fetch genres and instruments from backend
-  //   const fetchGenresAndInstruments = async () => {
-  //     const genresResponse = await http.get("/genres");
-  //     const instrumentsResponse = await http.get("/instruments");
-
-  //     setGenres(genresResponse.data);
-  //     setInstruments(instrumentsResponse.data);
-  //   };
-
-  //   fetchGenresAndInstruments();
-  // }, []);
-
   return (
     <>
       <main>

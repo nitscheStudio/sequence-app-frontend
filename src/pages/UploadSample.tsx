@@ -14,7 +14,9 @@ import {
 } from "react-icons/fa6";
 import { ImUpload } from "react-icons/im";
 
+// import Contexts
 import { DataContext } from "../context/InstrumentGenreContext";
+import { useFileUpload } from "../context/FileUploadContext";
 
 type FormValues = {
   title: string;
@@ -47,7 +49,8 @@ type Tag = {
 
 const SampleUpload = () => {
   const form = useForm<FormValues>();
-  const [file, setFile] = useState<File | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
+  const { file, updateFile } = useFileUpload();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<any>(null);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
@@ -124,7 +127,7 @@ const SampleUpload = () => {
         },
       });
       setUploadSuccess(true);
-      setFile(null);
+      updateFile(null);
     } catch (exception: any) {
       const errors = exception.response.data.errors;
       if (exception.response) {
@@ -152,8 +155,8 @@ const SampleUpload = () => {
 
   //Reset all input fields
   const resetForm = () => {
-    reset(); //
-    setFile(null);
+    reset();
+    updateFile(null);
     setSelectedTags([]);
     setStep(1);
     setUploadSuccess(false);
@@ -175,9 +178,9 @@ const SampleUpload = () => {
           MAX_FILE_SIZE / 1024 / 1024
         } MB.`
       );
-      setFile(null); // Clear the file state
+      updateFile(null); // Clear the file state
     } else {
-      setFile(selectedFile); // Update the file state with the new file
+      updateFile(selectedFile); // Update the file state with the new file
       setFileSelectionError(null); // Clear any file selection error message
       form.clearErrors("sample_file");
     }
@@ -236,6 +239,8 @@ const SampleUpload = () => {
                 placeholder="40 - 240"
                 type="number"
                 id="number"
+                // min={40}
+                // max={240}
                 {...register("bpm", {
                   required: { value: true, message: "This field is required" },
                   min: { value: 40, message: "Minimum value is 40" },
@@ -251,7 +256,6 @@ const SampleUpload = () => {
                 id="keySignature"
                 {...register("key", {
                   required: { value: true, message: "This field is required" },
-                  validate: (value) => value !== "" || "Please select a key",
                 })}
               >
                 <option value="">-</option>
@@ -282,7 +286,6 @@ const SampleUpload = () => {
                 id="scale"
                 {...register("scale", {
                   required: { value: true, message: "This field is required" },
-                  validate: (value) => value !== "" || "Please select a scale",
                 })}
               >
                 <option value="">-</option>
@@ -372,7 +375,7 @@ const SampleUpload = () => {
                 className="submit-btn icon-button margin-auto-center"
                 onClick={handleSubmit(onSubmit)}
               >
-                Upload Your Sample Now <ImUpload />
+                Finnish Upload <ImUpload />
               </button>
             </>
           ) : (

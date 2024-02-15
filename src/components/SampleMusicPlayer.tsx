@@ -189,19 +189,23 @@ const SampleMusicPlayer = ({
             <div className="attribute-title">bpm</div>
           </div>
           {!isPlaying ? (
-            <button
-              onClick={handlePlay}
-              className="sample-player-button play-button icon"
-            >
-              <IoIosPlay />
-            </button>
+            <>
+              <button
+                onClick={handlePlay}
+                className="sample-player-button play-button icon"
+              >
+                <IoIosPlay />
+              </button>
+            </>
           ) : (
-            <button
-              onClick={handlePause}
-              className="sample-player-button play-button icon"
-            >
-              <IoIosPause />
-            </button>
+            <>
+              <button
+                onClick={handlePause}
+                className="sample-player-button play-button icon"
+              >
+                <IoIosPause />
+              </button>
+            </>
           )}
           <button
             data-tooltip-id="download-tooltip"

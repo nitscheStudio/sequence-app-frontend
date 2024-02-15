@@ -1,24 +1,33 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import SampleMusicPlayer from "./SampleMusicPlayer";
 import type { Sample } from "../types/sample";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import http from "../utils/http";
 
 type FilterableSampleListProps = {
-  endpoint: string;
   showEditButton: boolean;
+  samples: Sample[];
+  onNextPage: () => void;
+  onPrevPage: () => void;
+  totalSamples: number;
+  totalPages: number;
+  page: number;
+  setSamples: React.Dispatch<React.SetStateAction<Sample[]>>;
 };
 
 const FilterableSampleList = ({
-  endpoint,
+  setSamples,
+  samples,
+  onNextPage,
+  onPrevPage,
+  totalSamples,
+  totalPages,
+  page,
   showEditButton,
 }: FilterableSampleListProps) => {
   const [filePath, setFilePath] = useState("");
   const [playerState, setPlayerState] = useState("paused");
-  const [samples, setSamples] = useState<Sample[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalSamples, setTotalSamples] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
+
   // Popup for update and delete sample messages
 
   // for ContextMenu
@@ -46,15 +55,6 @@ const FilterableSampleList = ({
   const audioRef = useRef<HTMLAudioElement>(null);
   const audio = audioRef.current;
 
-  const fetchSamples = async () => {
-    try {
-      const response = await http.get(`/${endpoint}?page=${page}`);
-      setSamples(response.data.samples);
-      setTotalSamples(response.data.total);
-      setTotalPages(response.data.pages);
-    } catch (error) {}
-  };
-
   function handlePlay(musicFilePath: string) {
     if (!audio) return;
     setFilePath(musicFilePath);
@@ -68,15 +68,11 @@ const FilterableSampleList = ({
     setPlayerState("paused");
   }
 
-  useEffect(() => {
-    fetchSamples();
-  }, [page]);
-
   return (
     <>
       <div ref={componentRef} className="filterable-sample-list">
         <div className="samples-list">
-          <h3 className="total-samples">{totalSamples} Samples total</h3>
+          <h3 className="total-samples">{totalSamples} Samples:</h3>
           <audio
             onCanPlay={() => audio?.play()}
             preload="auto"
@@ -111,14 +107,15 @@ const FilterableSampleList = ({
             className="page-controller-button flex-center"
             disabled={page === 1}
             onClick={() => {
-              setPage((page) => Math.max(page - 1, 1));
-              if (componentRef.current) {
-                const rect = componentRef.current.getBoundingClientRect();
-                window.scrollTo({
-                  top: rect.top + window.scrollY - 100,
-                  behavior: "instant",
-                });
-              }
+              onPrevPage();
+              // setPage((page) => Math.max(page - 1, 1));
+              // if (componentRef.current) {
+              //   const rect = componentRef.current.getBoundingClientRect();
+              //   window.scrollTo({
+              //     top: rect.top + window.scrollY - 100,
+              //     behavior: "instant",
+              //   });
+              // }
               // window.scrollTo(0, 0);
             }}
           >
@@ -134,14 +131,15 @@ const FilterableSampleList = ({
             className="page-controller-button flex-center"
             disabled={page >= totalPages}
             onClick={() => {
-              setPage((page) => page + 1);
-              if (componentRef.current) {
-                const rect = componentRef.current.getBoundingClientRect();
-                window.scrollTo({
-                  top: rect.top + window.scrollY - 100,
-                  behavior: "instant",
-                });
-              }
+              onNextPage();
+              // setPage((page) => page + 1);
+              // if (componentRef.current) {
+              //   const rect = componentRef.current.getBoundingClientRect();
+              //   window.scrollTo({
+              //     top: rect.top + window.scrollY - 100,
+              //     behavior: "instant",
+              //   });
+              // }
               // window.scrollTo(0, 0);
             }}
           >

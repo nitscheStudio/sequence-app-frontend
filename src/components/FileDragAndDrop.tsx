@@ -27,7 +27,7 @@ const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({
   setFile,
   dataTypes,
 }) => {
-  const [fileError, setFileError] = useState<string | null>(null);
+  // const [fileError, setFileError] = useState<string | null>(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: fileTypeMap[dataTypes],
