@@ -1,4 +1,3 @@
-import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
 
 import {
@@ -39,7 +38,14 @@ const router = createBrowserRouter(
 
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/browse" element={<Browse />} />
+          <Route
+            path="/browse"
+            element={
+              <DataProvider>
+                <Browse />
+              </DataProvider>
+            }
+          />
 
           <Route
             path="/upload"
@@ -62,17 +68,20 @@ const router = createBrowserRouter(
         }
       />
 
-      <Route path="/edit/sample/:sampleId" element={<EditSample />} />
+      <Route
+        path="/edit/sample/:sampleId"
+        element={
+          <DataProvider>
+            <EditSample />
+          </DataProvider>
+        }
+      />
     </>
   )
 );
 
 function App() {
-  return (
-    <DataProvider>
-      <RouterProvider router={router} />
-    </DataProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

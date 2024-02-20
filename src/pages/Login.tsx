@@ -1,13 +1,17 @@
 import { set, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { Link } from "react-router-dom";
-import sequenceLogo from "../assets/sequence-logo_new.svg";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthProvider";
 import http from "../utils/http";
 import { useLocation, useNavigate } from "react-router-dom";
+
+//Context
+import { AuthContext } from "../context/AuthProvider";
+
+//Icon & Image Imports
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
+import sequenceLogo from "../assets/sequence-logo_new.svg";
 
 type FormValues = {
   login: string;
@@ -15,7 +19,7 @@ type FormValues = {
 };
 
 const Login = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, setAuth, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const { state } = useLocation();
   const prefilledUsername = state?.username || "";
@@ -62,6 +66,7 @@ const Login = () => {
         username: userData.user.username,
         is_private: userData.user.is_private,
         profile_picture_path: userData.user.profile_picture_path,
+        samplesCount: userData.user.SamplesCount,
       });
 
       navigate(from);
@@ -87,6 +92,14 @@ const Login = () => {
     event.preventDefault();
     setPasswordIsVisible(!passwordIsVisible);
   };
+
+  useEffect(() => {
+    // Check if user is already logged in
+    if (isAuthenticated()) {
+      // Redirect to dashboard or another appropriate page
+      navigate("/dashboard");
+    }
+  }, [auth, navigate]);
 
   return (
     <main>

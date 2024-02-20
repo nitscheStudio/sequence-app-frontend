@@ -1,10 +1,28 @@
+import { useState, useEffect } from "react";
+
+//Component Imports
 import FilterableSampleList from "../components/FilterableSampleList";
 import FilterForm from "../components/FilterForm";
+
+// Module Imports
+import { fetchFromMeiliSearch } from "../modules/FetchSamples";
+
+//Type imports
 import { Sample } from "../types/sample";
-import { useState, useEffect } from "react";
+
+//Icon & Image Imports
 import { CgLoadbarSound } from "react-icons/cg";
-import MeiliSearch from "meilisearch";
-import http from "../utils/http";
+
+type SampleData = {
+  samples: Sample[];
+  totalSamples: number;
+  totalPages: number;
+};
+
+type MeiliSearchParams = {
+  text?: string;
+  filter?: string;
+};
 
 type FormValues = {
   text?: string;
@@ -20,83 +38,71 @@ type FormValues = {
 };
 
 const Browse = () => {
-  const [samples, setSamples] = useState<Sample[]>([]);
   const [page, setPage] = useState(1);
-  const [totalSamples, setTotalSamples] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [formValues, setFormValues] = useState<FormValues>({});
 
-  // Initialize MeiliSearch client
-  const client = new MeiliSearch({
-    host: "http://localhost:7700",
-    apiKey: "masterKey", // Use a public key with search-only permissions
-  });
+  const fetchSamples = async (
+    currentPage: number
+  ): Promise<SampleData | void> => {
+    let filterExpressions: string[] = [];
 
-  const fetchSamples = async () => {
+    if (formValues.genre_id) {
+      filterExpressions.push(`genre_id = ${formValues.genre_id}`);
+    }
+    if (formValues.instrument_id) {
+      filterExpressions.push(`instrument_id = ${formValues.instrument_id}`);
+    }
+    if (formValues.key) {
+      filterExpressions.push(`key = "${formValues.key}"`);
+    }
+    if (formValues.scale) {
+      filterExpressions.push(`scale = "${formValues.scale}"`);
+    }
+    if (formValues.bpmRange && formValues.bpmRange.length === 2) {
+      const [minBPM, maxBPM] = formValues.bpmRange;
+      filterExpressions.push(`bpm >= ${minBPM} AND bpm <= ${maxBPM}`);
+    }
+
+    const filterString = filterExpressions.join(" AND ");
+
     try {
-      const response = await http.get(`/samples?page=${page}`);
-      setSamples(response.data.samples);
-      setTotalSamples(response.data.total);
-      setTotalPages(response.data.pages);
-    } catch (error) {}
-  };
+      const result = await fetchFromMeiliSearch({
+        indexName: "samples_index",
+        searchParams: {
+          text: formValues.text || "", // optionally add text search
+          filter: filterExpressions.length > 0 ? filterString : undefined,
+        },
+        page: currentPage,
+      });
 
-  const index = client.index("samples_index");
-
-  const handleSearch = async (searchParams: FormValues) => {
-    try {
-      let filters = [];
-
-      // Conditionally construct filters based on searchParams
-      if (searchParams.instrument_id) {
-        filters.push(`instrument_id = ${searchParams.instrument_id}`);
-      }
-      if (searchParams.genre_id) {
-        filters.push(`genre_id = ${searchParams.genre_id}`);
-      }
-      if (searchParams.key) {
-        filters.push(`key = "${searchParams.key}"`); // Assuming 'key' is a string attribute
-      }
-      if (searchParams.scale) {
-        filters.push(`scale = "${searchParams.scale}"`); // Assuming 'scale' is a string attribute
-      }
-      if (searchParams.bpmRange && searchParams.bpmRange.length === 2) {
-        // Assuming your index has a 'bpm' attribute and you want to filter within the range
-        filters.push(
-          `bpm >= ${searchParams.bpmRange[0]} AND bpm <= ${searchParams.bpmRange[1]}`
-        );
+      if (!result) {
+        throw new Error("No data returned from MeiliSearch");
       }
 
-      let searchOptions = {
-        filter: filters.length > 0 ? filters.join(" AND ") : undefined,
-        attributesToRetrieve: ["*"], // Retrieve all attributes
-      };
-
-      const { hits } = await index.search(
-        searchParams.text || "",
-        searchOptions
-      );
-      setSamples(hits as Sample[]); // Ensure you handle the type assertion properly
+      // Directly use the result without intermediate variable
+      return result;
     } catch (error) {
-      console.error("Search error:", error);
-      setSamples([]); // Reset samples on error
+      console.error("Error fetching from MeiliSearch:", error);
     }
   };
 
-  // Function to handle going to the next page
-  const handleNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-    window.scrollTo(0, 0);
+  const handlePageChange = (newPage: number) => {
+    console.log("New page:", newPage);
+    setPage(newPage);
   };
 
-  // Function to handle going to the previous page
-  const handlePrevPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-    window.scrollTo(0, 0);
+  // Form submission handler to update search parameters and reset pagination
+  const handleSearch = (newFormValues: FormValues) => {
+    setFormValues(newFormValues);
+    setPage(1); // Reset to first page on new search
   };
 
   useEffect(() => {
-    fetchSamples();
-  }, [page]);
+    const fetch = async () => {
+      await fetchSamples(page);
+    };
+    fetch();
+  }, [page, formValues]);
 
   return (
     <>
@@ -104,6 +110,7 @@ const Browse = () => {
         <CgLoadbarSound />
         Browse All Samples
       </h1>
+
       <div className="browse-main-container">
         <section className="filter-sample-container">
           <div className="filter-sample-wrapper">
@@ -113,14 +120,10 @@ const Browse = () => {
         </section>
         <section className="filter-sample-container">
           <FilterableSampleList
-            totalSamples={totalSamples}
-            totalPages={totalPages}
-            samples={samples}
-            setSamples={setSamples}
-            onNextPage={handleNextPage}
-            onPrevPage={handlePrevPage}
+            fetchSamples={fetchSamples}
             showEditButton={false}
-            page={page}
+            onPageChange={handlePageChange}
+            currentPage={page}
           />
         </section>
       </div>

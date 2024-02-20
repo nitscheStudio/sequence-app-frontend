@@ -1,4 +1,3 @@
-import React from "react";
 import sequenceLogo from "../assets/sequence-logo_new.svg";
 
 const NotFound = () => {

@@ -1,39 +1,64 @@
-import React, { useEffect, useState, useRef } from "react";
-import SampleMusicPlayer from "./SampleMusicPlayer";
-import type { Sample } from "../types/sample";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import http from "../utils/http";
+import { useEffect, useState, useRef } from "react";
 
-type FilterableSampleListProps = {
-  showEditButton: boolean;
+// Type Imports
+import type { Sample } from "../types/sample";
+
+//Component Imports
+import SampleMusicPlayer from "./SampleMusicPlayer";
+
+//Image & Icon Imports
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+
+type SampleData = {
   samples: Sample[];
-  onNextPage: () => void;
-  onPrevPage: () => void;
   totalSamples: number;
   totalPages: number;
-  page: number;
-  setSamples: React.Dispatch<React.SetStateAction<Sample[]>>;
+};
+
+type FilterableSampleListProps = {
+  onPageChange?: (page: number) => void;
+  showEditButton: boolean;
+  fetchSamples: (page: number) => Promise<SampleData | void>;
+  currentPage: number;
 };
 
 const FilterableSampleList = ({
-  setSamples,
-  samples,
-  onNextPage,
-  onPrevPage,
-  totalSamples,
-  totalPages,
-  page,
+  fetchSamples,
   showEditButton,
+  onPageChange,
+  currentPage,
 }: FilterableSampleListProps) => {
   const [filePath, setFilePath] = useState("");
   const [playerState, setPlayerState] = useState("paused");
-
-  // Popup for update and delete sample messages
+  const [samples, setSamples] = useState<Sample[]>([]);
+  const [page, setPage] = useState(currentPage);
+  const [totalSamples, setTotalSamples] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   // for ContextMenu
   const [visibleContextMenu, setVisibleContextMenu] = useState<number | null>(
     null
   );
+
+  // set sample states that were deconstructed in the parent component
+  useEffect(() => {
+    const getData = async () => {
+      const { samples, totalSamples, totalPages } =
+        (await fetchSamples(page)) || {};
+      if (samples) {
+        setSamples(samples);
+        if (typeof totalSamples === "number") {
+          setTotalSamples(totalSamples);
+        }
+
+        if (typeof totalPages === "number") {
+          setTotalPages(totalPages);
+        }
+      }
+    };
+
+    getData();
+  }, [page, fetchSamples]);
 
   //Sample deletion passed down to Modal Component
   const handleSampleDeletion = (deletedSampleId: number) => {
@@ -68,6 +93,21 @@ const FilterableSampleList = ({
     setPlayerState("paused");
   }
 
+  const handleMusicEnd = () => {
+    setPlayerState("paused");
+  };
+
+  //notify parent about page change so it can fetch data for new page
+  const setPageAndNotify = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo(0, 0);
+    onPageChange?.(newPage); // Notify the parent about the page change
+  };
+
+  useEffect(() => {
+    setPage(currentPage);
+  }, [currentPage]);
+
   return (
     <>
       <div ref={componentRef} className="filterable-sample-list">
@@ -75,6 +115,7 @@ const FilterableSampleList = ({
           <h3 className="total-samples">{totalSamples} Samples:</h3>
           <audio
             onCanPlay={() => audio?.play()}
+            onEnded={handleMusicEnd}
             preload="auto"
             ref={audioRef}
           ></audio>
@@ -106,18 +147,7 @@ const FilterableSampleList = ({
           <button
             className="page-controller-button flex-center"
             disabled={page === 1}
-            onClick={() => {
-              onPrevPage();
-              // setPage((page) => Math.max(page - 1, 1));
-              // if (componentRef.current) {
-              //   const rect = componentRef.current.getBoundingClientRect();
-              //   window.scrollTo({
-              //     top: rect.top + window.scrollY - 100,
-              //     behavior: "instant",
-              //   });
-              // }
-              // window.scrollTo(0, 0);
-            }}
+            onClick={() => setPageAndNotify(page - 1)}
           >
             <MdArrowBackIos />
             <span className="page-controll-button-descr">Prev</span>
@@ -130,18 +160,7 @@ const FilterableSampleList = ({
           <button
             className="page-controller-button flex-center"
             disabled={page >= totalPages}
-            onClick={() => {
-              onNextPage();
-              // setPage((page) => page + 1);
-              // if (componentRef.current) {
-              //   const rect = componentRef.current.getBoundingClientRect();
-              //   window.scrollTo({
-              //     top: rect.top + window.scrollY - 100,
-              //     behavior: "instant",
-              //   });
-              // }
-              // window.scrollTo(0, 0);
-            }}
+            onClick={() => setPageAndNotify(page + 1)}
           >
             <span className="page-controll-button-descr">Next</span>
             <MdArrowForwardIos />

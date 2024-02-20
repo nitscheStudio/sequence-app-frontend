@@ -1,9 +1,9 @@
-import React from "react";
+import { Link } from "react-router-dom";
+
 import { FiInstagram } from "react-icons/fi";
 import { ImSoundcloud } from "react-icons/im";
 import { BsTwitterX } from "react-icons/bs";
 import FooterLogo from "../assets/logo-footer.svg";
-import { Link } from "react-router-dom";
 import profileIcon from "../assets/profile-icon.svg";
 
 const Footer = () => {

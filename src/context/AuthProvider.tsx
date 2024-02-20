@@ -10,20 +10,25 @@ type Auth = {
   username: string | null;
   is_private: boolean | null;
   profile_picture_path: string | null;
+  samplesCount: number;
 };
 
 type AuthContext = {
   auth: Auth;
   setAuth: React.Dispatch<React.SetStateAction<Auth>>;
   isAuthenticated: () => boolean;
+  updateProfilePicture: UpdateProfilePicture;
   isLoading: boolean;
 };
+
+type UpdateProfilePicture = (newPath: string) => void;
 
 export const defaultAuth: Auth = {
   id: null,
   username: null,
   is_private: null,
   profile_picture_path: null,
+  samplesCount: 0,
 };
 
 const defaultAuthContext = {
@@ -31,6 +36,7 @@ const defaultAuthContext = {
   setAuth: () => {},
   isAuthenticated: () => false,
   isLoading: true,
+  updateProfilePicture: (newPath: string) => {},
 } as AuthContext;
 
 export const AuthContext = createContext(defaultAuthContext);
@@ -55,12 +61,27 @@ const AuthProvider = ({ children }: Props) => {
     }
   };
 
+  const updateProfilePicture = (newPath: string) => {
+    setAuth((prevAuth) => ({
+      ...prevAuth,
+      profile_picture_path: newPath,
+    }));
+  };
+
   useEffect(() => {
     fetchUserData();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, isAuthenticated, isLoading }}>
+    <AuthContext.Provider
+      value={{
+        auth,
+        setAuth,
+        isAuthenticated,
+        isLoading,
+        updateProfilePicture,
+      }}
+    >
       {!isLoading ? children : <div>Loading...</div>}
     </AuthContext.Provider>
   );

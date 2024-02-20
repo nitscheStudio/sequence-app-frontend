@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useRef } from "react";
 
 interface ModalProps {
   isVisible: boolean;
@@ -11,7 +12,7 @@ interface ModalProps {
   message: string | null;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const Modal = ({
   isVisible,
   title,
   content,
@@ -19,10 +20,10 @@ const Modal: React.FC<ModalProps> = ({
   onCancel,
   onExit,
   message,
-}) => {
-  const dialogRef = React.useRef<HTMLDialogElement>(null);
+}: ModalProps) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (dialogRef.current) {
       isVisible ? dialogRef.current.showModal() : dialogRef.current.close();
     }

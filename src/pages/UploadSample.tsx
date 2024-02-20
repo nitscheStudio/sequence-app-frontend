@@ -1,22 +1,21 @@
 import { useForm } from "react-hook-form";
 import http from "../utils/http";
 import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
+
+//Component Imports
 import FileDragAndDrop from "../components/FileDragAndDrop";
 import TagManager from "../components/TagManager";
-// import predefinedTags from "../predefinedArrays/TagData";
-import stepBackIcon from "../assets/stepBackBtn.svg";
-import uploadSucces from "../assets/uploadSuccess.svg";
-import {
-  FaArrowLeftLong,
-  FaArrowRightLong,
-  FaArrowUpLong,
-} from "react-icons/fa6";
-import { ImUpload } from "react-icons/im";
 
 // import Contexts
 import { DataContext } from "../context/InstrumentGenreContext";
 import { useFileUpload } from "../context/FileUploadContext";
+
+//Image & Icon Imports
+import stepBackIcon from "../assets/stepBackBtn.svg";
+import uploadSucces from "../assets/uploadSuccess.svg";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { ImUpload } from "react-icons/im";
 
 type FormValues = {
   title: string;
@@ -49,7 +48,6 @@ type Tag = {
 
 const SampleUpload = () => {
   const form = useForm<FormValues>();
-  // const [file, setFile] = useState<File | null>(null);
   const { file, updateFile } = useFileUpload();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<any>(null);
@@ -68,7 +66,7 @@ const SampleUpload = () => {
   } = form;
   const navigate = useNavigate();
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const { genres, instruments, error } = useContext(DataContext);
+  const { genres, instruments} = useContext(DataContext);
 
   let stepHeader;
   if (uploadSuccess) {
@@ -357,7 +355,8 @@ const SampleUpload = () => {
             onTagsChange={setSelectedTags}
           />
           <button className="next-step-btn" onClick={onNextStep}>
-            Next Step <FaArrowRightLong />
+            {selectedTags.length > 0 ? "Next Step" : "Skip for Now"}{" "}
+            <FaArrowRightLong />
           </button>
         </>
       )}

@@ -1,12 +1,19 @@
 import { useForm } from "react-hook-form";
 import http from "../utils/http";
 import { useEffect, useState, useContext } from "react";
-import { Sample } from "../types/sample";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { FiEdit } from "react-icons/fi";
-import TagManager from "../components/TagManager";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Context Imports
 import { DataContext } from "../context/InstrumentGenreContext";
+
+// Icon & Image Imports
+import { FiEdit } from "react-icons/fi";
+
+//Type Imports
+import { Sample } from "../types/sample";
+
+//Component Imports
+import TagManager from "../components/TagManager";
 
 type FormValues = {
   title: string;
@@ -148,7 +155,7 @@ const EditSample = () => {
     }
   };
 
-  const onCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onCancel = () => {
     reset();
     setSelectedTags([]);
     navigate("/dashboard", {

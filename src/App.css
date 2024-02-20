@@ -24,7 +24,7 @@
 
 h2 {
   font-size: 1.3rem;
-  margin-top: 2.5rem;
+  /* margin-top: 2.5rem; */
   font-weight: 300;
 }
 
@@ -991,6 +991,11 @@ footer {
   margin-bottom: 1rem;
 }
 
+.file-drag-n-drop-check {
+  color: #03b276;
+  opacity: 70%;
+}
+
 /********* - Sample related Forms - **********/
 
 .sample-form-headline {
@@ -1368,21 +1373,29 @@ footer {
 }
 
 .input-container-filter-form {
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem; */
   background-color: white;
   border-radius: 12px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+  border: 1.5px solid white;
 }
 
+.input-container-filter-form:hover {
+  border: var(--link-hover) 1.5px solid;
+}
 .input-container-filter-form select {
   background-color: #ffffff;
+  border-radius: 12px;
   color: #1c1c1c;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1.5rem;
+  /* margin: 0.5rem 1rem; */
   border: none;
   font-size: 1rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
 }
 
 .input-container-filter-form select:focus {
@@ -1506,8 +1519,84 @@ dialog {
 }
 
 /********* - Media Queries - **********/
+@media only screen and (max-width: 1087px) {
+  .homepage-headline {
+    font-size: 2rem;
+  }
+}
 
 @media only screen and (max-width: 1007px) {
+  /************* - Homepage -*************/
+
+  .grid-6-text {
+    font-size: 1.4rem;
+  }
+
+  .wrapper .grid:nth-child(6) .grid-content {
+    padding: 0;
+  }
+  .icon-text-container {
+    display: none;
+  }
+  /************* - Dashboard -*************/
+
+  .user-stats {
+    gap: 1rem;
+  }
+
+  .browse-main-container {
+    flex-direction: column;
+  }
+
+  .filter-sample-container {
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  #root {
+    overflow: hidden;
+  }
+
+  .sample-form-headline {
+    font-size: 1.8rem;
+  }
+
+  .filterable-sample-list {
+    display: block;
+    margin: 0 auto;
+  }
+
+  /********* - Sample-Player **********/
+  .tags-list {
+    display: none;
+  }
+
+  .sample-title-progress {
+    text-align: left;
+    width: 100px;
+  }
+
+  .attribute-container {
+    display: none;
+  }
+
+  .sample-player-button.download-button {
+    display: none;
+  }
+
+  .music-player {
+    justify-content: space-between;
+  }
+
+  .page-controller {
+    gap: 30px;
+  }
+
+  .music-player > * {
+    flex-grow: unset;
+  }
+
   /********* - Mobile Navigation - **********/
 
   .mobile-navigation {
@@ -1515,7 +1604,6 @@ dialog {
     position: absolute;
     right: 15px; /* Adjust as needed */
     top: 15px; /* Adjust for vertical alignment */
-    /* Additional responsive styling */
     cursor: pointer;
   }
 
@@ -1525,50 +1613,40 @@ dialog {
   }
 
   .nav-items-container {
-    display: none; /* Hide initially in mobile view */
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hide by default */
+    height: 100vh;
+    width: 60%;
+    /* Adjust background color as needed */
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 0;
   }
 
   .nav-items-container.show {
-    display: block; /* Show when hamburger menu is clicked */
+    gap: 2rem;
+    right: 0; /* Show when hamburger menu is clicked */
     /* Additional styling for visible mobile menu */
   }
 
+  /* Adjustments for other elements when menu is open */
+  .main-navigation.hide {
+    transform: translateX(-70%);
+  }
+
   .logout-button {
-    display: none;
+    right: -50%;
+    position: relative;
   }
 
   .logout-button.show {
-    display: block;
-  }
-
-  .user-stats {
-    gap: 1rem;
-  }
-
-  .browse-main-container {
-    flex-direction: column;
-  }
-}
-
-@media only screen and (max-width: 640px) {
-  #root {
-    overflow: hidden;
-  }
-  /********* - Sample-Player **********/
-  .tags-list {
-    display: none;
-  }
-
-  .sample-title-progress {
-    text-align: left;
-    width: 150px;
-    overflow: hidden;
-  }
-  .attribute-container {
-    display: none;
-  }
-
-  .sample-player-button.download-button {
-    display: none;
+    position: fixed;
+    right: 20%;
+    bottom: 0;
+    top: 790%;
   }
 }

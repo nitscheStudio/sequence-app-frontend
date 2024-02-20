@@ -1,7 +1,6 @@
 import * as React from "react";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 type RangeSliderProps = {
   bpmRange: number[];
@@ -55,13 +54,6 @@ export default function RangeSlider({
         min={40}
         max={240}
       />
-      {/* <Box display="flex" justifyContent="space-between">
-        <Typography>{bpmRange[0]} </Typography>
-
-        <Typography>
-          {bpmRange[0] === bpmRange[1] ? "" : bpmRange[1]}
-        </Typography>
-      </Box> */}
     </Box>
   );
 }

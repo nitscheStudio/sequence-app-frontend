@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import fileUploadIcon from "../assets/file-upload-icon.svg";
+import { FaCheckToSlot } from "react-icons/fa6";
 
 type FileDragAndDropProps = {
   file: File | null;
@@ -28,15 +29,23 @@ const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({
   dataTypes,
 }) => {
   // const [fileError, setFileError] = useState<string | null>(null);
+  const [isFileDropped, setIsFileDropped] = useState(false);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: fileTypeMap[dataTypes],
     onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
         setFile(acceptedFiles[0]); //call handleChange method from parent component
+        setIsFileDropped(true);
       }
     },
   });
+
+  useEffect(() => {
+    if (file) {
+      setIsFileDropped(true);
+    }
+  }, [file]);
 
   const fileTypes = Object.values(fileTypeMap[dataTypes])
     .flat()
@@ -46,7 +55,11 @@ const FileDragAndDrop: React.FC<FileDragAndDropProps> = ({
   return (
     <div className="file-drop-zone">
       <div {...getRootProps()}>
-        <img src={fileUploadIcon} alt="file upload icon" />
+        {isFileDropped ? (
+          <FaCheckToSlot size="48" className="file-drag-n-drop-check" />
+        ) : (
+          <img src={fileUploadIcon} alt="upload icon" />
+        )}
         <input {...getInputProps()} />
         {isDragActive ? (
           <p>Drop the files here ...</p>

@@ -1,12 +1,20 @@
 import React, { useState, useRef } from "react";
-import { useClickOutside } from "../customHooks/useClickOutside";
-import { MdMoreVert } from "react-icons/md";
-import { MdModeEdit, MdDelete } from "react-icons/md";
-import Modal from "./Modal";
 
 import { Link } from "react-router-dom";
 import http from "../utils/http";
+
+//Copmponent Imports
+import Modal from "./Modal";
+
+//Image & Icon Imports
+import { MdMoreVert } from "react-icons/md";
+import { MdModeEdit, MdDelete } from "react-icons/md";
+
+//Library Imports (3rd Party)
 import { Tooltip } from "react-tooltip";
+
+// Custom Hooks
+import { useClickOutside } from "../customHooks/useClickOutside";
 
 type SampleContextMenuProps = {
   sampleId: number;

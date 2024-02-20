@@ -1,7 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { DataContext } from "../context/InstrumentGenreContext";
-import RangeSlider from "./RangeSlider"; // adjust the path as needed
+
+// Libraries (3rd Party)
+import RangeSlider from "./RangeSlider";
 
 type FormValues = {
   bpmRange?: number[];

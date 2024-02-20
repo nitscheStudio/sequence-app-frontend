@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import FileDragAndDrop from "../components/FileDragAndDrop";
-import sequenceLogo from "../assets/sequence-logo_new.svg";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import http from "../utils/http";
+import { useNavigate } from "react-router-dom";
+
+// Components
+import FileDragAndDrop from "../components/FileDragAndDrop";
+
+// Context
+import { useFileUpload } from "../context/FileUploadContext";
+import { AuthContext } from "../context/AuthProvider";
+
+// Image & Icon Imports
+import sequenceLogo from "../assets/sequence-logo_new.svg";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import { useFileUpload } from "../context/FileUploadContext";
 
 type FormValues = {
   profile_picture: FileList | null;
@@ -18,6 +25,7 @@ const UploadProfilePicture = () => {
   const [fileSelectionError, setFileSelectionError] = useState<string | null>(
     null
   );
+  const { updateProfilePicture } = useContext(AuthContext);
 
   const {
     handleSubmit: handleFormSubmit,
@@ -42,6 +50,10 @@ const UploadProfilePicture = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      const newProfilePictureUrl: string = response.data.path;
+      updateProfilePicture(newProfilePictureUrl);
+
       navigate("/dashboard", {
         state: {
           profilePictureEdit: true,

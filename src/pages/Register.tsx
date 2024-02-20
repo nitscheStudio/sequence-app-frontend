@@ -1,13 +1,16 @@
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { Link } from "react-router-dom";
-import sequenceLogo from "../assets/sequence-logo_new.svg";
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import { useState } from "react";
 import http from "../utils/http";
 import { useNavigate } from "react-router-dom";
+
+
+//Image & Icon Imports
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
+import sequenceLogo from "../assets/sequence-logo_new.svg";
+
 
 type FormValues = {
   username: string;

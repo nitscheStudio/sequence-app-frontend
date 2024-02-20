@@ -1,6 +1,4 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { IoIosArrowRoundForward } from "react-icons/io";
 import LinkButton from "../components/LinkButton";
 
 const Home = () => {

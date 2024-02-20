@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext, defaultAuth } from "../context/AuthProvider";
 import http from "../utils/http";
 import { FiLogOut } from "react-icons/fi";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { MdOutlineClose } from "react-icons/md";
 import { HiMenuAlt3 } from "react-icons/hi";
 
 const Navbar = () => {
@@ -33,14 +33,22 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollTop = window.scrollY;
-      if (currentScrollTop > lastScrollTop && currentScrollTop > 80) {
-        setNavbarHidden(true);
-        setHideScrollTop(currentScrollTop);
-      } else if (hideScrollTop - currentScrollTop > 30) {
-        setNavbarHidden(false);
+      const mobileBreakpoint = 640;
+
+      // Get the current window width
+      const windowWidth = window.innerWidth;
+
+      // Proceed with hiding logic only if window width is greater than mobile breakpoint
+      if (windowWidth > mobileBreakpoint) {
+        const currentScrollTop = window.scrollY;
+        if (currentScrollTop > lastScrollTop && currentScrollTop > 80) {
+          setNavbarHidden(true);
+          setHideScrollTop(currentScrollTop);
+        } else if (hideScrollTop - currentScrollTop > 30) {
+          setNavbarHidden(false);
+        }
+        setLastScrollTop(currentScrollTop);
       }
-      setLastScrollTop(currentScrollTop);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -64,7 +72,10 @@ const Navbar = () => {
           <ul className={`nav-items-container ${isMobileOpen ? "show" : ""}`}>
             <li className="nav-item">
               <NavLink
-                onClick={() => window.scrollTo(0, 0)}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  if (isMobileOpen) toggleMobileMenu(); // Close the mobile menu if it's open
+                }}
                 to="/dashboard"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
@@ -73,7 +84,10 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                onClick={() => window.scrollTo(0, 0)}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  if (isMobileOpen) toggleMobileMenu(); // Close the mobile menu if it's open
+                }}
                 to="/browse"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
@@ -82,7 +96,10 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                onClick={() => window.scrollTo(0, 0)}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  if (isMobileOpen) toggleMobileMenu();
+                }}
                 to="/upload"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
@@ -92,13 +109,14 @@ const Navbar = () => {
           </ul>
 
           <div className="mobile-navigation" onClick={toggleMobileMenu}>
-            <HiMenuAlt3 className="burger-menu-icon" />
+            {isMobileOpen ? (
+              <MdOutlineClose size={36} />
+            ) : (
+              <HiMenuAlt3 className="burger-menu-icon" />
+            )}
           </div>
 
-          <button
-            onClick={handleLogout}
-            className={`logout-button ${isMobileOpen ? "show" : ""}`}
-          >
+          <button onClick={handleLogout} className="logout-button">
             Logout <FiLogOut />
           </button>
         </>

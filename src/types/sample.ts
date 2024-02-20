@@ -4,12 +4,11 @@ export type Sample = {
   bpm?: number;
   key: string;
   scale: string;
-  type: string;
   file_path: string;
-  user_id: number;
+  user_id?: number;
   created_at: string;
-  genre: string;
-  instrument: string;
+  genre_id: number;
+  instrument_id: number;
   tags: Array<{
     id: number;
     name: string;

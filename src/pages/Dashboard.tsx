@@ -1,14 +1,5 @@
-import { AuthContext } from "../context/AuthProvider";
-import { useContext, useRef, useState } from "react";
-import {
-  NavLink,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-  Link,
-} from "react-router-dom";
-import { useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 //Image & Icon Imports
 import profilePictureDefault from "../assets/profile-picture-default.svg";
@@ -18,7 +9,6 @@ import likesIcon from "../assets/likes-icon.svg";
 import uploadIcon from "../assets/uploads-icon.svg";
 import { LuLibrary } from "react-icons/lu";
 import { TiHeartFullOutline } from "react-icons/ti";
-import { MdModeEdit } from "react-icons/md";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 import { BsCameraFill } from "react-icons/bs";
@@ -29,6 +19,9 @@ import UploadedSamplesList from "../components/UploadedSamplesList";
 
 // Packages Imports
 import { Tooltip } from "react-tooltip";
+
+//Context
+import { AuthContext } from "../context/AuthProvider";
 
 const Dashboard = () => {
   const { auth } = useContext(AuthContext);
@@ -43,7 +36,6 @@ const Dashboard = () => {
 
   const handleTabChange = (tabName: string) => {
     setActiveTab(tabName);
-    // Potentially push to history if you want to change the URL
   };
 
   let message = location.state?.message;
@@ -109,11 +101,11 @@ const Dashboard = () => {
             </div>
             <div className="stats-container">
               <img src={likesIcon} alt="likes icon" />
-              <p>28 Likes</p>
+              <p>23 Likes</p>
             </div>
             <div className="stats-container">
               <img src={uploadIcon} alt="upload icon" />
-              <p>34 Samples</p>
+              <p>{auth.samplesCount} Samples</p>
             </div>
           </div>
         </div>

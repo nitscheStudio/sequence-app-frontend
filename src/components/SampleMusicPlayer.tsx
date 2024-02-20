@@ -1,11 +1,19 @@
-import type { Sample, TagType } from "../types/sample";
-import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
-import { IoHeartCircleOutline } from "react-icons/io5";
 import http from "../utils/http";
 import { useState } from "react";
+
+// Types
+import type { Sample, TagType } from "../types/sample";
+
+//Context
 import SampleContextMenu from "./SampleContextMenu";
+
+//Libraries
 import { Tooltip } from "react-tooltip";
+
+//Icon & Image Imports
 import profilePictureDefault from "../assets/profile-picture-default.svg";
+import { IoMdDownload, IoIosPlay, IoIosPause } from "react-icons/io";
+import { IoHeartCircleOutline } from "react-icons/io5";
 
 type SampleMusicPlayerProps = {
   showEditButton: boolean;
@@ -171,7 +179,7 @@ const SampleMusicPlayer = ({
             />
           </div>
           <div className="sample-title-progress">
-            <span className="sample-title">{title}</span>
+            <span className="sample-title marquee">{title}</span>
             <div className="tags">
               <ul className="tags-list">
                 {tags.map((tag: TagType) => (
