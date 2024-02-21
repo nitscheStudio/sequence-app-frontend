@@ -20,6 +20,7 @@ import Dashboard from "./pages/Dashboard";
 import Browse from "./pages/Browse";
 import EditSample from "./pages/EditSample";
 import UploadProfilePicture from "./pages/UploadProfilePIcture";
+import UploadPageMobileNotification from "./pages/UploadPAgeMobileNotification";
 
 //Layouts
 import RootLayout from "./layouts/RootLayout";
@@ -46,36 +47,41 @@ const router = createBrowserRouter(
               </DataProvider>
             }
           />
-
           <Route
             path="/upload"
             element={
-              <FileUploadProvider>
-                <UploadSample />
-              </FileUploadProvider>
+              <DataProvider>
+                <FileUploadProvider>
+                  <UploadSample />
+                </FileUploadProvider>
+              </DataProvider>
             }
           />
         </Route>
+        <Route
+          path="/edit/profile-picture"
+          element={
+            <FileUploadProvider>
+              <UploadProfilePicture />
+            </FileUploadProvider>
+          }
+        />
+
+        <Route
+          path="/edit/sample/:sampleId"
+          element={
+            <DataProvider>
+              <EditSample />
+            </DataProvider>
+          }
+        />
+        <Route
+          path="/mobile-upload-info"
+          element={<UploadPageMobileNotification />}
+        />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route
-        path="/edit/profile-picture"
-        element={
-          <FileUploadProvider>
-            <UploadProfilePicture />
-          </FileUploadProvider>
-        }
-      />
-
-      <Route
-        path="/edit/sample/:sampleId"
-        element={
-          <DataProvider>
-            <EditSample />
-          </DataProvider>
-        }
-      />
     </>
   )
 );

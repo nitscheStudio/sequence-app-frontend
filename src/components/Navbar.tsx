@@ -1,11 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
-import sequenceLogo from "../assets/sequence-logo.svg";
+import { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext, defaultAuth } from "../context/AuthProvider";
 import http from "../utils/http";
+
+//Context
+import { useTheme } from "../context/ThemeManagment";
+
+//Image & Icon Imports
 import { FiLogOut } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
 import { HiMenuAlt3 } from "react-icons/hi";
+import sequenceLogo from "../assets/sequence-logo.svg";
+import sequenceLogoDarkMode from "../assets/sequence-logo_darkmode.svg";
 
 const Navbar = () => {
   const { setAuth, isAuthenticated } = useContext(AuthContext);
@@ -14,6 +20,7 @@ const Navbar = () => {
   const [navbarHidden, setNavbarHidden] = useState(false);
   const [hideScrollTop, setHideScrollTop] = useState(0);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { isDarkMode, toggleDarkMode } = useTheme();
 
   const toggleMobileMenu = () => {
     setIsMobileOpen(!isMobileOpen);
@@ -31,6 +38,16 @@ const Navbar = () => {
     }
   };
 
+  const handleUploadClick = (event: React.MouseEvent) => {
+    const windowWidth = window.innerWidth;
+    const mobileBreakpoint = 640;
+
+    if (windowWidth < mobileBreakpoint) {
+      event?.preventDefault();
+      navigate("/mobile-upload-info");
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const mobileBreakpoint = 640;
@@ -41,7 +58,7 @@ const Navbar = () => {
       // Proceed with hiding logic only if window width is greater than mobile breakpoint
       if (windowWidth > mobileBreakpoint) {
         const currentScrollTop = window.scrollY;
-        if (currentScrollTop > lastScrollTop && currentScrollTop > 80) {
+        if (currentScrollTop > lastScrollTop && currentScrollTop > 140) {
           setNavbarHidden(true);
           setHideScrollTop(currentScrollTop);
         } else if (hideScrollTop - currentScrollTop > 30) {
@@ -64,7 +81,10 @@ const Navbar = () => {
         to={isAuthenticated() ? "/dashboard" : "/"}
         className={() => "logo-class"}
       >
-        <img src={sequenceLogo} alt="Sequence Logo" />
+        <img
+          src={isDarkMode ? sequenceLogoDarkMode : sequenceLogo}
+          alt="Sequence Logo"
+        />
       </NavLink>
 
       {isAuthenticated() ? (
@@ -96,15 +116,22 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                onClick={() => {
+                onClick={(event) => {
                   window.scrollTo(0, 0);
                   if (isMobileOpen) toggleMobileMenu();
+                  handleUploadClick(event); // Check device type before navigating
                 }}
                 to="/upload"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Upload
               </NavLink>
+            </li>
+            {/* Logout button within the nav items for mobile view */}
+            <li className="nav-item mobile-logout">
+              <button onClick={handleLogout} className="logout">
+                Logout <FiLogOut />
+              </button>
             </li>
           </ul>
 

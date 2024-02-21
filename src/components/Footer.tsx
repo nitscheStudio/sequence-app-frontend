@@ -5,8 +5,12 @@ import { ImSoundcloud } from "react-icons/im";
 import { BsTwitterX } from "react-icons/bs";
 import FooterLogo from "../assets/logo-footer.svg";
 import profileIcon from "../assets/profile-icon.svg";
+import { AuthContext } from "../context/AuthProvider";
+import { useContext } from "react";
 
 const Footer = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
   return (
     <footer>
       <section className="upper-footer">
@@ -15,11 +19,13 @@ const Footer = () => {
             <img src={profileIcon} alt="profile icon" />
             <div>My Account</div>
           </div>
-          <div className="flex">
-            <Link to={"/login"}>Login</Link>
-            <div className="divider">/</div>
-            <Link to={"/register"}>Register</Link>
-          </div>
+          {!isAuthenticated() && (
+            <div className="flex">
+              <Link to={"/login"}>Login</Link>
+              <div className="divider">/</div>
+              <Link to={"/register"}>Register</Link>
+            </div>
+          )}
         </div>
         <div className="upper-footer-column right">
           <div className="suport-title">Support</div>

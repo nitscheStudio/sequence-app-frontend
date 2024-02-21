@@ -73,6 +73,7 @@ const Dashboard = () => {
           </p>
         </div>
       )}
+
       <section className="profile-card">
         <div className="profile-picture-container">
           <img
@@ -97,7 +98,7 @@ const Dashboard = () => {
           <div className="user-stats">
             <div className="stats-container">
               <img src={rankingIcon} alt="ranking icon" />
-              <p>Top 0.1%</p>
+              <p>Platinum</p>
             </div>
             <div className="stats-container">
               <img src={likesIcon} alt="likes icon" />
@@ -110,41 +111,43 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
+      <div>
+        <section className="profile-card-2">
+          <nav className="dashboard-sub-navigation">
+            <ul className="sub-nav-items-container">
+              <li
+                data-tooltip-id="sample-library-tooltip"
+                data-tooltip-content="Uploaded Samples"
+                data-tooltip-delay-show={700}
+                className="nav-item"
+                onClick={() => handleTabChange("uploaded")}
+              >
+                <div className={activeTab === "uploaded" ? "active" : ""}>
+                  <LuLibrary className="my-sample-library-icon" />
+                </div>
+              </li>
+              <Tooltip id="sample-library-tooltip" />
+              <li
+                data-tooltip-id="liked-samples-tooltip"
+                data-tooltip-content="Liked Samples"
+                data-tooltip-delay-show={700}
+                className="nav-item"
+                onClick={() => handleTabChange("liked")}
+              >
+                <div className={activeTab === "liked" ? "active" : ""}>
+                  <TiHeartFullOutline className="my-liked-samples-icon" />
+                </div>
+              </li>
+              <Tooltip id="liked-samples-tooltip" />
+            </ul>
+          </nav>
+        </section>
 
-      <section className="profile-card-2">
-        <nav className="dashboard-sub-navigation">
-          <ul className="sub-nav-items-container">
-            <li
-              data-tooltip-id="sample-library-tooltip"
-              data-tooltip-content="Uploaded Samples"
-              data-tooltip-delay-show={700}
-              className="nav-item"
-              onClick={() => handleTabChange("uploaded")}
-            >
-              <div className={activeTab === "uploaded" ? "active" : ""}>
-                <LuLibrary className="my-sample-library-icon" />
-              </div>
-            </li>
-            <Tooltip id="sample-library-tooltip" />
-            <li
-              data-tooltip-id="liked-samples-tooltip"
-              data-tooltip-content="Liked Samples"
-              data-tooltip-delay-show={700}
-              className="nav-item"
-              onClick={() => handleTabChange("liked")}
-            >
-              <div className={activeTab === "liked" ? "active" : ""}>
-                <TiHeartFullOutline className="my-liked-samples-icon" />
-              </div>
-            </li>
-            <Tooltip id="liked-samples-tooltip" />
-          </ul>
-        </nav>
-      </section>
-      <section className="sample-list-container">
-        {activeTab === "uploaded" && <UploadedSamplesList />}
-        {activeTab === "liked" && <LikedSamplesList />}
-      </section>
+        <section className="sample-list-container">
+          {activeTab === "uploaded" && <UploadedSamplesList />}
+          {activeTab === "liked" && <LikedSamplesList />}
+        </section>
+      </div>
     </>
   );
 };

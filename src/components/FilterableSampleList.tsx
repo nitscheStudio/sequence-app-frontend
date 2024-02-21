@@ -100,7 +100,7 @@ const FilterableSampleList = ({
   //notify parent about page change so it can fetch data for new page
   const setPageAndNotify = (newPage: number) => {
     setPage(newPage);
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     onPageChange?.(newPage); // Notify the parent about the page change
   };
 

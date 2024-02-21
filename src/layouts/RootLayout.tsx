@@ -5,6 +5,7 @@ import { AuthContext, defaultAuth } from "../context/AuthProvider";
 import http from "../utils/http";
 import { useContext, useEffect } from "react";
 import Footer from "../components/Footer";
+import ToggleDarkMode from "../components/ToggleDarkMode";
 
 const RootLayout = () => {
   const { auth } = useContext(AuthContext);
@@ -14,6 +15,7 @@ const RootLayout = () => {
       <Navbar />
       <main>
         <Outlet />
+        <ToggleDarkMode />
       </main>
       <Footer />
     </>

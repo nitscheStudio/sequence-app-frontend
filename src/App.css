@@ -1,11 +1,153 @@
+/*CSS From index.css*/
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-color);
+  font-family: "owners-text", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: 0.15s ease-in-out;
+  color: var(--button-color);
+}
+button:hover {
+  border-color: var(--secondary-color);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+main {
+  padding-top: 7rem;
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  padding-bottom: 7rem;
+  background-color: var(--bg-color);
+}
+
+:root {
+  --bg-color: #fafafa;
+  --bg-card-color: #fafafa; /* Light mode background */
+  /* Light mode background */
+  --text-color: #1c1c1c; /* Light mode text color */
+  --secondary-color: #03b276; /* Light mode secondary color */
+  --link-hover: #00905e; /* Light mode link hover */
+  --cancel-color: rgb(223, 118, 13); /* Light mode cancel color */
+  --h3-color: rgb(157, 157, 157); /* Light mode h3 color */
+  --input-color: rgb(249, 249, 249); /* Light mode input color */
+  --gradient-color-start: rgba(
+    250,
+    250,
+    250,
+    0.8
+  ); /* Light mode gradient start */
+  --gradient-color-end: rgba(250, 250, 250, 0.8); /* Light mode gradient end */
+  --light-bg-color-grey: #e9e9e9;
+  --sample-list-color: #e9e9e9;
+  --seperator-color: rgb(197, 197, 197);
+  --grey-text-color: #7d7d7d;
+
+  /* Dark mode variables for easy switch */
+  --bg-card-color-dark: #2f2f2f;
+  --bg-color-dark: #212121;
+  --text-color-dark: #f9f9f9;
+  --secondary-color-dark: #03b276;
+  --link-hover-dark: #00905e;
+  --cancel-color-dark: rgb(223, 118, 13);
+  --h3-color-dark: rgb(157, 157, 157);
+  --input-color-dark: rgb(47, 47, 47);
+  --gradient-color-start-dark: rgba(33, 33, 33, 0.9);
+  --gradient-color-end-dark: rgba(33, 33, 33, 0.8);
+  --light-bg-color-grey-dark: #383838;
+  --sample-list-color-dark: #3d3d3d;
+  --seperator-color-dark: rgb(92, 92, 92);
+  --grey-text-color-dark: rgb(0, 0, 0) d;
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body.dark-mode {
+  --bg-color: var(--bg-color-dark);
+  --text-color: var(--text-color-dark);
+  --secondary-color: var(--secondary-color-dark);
+  --link-hover: var(--link-hover-dark);
+  --cancel-color: var(--cancel-color-dark);
+  --h3-color: var(--h3-color-dark);
+  --input-color: var(--input-color-dark);
+  --gradient-color-start: var(--gradient-color-start-dark);
+  --gradient-color-end: var(--gradient-color-end-dark);
+  --bg-card-color: var(--bg-card-color-dark);
+  --light-bg-color-grey: var(--light-bg-color-grey-dark);
+  --sample-list-color: var(--sample-list-color-dark);
+  --seperator-color: var(--seperator-color-dark);
+  --grey-text-color: var(--grey-text-color-dark);
+}
+
 #root {
   margin: 0 auto;
   text-align: center;
-  --secondary-color: #03b276;
-  --link-hover: #00905e;
-  --bg-color: #bcbcbc;
-  --cancel-color: rgb(223, 118, 13);
   box-sizing: border-box;
+}
+
+.toggle-dark-mode-btn {
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: var(--secondary-color-dark);
+  color: white;
+  font-size: 2rem;
+  padding: 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border: none;
+}
+
+.light-mode-btn {
+  background-color: rgb(74, 74, 74);
+  color: var(--secondary-color-dark);
+}
+
+.toggle-dark-mode-btn.light-mode-btn:hover {
+  background-color: #909090;
+}
+
+.toggle-dark-mode-btn:hover {
+  background-color: var(--link-hover);
+  outline: none;
+  border: none;
+}
+
+.toggle-dark-mode-btn:focus {
+  outline: #00905e;
 }
 
 .margin-auto-center {
@@ -29,7 +171,7 @@ h2 {
 }
 
 h3 {
-  color: rgb(157, 157, 157);
+  color: var(--h3-color);
   font-size: 1.2rem;
   font-weight: 700;
   text-align: left;
@@ -126,7 +268,7 @@ form {
 
 .form-headline {
   font-weight: 600;
-  color: rgb(17, 17, 17);
+  color: var(--text-color);
   font-size: 1.3rem;
   text-transform: capitalize;
   line-height: 60px;
@@ -153,7 +295,7 @@ form {
 
 .form input {
   padding: 0.8rem;
-  background-color: #fafafa;
+  background-color: var(--input-color);
   border: solid 1px rgb(172, 172, 172);
   color: #1c1c1c;
   border-radius: 8px;
@@ -205,6 +347,7 @@ form {
 .submit-btn:hover {
   outline: none;
   border: none;
+
   background-color: var(--link-hover);
 }
 
@@ -278,12 +421,13 @@ form {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  max-width: 1180px;
+  /* max-width: 1180px; */
   align-items: center;
+  height: 65px;
 
   background: linear-gradient(
-    rgba(250, 250, 250, 0.8) 0%,
-    rgba(250, 250, 250, 0.8) 90%
+    var(--gradient-color-start) 0%,
+    var(--gradient-color-end) 90%
   );
   backdrop-filter: blur(6px);
   transition: all 0.3s ease-in-out;
@@ -291,7 +435,7 @@ form {
   top: 0;
   left: 0;
   right: 0;
-  padding: 4px 10px;
+  padding: 4px 100px;
   z-index: 100;
 }
 
@@ -318,16 +462,16 @@ nav img {
   align-items: center;
   /* gap: 2.5rem; */
   padding: 0.3rem 0.4rem 0.3rem 0.4rem;
-  background-color: #e9e9e9;
+  background-color: var(--light-bg-color-grey);
   border-radius: 30px;
   font-size: 14px;
-  box-shadow: inset 0px 1px 4px -1px rgba(0, 0, 0, 0.17);
+  box-shadow: inset 0px 1px 4px -1px rgba(0, 0, 0, 0.24);
   margin-top: 0;
   height: 35px;
 }
 
 .nav-item a {
-  color: #1c1c1c;
+  color: var(--text-color);
   font-weight: 500;
   transition: 0.15s ease-in-out;
   padding: 0.5rem 1.4rem 0.5rem 1.4rem;
@@ -341,7 +485,7 @@ nav img {
 }
 
 .active {
-  background-color: #f4f4f4;
+  background-color: var(--bg-color);
   border-radius: 30px;
   box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
   padding-top: 0.4rem;
@@ -354,7 +498,7 @@ nav img {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #1c1c1c;
+  color: var(--text-color);
   border: none;
   background-color: transparent;
   padding: 10px 10px;
@@ -419,7 +563,7 @@ nav img {
   font: inherit;
   border-radius: 0;
   appearance: none;
-  color: #313131;
+  color: var(--text-color);
   transition: none !important;
   display: flex;
   justify-content: center;
@@ -429,9 +573,9 @@ nav img {
 .music-player-container {
   width: 100%;
   max-width: 800px;
-  background-color: #ffffff;
+  background-color: var(--bg-card-color);
   border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 6px 10px;
   padding-right: 10px;
   margin-bottom: 5px;
@@ -439,7 +583,6 @@ nav img {
 }
 
 .tags {
-  color: #313131;
   font-size: 12px;
 }
 
@@ -472,7 +615,7 @@ nav img {
 }
 
 .attribute-container {
-  border-left: 0.5px solid rgb(197, 197, 197);
+  border-left: 0.5px solid var(--seperator-color);
   padding-left: 11px;
   height: 100%;
   width: 40px;
@@ -485,11 +628,11 @@ nav img {
 .attribute-title {
   font-size: 0.6rem;
   text-transform: uppercase;
-  color: #7d7d7d;
+  color: var(--grey-text-color);
 }
 
 .border-right {
-  border-right: 0.5px solid rgb(197, 197, 197);
+  border-right: 0.5px solid var(--seperator-color);
   padding-right: 11px;
 }
 
@@ -523,16 +666,7 @@ ul {
   margin-top: 0.5em;
   font-size: 12px;
   padding-inline-start: 0;
-  color: #7d7d7d;
-}
-
-body {
-  background-color: #f4f4f4;
-  color: #313131;
-  padding: 20px;
-  font-family: "owners-text", sans-serif;
-  font-weight: 300;
-  font-style: normal;
+  color: var(--grey-text-color);
 }
 
 .searchbar-wrapper {
@@ -553,7 +687,7 @@ body {
 }
 .page-controller-button {
   background-color: transparent;
-  color: rgb(121, 121, 121);
+  color: var(--grey-text-color);
   font-size: 1.8rem;
   transition: 0.15s ease-in-out;
   border: none;
@@ -584,7 +718,7 @@ body {
 
 .page-controll-button-descr {
   font-size: 1rem;
-  color: rgb(121, 121, 121);
+  color: var(--grey-text-color);
   font-weight: 300;
 }
 .flex-center {
@@ -595,7 +729,7 @@ body {
 }
 
 .pages-display {
-  color: rgb(121, 121, 121);
+  color: var(--grey-text-color);
   font-weight: 500;
 }
 
@@ -607,7 +741,8 @@ body {
 
 .context-menu {
   position: absolute;
-  background-color: #ececec;
+  background-color: var(--light-bg-color-grey);
+  color: var(--text-color);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 6px;
   display: flex;
@@ -625,7 +760,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  color: #5e5e5e;
+  color: var(--text-color);
   border: none;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -646,8 +781,8 @@ body {
   align-items: center;
   gap: 16px;
   min-width: 150px;
-  color: rgb(30, 30, 30);
   transition: 0.15s ease-in-out;
+  color: var(--text-color);
 }
 
 .context-menu:after {
@@ -655,7 +790,7 @@ body {
   position: absolute;
   width: 100%;
   height: 0.5px;
-  background-color: rgb(198, 198, 198);
+  background-color: var(--seperator-color);
   top: 45px;
   left: 0;
 }
@@ -668,7 +803,7 @@ body {
   display: flex;
   align-items: center;
   background-color: transparent;
-  color: rgb(30, 30, 30);
+  color: var(--text-color);
   font-weight: 300;
   text-align: left;
   gap: 16px;
@@ -971,7 +1106,7 @@ footer {
 .file-drop-zone {
   border: 1px solid #979797;
   border-radius: 12px;
-  background-color: #ebebeb;
+  background-color: var(--light-bg-color-grey);
   cursor: pointer;
   min-width: 300px;
   min-height: 120px;
@@ -985,7 +1120,7 @@ footer {
 }
 
 .file-drop-zone p {
-  color: #747474;
+  color: var(--grey-text-color);
   max-width: 320px;
   margin: 0 auto;
   margin-bottom: 1rem;
@@ -1024,17 +1159,17 @@ footer {
 
 .sample-form input,
 .sample-form select {
-  background-color: #ffffff;
+  background-color: var(--bg-card-color);
   border: 1px solid #979797;
   border-radius: 8px;
   padding: 12px 12px;
-  color: #1c1c1c;
+  color: var(--text-color);
   font-size: 1rem;
   box-sizing: border-box;
 }
 
 .sample-form label {
-  color: #313131;
+  color: var(--text-color);
   font-size: 1.2rem;
 }
 
@@ -1157,19 +1292,19 @@ footer {
 
 /********* - Dashboard - **********/
 
+.mobile-logout {
+  display: none;
+}
+
 .profile-card {
-  background-color: white;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background: var(--bg-card-color);
+  box-shadow: rgba(28, 28, 28, 0.2) 0px 2px 8px 0px;
   border-radius: 12px;
   padding: 2rem;
   max-width: 600px;
-  background-size: cover;
-  background-position: center;
   margin: 0 auto;
   margin-bottom: 3rem;
   position: relative;
-  overflow: hidden;
-  background: url("/src/assets/bg-image.svg");
 }
 
 .profile-card > * {
@@ -1178,12 +1313,9 @@ footer {
 }
 
 .profile-card-2 {
-  background: linear-gradient(
-    rgba(250, 250, 250, 0.8) 0%,
-    rgba(250, 250, 250, 0.8) 90%
-  );
+  background: var(--bg-card-color);
   backdrop-filter: blur(6px);
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(23, 23, 23, 0.2) 0px 2px 8px 0px;
   border-radius: 12px 12px 0px 0px;
   padding: 1rem 2rem;
   max-width: 600px;
@@ -1194,10 +1326,10 @@ footer {
   display: flex;
   align-items: center;
   padding: 0.3rem 0.4rem 0.3rem 0.4rem;
-  background-color: #e9e9e9;
-  color: #1c1c1c;
+  background-color: var(--light-bg-color-grey);
+  color: var(--text-color);
   border-radius: 30px;
-  box-shadow: inset 0px 1px 4px -1px rgba(0, 0, 0, 0.17);
+  box-shadow: inset 0px 1px 4px -1px rgba(0, 0, 0, 0.47);
   margin-top: 0;
   height: 35px;
 }
@@ -1278,7 +1410,7 @@ footer {
 
 .role {
   font-size: 1.2rem;
-  color: #5e5e5e;
+  color: var(--text-color);
 }
 
 .user-stats {
@@ -1300,7 +1432,7 @@ footer {
 }
 
 .sample-list-container {
-  background-color: #e9e9e9;
+  background-color: var(--sample-list-color);
   padding: 2rem;
   padding-top: 1rem;
   max-width: 600px;
@@ -1308,11 +1440,18 @@ footer {
 }
 
 .cancel-button {
-  background-color: var(--cancel-color);
+  margin-top: 30px;
+  width: 100%;
+  max-width: 300px;
+  transition: 0.15s ease-in-out;
+  border: none;
+  background-color: transparent;
+  border: 1px solid var(--text-color);
 }
 
 .cancel-button:hover {
-  background-color: rgb(147, 21, 21);
+  border: 1px solid var(--cancel-color);
+  color: var(--cancel-color);
 }
 /************* - Browse - **************/
 
@@ -1324,7 +1463,7 @@ footer {
 .filter-sample-container {
   gap: 2rem;
   padding: 2rem;
-  border: 1px solid rgb(165, 165, 165);
+  border: 1px solid var(--seperator-color);
   max-width: 800px;
 
   border-radius: 1rem;
@@ -1350,14 +1489,14 @@ footer {
 .bpm-range-indicator {
   font-size: 1.1rem;
   font-weight: 700;
-  color: rgb(104, 104, 104);
+  color: var(--grey-text-color);
 }
 
 .range-slider-container {
   padding: 1rem 2rem;
-  background-color: white;
+  background-color: var(--bg-card-color);
   border-radius: 12px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(39, 39, 39, 0.2) 0px 2px 8px 0px;
 }
 
 .filter-input-title {
@@ -1365,7 +1504,7 @@ footer {
   font-size: 1rem;
   font-weight: 700;
 
-  color: rgb(164, 164, 164);
+  color: var(--grey-text-color);
 }
 
 .range-slider {
@@ -1374,22 +1513,22 @@ footer {
 
 .input-container-filter-form {
   /* padding: 0.5rem 1rem; */
-  background-color: white;
+  background-color: var(--bg-card-color);
   border-radius: 12px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(37, 37, 37, 0.2) 0px 2px 8px 0px;
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
-  border: 1.5px solid white;
+  border: 1.5px solid var(--bg-card-color);
 }
 
 .input-container-filter-form:hover {
   border: var(--link-hover) 1.5px solid;
 }
 .input-container-filter-form select {
-  background-color: #ffffff;
+  background-color: var(--bg-card-color);
   border-radius: 12px;
-  color: #1c1c1c;
+  color: var(--text-color);
   padding: 1rem 1.5rem;
   /* margin: 0.5rem 1rem; */
   border: none;
@@ -1404,13 +1543,13 @@ footer {
 
 .filter-set {
   border: 1.5px solid var(--secondary-color);
-  box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+  box-shadow: rgba(44, 48, 42, 0.4) 0px 2px 8px 0px;
 }
 
 .headline {
   font-size: 1.5rem;
   text-align: left;
-  color: #7d7d7d;
+  color: var(--grey-text-color);
 }
 
 /************* - Modal - **************/
@@ -1428,12 +1567,12 @@ dialog {
   /*Probably because of the position of the context menu*/
   width: 330px;
   transform: translate(-50%, -50%);
-  background-color: rgb(234, 234, 234);
+  background-color: var(--bg-card-color);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 16px 34px;
   border-radius: 10px;
   z-index: 50;
-  color: #1c1c1c;
+  color: var(--text-color);
   border: none;
 }
 
@@ -1452,8 +1591,20 @@ dialog {
   background-color: var(--secondary-color);
 }
 
+.modal-button-row :first-child:hover {
+  background-color: var(--link-hover);
+  border: 1px solid var(--link-hover);
+}
+
 .modal-button-row :nth-child(2) {
-  background-color: var(--cancel-color);
+  background-color: transparent;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+}
+
+.modal-button-row :nth-child(2):hover {
+  border: 1px solid var(--cancel-color);
+  color: var(--cancel-color);
 }
 
 /********* - Notification Popup - **********/
@@ -1522,6 +1673,10 @@ dialog {
 @media only screen and (max-width: 1087px) {
   .homepage-headline {
     font-size: 2rem;
+  }
+
+  .main-navigation {
+    padding: 4px 50px;
   }
 }
 
@@ -1609,7 +1764,7 @@ dialog {
 
   .burger-menu-icon {
     font-size: 2rem;
-    color: #1c1c1c;
+    color: var(--text-color);
   }
 
   .nav-items-container {
@@ -1633,20 +1788,41 @@ dialog {
     /* Additional styling for visible mobile menu */
   }
 
+  .main-navigation {
+    padding: 4px 20px;
+  }
+
   /* Adjustments for other elements when menu is open */
   .main-navigation.hide {
     transform: translateX(-70%);
   }
 
   .logout-button {
-    right: -50%;
-    position: relative;
+    display: none;
   }
 
-  .logout-button.show {
-    position: fixed;
-    right: 20%;
-    bottom: 0;
-    top: 790%;
+  .mobile-logout {
+    margin-top: 3rem;
+    display: block;
+  }
+  .logout {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    color: var(--text-color);
+    margin: 0 auto;
+  }
+
+  .nav-item:active {
+    color: #5e5e5e;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-item a.active {
+    color: var(--secondary-color);
   }
 }

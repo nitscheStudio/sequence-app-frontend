@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { TagType } from "../types/sample";
 import { IoMdClose } from "react-icons/io";
 

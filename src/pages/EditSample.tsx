@@ -313,10 +313,7 @@ const EditSample = () => {
           >
             Save
           </button>
-          <button
-            onClick={onCancel}
-            className="submit-btn cancel-button no-margin-auto"
-          >
+          <button onClick={onCancel} className="cancel-button no-margin-auto">
             Cancel
           </button>
         </div>

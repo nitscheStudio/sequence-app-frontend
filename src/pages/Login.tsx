@@ -60,13 +60,14 @@ const Login = () => {
       });
       // console.log(response);
       const userData = response.data;
+      console.log(userData);
 
       setAuth({
         id: userData.user.id,
         username: userData.user.username,
         is_private: userData.user.is_private,
         profile_picture_path: userData.user.profile_picture_path,
-        samplesCount: userData.user.SamplesCount,
+        samplesCount: userData.user.samplesCount,
       });
 
       navigate(from);
