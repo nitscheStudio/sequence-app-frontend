@@ -1,4 +1,3 @@
-import React from "react";
 import { MdOutlineMobileOff } from "react-icons/md";
 
 const UploadPageMobileNotification = () => {

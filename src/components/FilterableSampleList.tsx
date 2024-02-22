@@ -18,12 +18,13 @@ type SampleData = {
 type FilterableSampleListProps = {
   onPageChange?: (page: number) => void;
   showEditButton: boolean;
-  fetchSamples: (page: number) => Promise<SampleData | void>;
+  // fetchSamples: (page: number) => Promise<SampleData | void>;
   currentPage: number;
+  samplesData: SampleData;
 };
 
 const FilterableSampleList = ({
-  fetchSamples,
+  samplesData,
   showEditButton,
   onPageChange,
   currentPage,
@@ -41,24 +42,32 @@ const FilterableSampleList = ({
   );
 
   // set sample states that were deconstructed in the parent component
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const { samples, totalSamples, totalPages } =
+  //       (await fetchSamples(page)) || {};
+  //     if (samples) {
+  //       setSamples(samples);
+  //       if (typeof totalSamples === "number") {
+  //         setTotalSamples(totalSamples);
+  //       }
+
+  //       if (typeof totalPages === "number") {
+  //         setTotalPages(totalPages);
+  //       }
+  //     }
+  //   };
+
+  //   getData();
+  // }, [page, fetchSamples]);
+
   useEffect(() => {
-    const getData = async () => {
-      const { samples, totalSamples, totalPages } =
-        (await fetchSamples(page)) || {};
-      if (samples) {
-        setSamples(samples);
-        if (typeof totalSamples === "number") {
-          setTotalSamples(totalSamples);
-        }
-
-        if (typeof totalPages === "number") {
-          setTotalPages(totalPages);
-        }
-      }
-    };
-
-    getData();
-  }, [page, fetchSamples]);
+    if (samplesData) {
+      setSamples(samplesData.samples);
+      setTotalSamples(samplesData.totalSamples);
+      setTotalPages(samplesData.totalPages);
+    }
+  }, [samplesData]);
 
   //Sample deletion passed down to Modal Component
   const handleSampleDeletion = (deletedSampleId: number) => {

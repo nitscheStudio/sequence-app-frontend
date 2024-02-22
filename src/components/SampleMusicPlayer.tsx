@@ -84,7 +84,6 @@ const SampleMusicPlayer = ({
       setLikes((prevLikes) => (prevLikes || 0) + 1);
       setIsLiked(true);
     } else {
-      // Optimistically update the UI for unliking
       setLikes((prevLikes) => Math.max((prevLikes || 0) - 1, 0));
       setIsLiked(false);
     }

@@ -6,6 +6,7 @@ import FilterForm from "../components/FilterForm";
 
 // Module Imports
 import { fetchFromMeiliSearch } from "../modules/FetchSamples";
+import { fetchLikedSamples } from "../modules/FetchSamples";
 
 //Type imports
 import { Sample } from "../types/sample";
@@ -40,6 +41,12 @@ type FormValues = {
 const Browse = () => {
   const [page, setPage] = useState(1);
   const [formValues, setFormValues] = useState<FormValues>({});
+
+  const [samplesData, setSamplesData] = useState<SampleData>({
+    samples: [],
+    totalSamples: 0,
+    totalPages: 0,
+  });
 
   const fetchSamples = async (
     currentPage: number
@@ -79,7 +86,6 @@ const Browse = () => {
         throw new Error("No data returned from MeiliSearch");
       }
 
-      // Directly use the result without intermediate variable
       return result;
     } catch (error) {
       console.error("Error fetching from MeiliSearch:", error);
@@ -98,10 +104,24 @@ const Browse = () => {
   };
 
   useEffect(() => {
-    const fetch = async () => {
-      await fetchSamples(page);
+    const fetchAndMergeData = async () => {
+      // Fetch samples from MeiliSearch
+      const samplesData = await fetchSamples(page);
+      // Fetch liked sample IDs
+      const likedIds = await fetchLikedSamples();
+
+      // Merge the liked status into samples
+      if (samplesData) {
+        const mergedSamples = samplesData.samples.map((sample) => ({
+          ...sample,
+          isLikedByCurrentUser: likedIds.includes(sample.id),
+        }));
+
+        setSamplesData({ ...samplesData, samples: mergedSamples });
+      }
     };
-    fetch();
+
+    fetchAndMergeData();
   }, [page, formValues]);
 
   return (
@@ -120,7 +140,7 @@ const Browse = () => {
         </section>
         <section className="filter-sample-container">
           <FilterableSampleList
-            fetchSamples={fetchSamples}
+            samplesData={samplesData}
             showEditButton={false}
             onPageChange={handlePageChange}
             currentPage={page}

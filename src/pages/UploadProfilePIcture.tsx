@@ -9,9 +9,11 @@ import FileDragAndDrop from "../components/FileDragAndDrop";
 // Context
 import { useFileUpload } from "../context/FileUploadContext";
 import { AuthContext } from "../context/AuthProvider";
+import { useTheme } from "../context/ThemeManagment";
 
 // Image & Icon Imports
-import sequenceLogo from "../assets/sequence-logo_new.svg";
+import sequenceLogo from "../assets/sequence-logo.svg";
+import sequenceLogoDarkMode from "../assets/sequence-logo_darkmode.svg";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
@@ -26,6 +28,7 @@ const UploadProfilePicture = () => {
     null
   );
   const { updateProfilePicture } = useContext(AuthContext);
+  const { isDarkMode } = useTheme();
 
   const {
     handleSubmit: handleFormSubmit,
@@ -92,11 +95,11 @@ const UploadProfilePicture = () => {
 
   return (
     <div className="profile-picture-edit-wrapper">
-      <img
+      {/* <img
         className="sequence-logo-form"
-        src={sequenceLogo}
+        src={isDarkMode ? sequenceLogoDarkMode : sequenceLogo}
         alt="Sequence Logo"
-      />
+      /> */}
       <h1 className="h1-icon">
         <CgProfile /> Upload your Profile Picture
       </h1>

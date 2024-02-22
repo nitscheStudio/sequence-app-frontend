@@ -7,11 +7,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 //Context
 import { AuthContext } from "../context/AuthProvider";
+import { useTheme } from "../context/ThemeManagment";
 
 //Icon & Image Imports
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
-import sequenceLogo from "../assets/sequence-logo_new.svg";
+import sequenceLogo from "../assets/sequence-logo.svg";
+import sequenceLogoDarkMode from "../assets/sequence-logo_darkmode.svg";
 
 type FormValues = {
   login: string;
@@ -32,6 +34,7 @@ const Login = () => {
     formState: { errors, isSubmitting },
     setError,
   } = form;
+  const { isDarkMode } = useTheme();
 
   const location = useLocation();
   const logoutSuccessful = location.state?.logoutSuccessful;
@@ -108,7 +111,7 @@ const Login = () => {
         <div className="login-wrapper">
           <img
             className="sequence-logo-form"
-            src={sequenceLogo}
+            src={isDarkMode ? sequenceLogoDarkMode : sequenceLogo}
             alt="Sequence Logo"
           />
           {accountCreated && username && (

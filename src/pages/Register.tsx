@@ -5,12 +5,14 @@ import { useState } from "react";
 import http from "../utils/http";
 import { useNavigate } from "react-router-dom";
 
+//Context
+import { useTheme } from "../context/ThemeManagment";
 
 //Image & Icon Imports
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
-import sequenceLogo from "../assets/sequence-logo_new.svg";
-
+import sequenceLogo from "../assets/sequence-logo.svg";
+import sequenceLogoDarkMode from "../assets/sequence-logo_darkmode.svg";
 
 type FormValues = {
   username: string;
@@ -23,6 +25,7 @@ const Register = () => {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const navigate = useNavigate();
   const form = useForm<FormValues>();
+  const { isDarkMode } = useTheme();
 
   const {
     register,
@@ -72,7 +75,7 @@ const Register = () => {
       <section className="landingpage">
         <img
           className="sequence-logo-form"
-          src={sequenceLogo}
+          src={isDarkMode ? sequenceLogoDarkMode : sequenceLogo}
           alt="Sequence Logo"
         />
         <section className="headline-form-section">

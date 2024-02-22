@@ -60,16 +60,18 @@ main {
     250,
     250,
     250,
-    0.8
+    0.9
   ); /* Light mode gradient start */
-  --gradient-color-end: rgba(250, 250, 250, 0.8); /* Light mode gradient end */
+  --gradient-color-end: rgba(250, 250, 250, 0.9); /* Light mode gradient end */
   --light-bg-color-grey: #e9e9e9;
   --sample-list-color: #e9e9e9;
   --seperator-color: rgb(197, 197, 197);
   --grey-text-color: #7d7d7d;
+  --footer-color: #03b276;
+  --nav-button-active-color: #fafafa;
 
   /* Dark mode variables for easy switch */
-  --bg-card-color-dark: #2f2f2f;
+  --bg-card-color-dark: #2e2e2e;
   --bg-color-dark: #212121;
   --text-color-dark: #f9f9f9;
   --secondary-color-dark: #03b276;
@@ -78,11 +80,13 @@ main {
   --h3-color-dark: rgb(157, 157, 157);
   --input-color-dark: rgb(47, 47, 47);
   --gradient-color-start-dark: rgba(33, 33, 33, 0.9);
-  --gradient-color-end-dark: rgba(33, 33, 33, 0.8);
+  --gradient-color-end-dark: rgba(33, 33, 33, 0.9);
   --light-bg-color-grey-dark: #383838;
   --sample-list-color-dark: #3d3d3d;
   --seperator-color-dark: rgb(92, 92, 92);
-  --grey-text-color-dark: rgb(0, 0, 0) d;
+  --grey-text-color-dark: rgb(244, 244, 244);
+  --footer-color-dark: #2e2e2e;
+  --nav-button-active-color-dark: rgb(42, 42, 42);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -104,6 +108,8 @@ body.dark-mode {
   --sample-list-color: var(--sample-list-color-dark);
   --seperator-color: var(--seperator-color-dark);
   --grey-text-color: var(--grey-text-color-dark);
+  --footer-color: var(--footer-color-dark);
+  --nav-button-active-color: var(--nav-button-active-color-dark);
 }
 
 #root {
@@ -132,12 +138,12 @@ body.dark-mode {
 }
 
 .light-mode-btn {
-  background-color: rgb(74, 74, 74);
+  background-color: rgb(91, 91, 91);
   color: var(--secondary-color-dark);
 }
 
 .toggle-dark-mode-btn.light-mode-btn:hover {
-  background-color: #909090;
+  background-color: #8b8b8b;
 }
 
 .toggle-dark-mode-btn:hover {
@@ -297,7 +303,7 @@ form {
   padding: 0.8rem;
   background-color: var(--input-color);
   border: solid 1px rgb(172, 172, 172);
-  color: #1c1c1c;
+  color: var(--text-color);
   border-radius: 8px;
   font-size: 18px;
   margin-bottom: 10px;
@@ -388,8 +394,8 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
+
 .file-upload-wrapper {
   display: flex;
   justify-content: center;
@@ -480,18 +486,24 @@ nav img {
   justify-content: center;
 }
 
+.nav-item a.active {
+  color: var(--secondary-color);
+  /* box-shadow: rgba(120, 164, 124, 0.1) 0px 2px 6px 0px; */
+}
+
 .nav-item :hover {
   color: rgb(106, 106, 106);
 }
 
 .active {
-  background-color: var(--bg-color);
+  background-color: var(--nav-button-active-color);
   border-radius: 30px;
   box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
   padding-top: 0.4rem;
   padding-bottom: 0.4rem;
   pointer-events: none;
   cursor: default;
+  color: var(--secondary-color);
 }
 
 .logout-button {
@@ -1004,7 +1016,7 @@ ul {
 /********* - Footer - **********/
 
 footer {
-  background-color: var(--secondary-color);
+  background-color: var(--footer-color);
   color: white;
 }
 
@@ -1415,6 +1427,7 @@ footer {
 
 .user-stats {
   margin-top: 2.5rem;
+
   display: flex;
   justify-content: center;
   gap: 3rem;
@@ -1447,6 +1460,7 @@ footer {
   border: none;
   background-color: transparent;
   border: 1px solid var(--text-color);
+  color: var(--text-color);
 }
 
 .cancel-button:hover {
@@ -1523,7 +1537,7 @@ footer {
 }
 
 .input-container-filter-form:hover {
-  border: var(--link-hover) 1.5px solid;
+  border: var(--secondary-color) 1.5px solid;
 }
 .input-container-filter-form select {
   background-color: var(--bg-card-color);

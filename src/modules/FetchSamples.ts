@@ -90,3 +90,16 @@ export const fetchFromAPI = async ({ endpoint, page }: APIFetchParams) => {
     console.error("API Fetch Error:", error);
   }
 };
+
+export const fetchLikedSamples = async () => {
+  try {
+    const response = await http.get("/user/likedSamples");
+    if (response.data && Array.isArray(response.data)) {
+      return response.data;
+    }
+    return [];
+  } catch (error) {
+    console.error("Error fetching liked Sample IDs:", error);
+    return [];
+  }
+};

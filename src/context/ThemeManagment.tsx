@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface ThemeProviderProps {
   children: React.ReactNode;
@@ -22,17 +22,26 @@ export const ThemeContext = createContext<ThemeContextType>(defaultValue);
 
 // Provider component
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // Initialize state with the theme preference from local storage or default to false
+
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem("isDarkMode");
+    return savedTheme === "true" ? true : false;
+  });
 
   const toggleDarkMode = () => {
-    const newState = !isDarkMode;
-    if (newState) {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  useEffect(() => {
+    // Update local storage and document class when isDarkMode changes
+    localStorage.setItem("isDarkMode", isDarkMode.toString());
+    if (isDarkMode) {
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
     }
-    setIsDarkMode(newState);
-  };
+  }, [isDarkMode]);
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
