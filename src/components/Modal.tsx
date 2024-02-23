@@ -7,9 +7,8 @@ interface ModalProps {
   content: string;
   onConfirm: () => void;
   onCancel: () => void;
-  onExit: () => void;
-
-  message: string | null;
+  onExit?: () => void;
+  message?: string | null;
 }
 
 const Modal = ({

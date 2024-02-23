@@ -80,6 +80,7 @@ export const fetchFromMeiliSearch = async ({
 
 export const fetchFromAPI = async ({ endpoint, page }: APIFetchParams) => {
   try {
+    await http.get("/sanctum/csrf-cookie");
     const response = await http.get(`/${endpoint}?page=${page}`);
     const samples = response.data.samples;
     const totalSamples = response.data.total;
@@ -93,6 +94,7 @@ export const fetchFromAPI = async ({ endpoint, page }: APIFetchParams) => {
 
 export const fetchLikedSamples = async () => {
   try {
+    await http.get("/sanctum/csrf-cookie");
     const response = await http.get("/user/likedSamples");
     if (response.data && Array.isArray(response.data)) {
       return response.data;

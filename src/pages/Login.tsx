@@ -61,9 +61,8 @@ const Login = () => {
         login: data.login,
         password: data.password,
       });
-      // console.log(response);
+
       const userData = response.data;
-      console.log(userData);
 
       setAuth({
         id: userData.user.id,

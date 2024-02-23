@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import http from "../utils/http";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +34,9 @@ const Register = () => {
     formState: { errors, isSubmitting },
     setError,
   } = form;
+
+  const location = useLocation();
+  const userDeleteSuccessful = location.state?.userDeleteSuccessful;
 
   const onSubmit = async (data: FormValues) => {
     try {
@@ -78,6 +81,12 @@ const Register = () => {
           src={isDarkMode ? sequenceLogoDarkMode : sequenceLogo}
           alt="Sequence Logo"
         />
+        {/* Display success message if delete was successful */}
+        {userDeleteSuccessful && (
+          <div className="success-message">
+            Your account has been successfully deleted.
+          </div>
+        )}
         <section className="headline-form-section">
           <h1 className="form-headline">Create your free account</h1>
           <p>Discover the Ultimate Samples to Transform Your Tracks.</p>

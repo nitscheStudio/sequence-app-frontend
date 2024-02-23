@@ -45,6 +45,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
   const fetchGenresAndInstruments = async () => {
     try {
+      await http.get("/sanctum/csrf-cookie");
       const genresResponse = await http.get("/genres");
       const instrumentsResponse = await http.get("/instruments");
 

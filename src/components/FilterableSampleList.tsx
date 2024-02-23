@@ -41,26 +41,6 @@ const FilterableSampleList = ({
     null
   );
 
-  // set sample states that were deconstructed in the parent component
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { samples, totalSamples, totalPages } =
-  //       (await fetchSamples(page)) || {};
-  //     if (samples) {
-  //       setSamples(samples);
-  //       if (typeof totalSamples === "number") {
-  //         setTotalSamples(totalSamples);
-  //       }
-
-  //       if (typeof totalPages === "number") {
-  //         setTotalPages(totalPages);
-  //       }
-  //     }
-  //   };
-
-  //   getData();
-  // }, [page, fetchSamples]);
-
   useEffect(() => {
     if (samplesData) {
       setSamples(samplesData.samples);

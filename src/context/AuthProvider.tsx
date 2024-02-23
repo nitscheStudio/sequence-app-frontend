@@ -51,6 +51,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const fetchUserData = async () => {
     try {
+      await http.get("/sanctum/csrf-cookie");
       const response = await http.get("/user");
       setAuth({ ...response.data });
     } catch (error) {

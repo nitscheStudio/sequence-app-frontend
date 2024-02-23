@@ -48,7 +48,7 @@ main {
 
 :root {
   --bg-color: #fafafa;
-  --bg-card-color: #fafafa; /* Light mode background */
+  --bg-card-color: #f2f2f2; /* Light mode background */
   /* Light mode background */
   --text-color: #1c1c1c; /* Light mode text color */
   --secondary-color: #03b276; /* Light mode secondary color */
@@ -69,6 +69,8 @@ main {
   --grey-text-color: #7d7d7d;
   --footer-color: #03b276;
   --nav-button-active-color: #fafafa;
+  --context-menu-hover: rgb(202, 202, 202);
+  --context-menu-border: rgb(202, 202, 202);
 
   /* Dark mode variables for easy switch */
   --bg-card-color-dark: #2e2e2e;
@@ -87,6 +89,8 @@ main {
   --grey-text-color-dark: rgb(244, 244, 244);
   --footer-color-dark: #2e2e2e;
   --nav-button-active-color-dark: rgb(42, 42, 42);
+  --context-menu-hover-dark: rgb(78, 78, 78);
+  --context-menu-border-dark: rgb(78, 78, 78);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -110,6 +114,8 @@ body.dark-mode {
   --grey-text-color: var(--grey-text-color-dark);
   --footer-color: var(--footer-color-dark);
   --nav-button-active-color: var(--nav-button-active-color-dark);
+  --context-menu-hover: var(--context-menu-hover-dark);
+  --context-menu-border: var(--context-menu-border-dark);
 }
 
 #root {
@@ -374,7 +380,7 @@ form {
 }
 
 .toggle-password-visibility:hover {
-  background-color: rgb(224, 224, 224);
+  background-color: var(--context-menu-hover);
   outline: none;
   border: solid 1px rgb(172, 172, 172);
   border-left: none;
@@ -382,7 +388,7 @@ form {
 
 .toggle-password-visibility:focus {
   outline: none;
-  border: solid 1px rgb(172, 172, 172);
+  border: solid 1px var(--context-menu-hover);
   border-left: none;
   background-color: rgb(133, 197, 175);
 }
@@ -427,7 +433,7 @@ form {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  /* max-width: 1180px; */
+  max-width: 1180px;
   align-items: center;
   height: 65px;
 
@@ -466,7 +472,7 @@ nav img {
 .nav-items-container {
   display: flex;
   align-items: center;
-  /* gap: 2.5rem; */
+  justify-content: center;
   padding: 0.3rem 0.4rem 0.3rem 0.4rem;
   background-color: var(--light-bg-color-grey);
   border-radius: 30px;
@@ -474,6 +480,7 @@ nav img {
   box-shadow: inset 0px 1px 4px -1px rgba(0, 0, 0, 0.24);
   margin-top: 0;
   height: 35px;
+  margin-right: 50px;
 }
 
 .nav-item a {
@@ -538,6 +545,17 @@ nav img {
 
 .mobile-navigation {
   display: none;
+}
+
+.mobile-navigation-wrapper {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.burger-menu-container {
+  position: relative; /* Ensures absolute positioning within this container */
 }
 
 .login-button {
@@ -759,12 +777,12 @@ ul {
   border-radius: 6px;
   display: flex;
   flex-direction: column;
-  padding: 12px;
-  top: 10;
+  /* padding: 12px; */
+  top: 40px;
   right: 0px;
   z-index: 20;
   min-width: none;
-  gap: 20px;
+  /* gap: 20px; */
 }
 
 .context-menu-button-activate {
@@ -795,20 +813,23 @@ ul {
   min-width: 150px;
   transition: 0.15s ease-in-out;
   color: var(--text-color);
+  text-wrap: nowrap;
+  padding: 15px;
+  padding-bottom: 11px;
 }
 
-.context-menu:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 0.5px;
-  background-color: var(--seperator-color);
-  top: 45px;
-  left: 0;
+.border-bottom {
+  border-bottom: 1px solid var(--context-menu-border);
+}
+.border-top {
+  border-top: 1px solid var(--context-menu-border);
 }
 
 .context-menu a:hover {
-  color: var(--secondary-color);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: var(--context-menu-hover);
+  color: var(--text-color);
 }
 
 .context-menu-button {
@@ -819,13 +840,33 @@ ul {
   font-weight: 300;
   text-align: left;
   gap: 16px;
-  padding: 0;
+  padding: 15px;
   border: none;
 }
 
-.context-menu-button:hover {
-  color: var(--secondary-color);
-  border: none;
+.context-menu .context-menu-button:nth-child(2) {
+  border-radius: 0px;
+}
+
+.context-menu .context-menu-button:nth-child(2):hover {
+  background-color: var(--context-menu-hover);
+}
+
+.context-menu .context-menu-button:nth-child(3) {
+  border-top: 1px solid var(--context-menu-border);
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.context-menu .context-menu-button:nth-child(3):hover {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background-color: var(--context-menu-hover);
+}
+
+.delete-sample-button {
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
 }
 
 /********* - Homepage - **********/
@@ -1566,6 +1607,27 @@ footer {
   color: var(--grey-text-color);
 }
 
+.context-menu-wrapper {
+  position: relative;
+}
+
+.profile-menu-button {
+  /* margin-right: 4rem; */
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  padding: 0;
+  background-color: transparent;
+}
+
+.profile-menu-button:focus {
+  outline: solid var(--secondary-color) 1px;
+}
+
 /************* - Modal - **************/
 
 dialog {
@@ -1770,9 +1832,9 @@ dialog {
 
   .mobile-navigation {
     display: block; /* Show only in mobile view */
-    position: absolute;
-    right: 15px; /* Adjust as needed */
-    top: 15px; /* Adjust for vertical alignment */
+    /* position: absolute; */
+    /* right: 15px; */
+    /* top: 15px; */
     cursor: pointer;
   }
 
@@ -1798,8 +1860,7 @@ dialog {
 
   .nav-items-container.show {
     gap: 2rem;
-    right: 0; /* Show when hamburger menu is clicked */
-    /* Additional styling for visible mobile menu */
+    right: -16%;
   }
 
   .main-navigation {

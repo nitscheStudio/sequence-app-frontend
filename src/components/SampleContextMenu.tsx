@@ -51,7 +51,6 @@ const SampleContextMenu = ({
 
   const handleConfirm = async () => {
     try {
-      console.log(sampleId);
       await http.get("/sanctum/csrf-cookie");
       const response = await http.delete(`/sample/delete/${sampleId}`);
       // console.log("response:", response);
@@ -107,13 +106,17 @@ const SampleContextMenu = ({
       {isVisible && (
         <div className="context-menu">
           <Link
+            className="border-bottom"
             onClick={() => window.scrollTo(0, 0)}
             to={`/edit/sample/${sampleId}`}
           >
             <MdModeEdit />
             Edit Sample
           </Link>
-          <button onClick={handleDeleteClick} className="context-menu-button">
+          <button
+            onClick={handleDeleteClick}
+            className="context-menu-button delete-sample-button"
+          >
             <MdDelete />
             Delete Sample
           </button>
@@ -125,7 +128,6 @@ const SampleContextMenu = ({
         content="Are you sure you want to delete this sample?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
-        // onExit={handleExit}
         message={message}
         onExit={handleExit}
       />

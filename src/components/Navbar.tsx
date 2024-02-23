@@ -3,18 +3,20 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext, defaultAuth } from "../context/AuthProvider";
 import http from "../utils/http";
 
+//Components
+import UserProfileContextMenu from "./UserProfileContextMenu";
+
 //Context
 import { useTheme } from "../context/ThemeManagment";
 
 //Image & Icon Imports
-import { FiLogOut } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
 import { HiMenuAlt3 } from "react-icons/hi";
 import sequenceLogo from "../assets/sequence-logo.svg";
 import sequenceLogoDarkMode from "../assets/sequence-logo_darkmode.svg";
 
 const Navbar = () => {
-  const { setAuth, isAuthenticated } = useContext(AuthContext);
+  const { setAuth, isAuthenticated, auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHidden, setNavbarHidden] = useState(false);
@@ -28,8 +30,9 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
+      await http.get("/sanctum/csrf-cookie");
       // Send a request to the server to logout
-      await http.post("/logout");
+      const response = await http.post("/logout");
       // Reset the auth state
       setAuth(defaultAuth);
       navigate("/login", { state: { logoutSuccessful: true } });
@@ -86,8 +89,7 @@ const Navbar = () => {
           alt="Sequence Logo"
         />
       </NavLink>
-
-      {isAuthenticated() ? (
+      {isAuthenticated() && (
         <>
           <ul className={`nav-items-container ${isMobileOpen ? "show" : ""}`}>
             <li className="nav-item">
@@ -127,27 +129,25 @@ const Navbar = () => {
                 Upload
               </NavLink>
             </li>
-            {/* Logout button within the nav items for mobile view */}
-            <li className="nav-item mobile-logout">
-              <button onClick={handleLogout} className="logout">
-                Logout <FiLogOut />
-              </button>
-            </li>
           </ul>
-
-          <div className="mobile-navigation" onClick={toggleMobileMenu}>
-            {isMobileOpen ? (
-              <MdOutlineClose size={36} />
-            ) : (
-              <HiMenuAlt3 className="burger-menu-icon" />
-            )}
+          <div className="mobile-navigation-wrapper">
+            <div className="burger-menu-container">
+              <div className="mobile-navigation" onClick={toggleMobileMenu}>
+                {isMobileOpen ? (
+                  <MdOutlineClose size={36} />
+                ) : (
+                  <HiMenuAlt3 className="burger-menu-icon" />
+                )}
+              </div>
+            </div>
+            <>
+              <UserProfileContextMenu />
+            </>
           </div>
-
-          <button onClick={handleLogout} className="logout-button">
-            Logout <FiLogOut />
-          </button>
         </>
-      ) : (
+      )}
+
+      {!isAuthenticated() && (
         <div className="nav-right-wrapper">
           <NavLink to="/login" className="login-button">
             Login
