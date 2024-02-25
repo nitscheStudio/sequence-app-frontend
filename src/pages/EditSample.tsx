@@ -50,8 +50,7 @@ const EditSample = () => {
   //Params: react Router Dom v6 passing dynamic routes (Url extraction)
   const { sampleId } = useParams();
 
-  const [sampleData, setSampleData] = useState<Sample | null>(null);
-  const [fromData, setFormData] = useState<FormData | null>(null);
+  const [formData, setFormData] = useState<FormData | null>(null);
 
   const { genres, instruments, error } = useContext(DataContext);
 
@@ -82,9 +81,11 @@ const EditSample = () => {
       await http.get("/sanctum/csrf-cookie");
       const response = await http.get(`/sample/${sampleId}`);
       const sample = response.data;
-      // console.log("sample:", sample);
+      console.log("sample:", sample);
+
       //Set initial Sample Values
       fields.forEach((field) => {
+        console.log(sample[field]);
         setValue(field, sample[field]);
       });
 
@@ -171,9 +172,33 @@ const EditSample = () => {
     console.log("Form error");
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await getSampleInfo();
+
+  //     // setValue("genre_id", form.watch("genre_id"));
+  //     // setValue("instrument_id", form.watch("instrument_id"));
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
-    getSampleInfo();
-  }, []);
+    const fetchData = async () => {
+      // Ensure genres and instruments are available before fetching sample info
+      if (genres.length === 0 || instruments.length === 0) {
+        return;
+      }
+
+      await getSampleInfo();
+    };
+
+    fetchData();
+  }, [genres, instruments]); // Re-run effect when genres or instruments change
+
+  if (genres.length === 0 || instruments.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -267,6 +292,7 @@ const EditSample = () => {
               {...register("genre_id", {
                 required: { value: true, message: "This field is required" },
               })}
+              defaultValue={form.watch("genre_id")}
             >
               <option value="">Select a genre</option>
 
@@ -286,6 +312,7 @@ const EditSample = () => {
               {...register("instrument_id", {
                 required: { value: true, message: "This field is required" },
               })}
+              defaultValue={form.watch("instrument_id")}
             >
               <option value="">Select an instrument</option>
 
