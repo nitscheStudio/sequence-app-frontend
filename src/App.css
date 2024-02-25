@@ -1302,8 +1302,8 @@ footer {
 }
 
 .tag-button {
-  background-color: white;
-  color: #313131;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   border: solid 1px var(--secondary-color);
   position: relative;
 }
@@ -1689,7 +1689,7 @@ dialog {
   bottom: -100px;
   right: 30%;
   left: 30%;
-  background: rgb(249, 249, 249);
+  background: var(--bg-card-color);
   padding: 0px 12px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;

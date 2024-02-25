@@ -20,10 +20,10 @@ type SampleData = {
   totalPages: number;
 };
 
-type MeiliSearchParams = {
-  text?: string;
-  filter?: string;
-};
+// type MeiliSearchParams = {
+//   text?: string;
+//   filter?: string;
+// };
 
 type FormValues = {
   text?: string;
@@ -103,6 +103,7 @@ const Browse = () => {
     setPage(1); // Reset to first page on new search
   };
 
+  //Merge meilisearch sample data with liked samples ids to display sample likes
   useEffect(() => {
     const fetchAndMergeData = async () => {
       // Fetch samples from MeiliSearch
