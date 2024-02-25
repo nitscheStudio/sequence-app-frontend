@@ -15,6 +15,12 @@ Ensure that Node.js and npm are installed by running `node -v` and `npm -v` in y
 
 ### Installing
 
+This installation guide assumes you already have a copy of the frontend downloaded.
+If that is not the case you may want to clone the repository:
+`bash
+    git clone https://github.com/nitscheStudio/sequence-app-frontend.git
+    `
+
 To install the dependencies and get the project running, follow these steps inside the project directory:
 
 1. **Install dependencies** using npm. Run the following commands:
